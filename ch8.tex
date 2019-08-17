@@ -1,0 +1,442 @@
+%\documentclass{beamer}
+\documentclass{beamer}
+%\documentclass{article}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{multirow}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}{\insertcaption} \setbeamertemplate{caption label separator}{}
+\renewcommand{\emph}{\textbf}
+\usetheme{Warsaw}
+\title{Ch. 8 -- Hypothesis Testing}
+%\setlength{\parskip}{.2cm}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+
+\begin{document}
+\begin{frame}
+\begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+\usebeamerfont{title}\inserttitle
+\end{beamercolorbox}
+\end{frame} 
+
+\begin{frame}{Statistical Hypotheses}
+A \emph{hypothesis} is an assertion about a distribution or its parameters. \pause For example,
+\begin{itemize}
+\item Given a coin, one hypothesis is that each toss has probability $p=.5$ of coming up heads. \pause Another hypothesis would be that $p\neq .5$.
+\pause \item Given a certain type of candy bar, labeled as having a mass of 60 grams, one hypothesis is that the mean mass is as labeled, $\mu=60$. \pause Another hypothesis would be that the mean mass is smaller than labeled: $\mu<60$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Hypothesis Testing}
+In a hypothesis-testing problem, we consider two contradictory hypotheses $H_0$ and $H_a$.
+\begin{itemize}
+\pause \item $H_0$, the \emph{null hypothesis}, is the hypothesis which we initially presume to be true.
+\pause \item The other hypothesis $H_a$ is called the \emph{alternative hypothesis}.
+\pause \item The hypothesis $H_0$ is rejected only if the sample evidence strongly contradicts it. Otherwise we continue to believe that $H_0$ is plausible.
+\pause \item The two possible outcomes of the analysis are that we \emph{reject} the null hypothesis $H_0$, or we \emph{do not reject} the null hypothesis.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+Suppose someone claims that a coin is unfair, that it gives heads more than half the time. \pause The null hypothesis would be $H_0: p=.5$, that the coin is fair. \pause The alternative hypothesis is $H_a: p>.5$.
+
+\vspace{.2cm}
+\pause To test the claim, we could toss the coin for several trials and reject $H_0$ if the number of heads we obtain is larger than a certain amount. 
+
+\vspace{.2cm}
+\pause For example, one procedure would be to toss the coin 10 times and reject the null hypothesis if we obtain 8 heads or more.
+\end{frame}
+
+\begin{frame}{Test Procedures}
+\begin{itemize}
+\item In general, to test a statistical hypothesis, we select a \emph{test statistic} that can be calculated from a random sample. 
+
+\pause \item Out of the possible values of the test statistic, we select a subset of values which are unlikely to occur if the null hypothesis $H_0$ is true; this subset is called the \emph{rejection region}. 
+
+\pause\item We then obtain data from a random sample, calculate the test statistic for the data, and reject $H_0$ if the test statistic is in the rejection region.
+\end{itemize}
+
+\pause For the example of testing for an unfair coin, the test statistic was the number of heads $X$ out of 10 tosses, and the rejection region was $\{8,9,10\}$.
+\end{frame}
+
+\begin{frame}{Errors in Hypothesis Testing}
+For essentially any test procedure, there is a chance that the test will give a misleading conclusion:
+\begin{itemize}
+\pause\item When the null hypothesis $H_0$ is true but is rejected, this is called a \emph{Type I error}.
+\pause\item When the null hypothesis $H_0$ is false but is not rejected, this is called a \emph{Type II error}.
+\end{itemize}
+\pause We cannot eliminate the possibility of these errors. However, we can quantify their probability of occuring:
+\begin{itemize}
+\pause\item The probability of a Type I error is denoted by $\alpha$.
+\pause\item The probability of a Type II error is denoted by $\beta$.
+\end{itemize}
+\pause Typically, the choice of rejection region involves a tradeoff between the two types of errors. \pause But by using larger samples, both error probabilities may be reduced.
+\end{frame}
+
+\begin{frame}{Example}
+\begin{block}{}
+Suppose we test a coin by tossing it 10 times and rejecting it if we get 8 or more heads. If in reality the coin is fair, what is the probability $\alpha$ of a Type I error? If the coin is unfair with probability $p=.75$ of being heads, what is the probability $\beta$ of a Type II error?
+\end{block}
+\pause To find the Type I error, we assume $p=.5$ and calculate the probability that the number of heads $X$ is at least 8:
+\pause $$\alpha = P(X \geq 8) = \sum_{x=8}^{10} \binom{10} x (.5)^x(1-.5)^{10-x}= .055$$
+\pause To find the Type II error in the case $p=.75$, we calculate the probability that the number of heads $X$ is less than 8:
+\pause $$\beta = P(X < 8) = \sum_{x=0}^7 \binom{10} x (.75)^x(.25)^{10-x} = .474$$
+\end{frame}
+
+\begin{frame}{Example}
+\begin{block}{}
+In the previous example, how do the error probabilities change if we instead reject the coin if we get 7 or more heads out of 10?
+\end{block}
+\pause To find the Type I error, we assume $p=.5$ and calculate the probability that the number of heads $X$ is at least 7:
+\pause $$\alpha = P(X \geq 7) = \sum_{x=7}^{10} \binom{10} x (.5)^x(1-.5)^{10-x}= .171$$
+\pause To find the Type II error in the case $p=.75$, we calculate the probability that the number of heads $X$ is less than 7:
+\pause $$\beta = P(X < 7) = \sum_{x=0}^6 \binom{10} x (.75)^x(.25)^{10-x} = .224$$
+By enlarging the rejection region, we increased $\alpha$ but decreased $\beta$.
+\end{frame}
+
+\begin{frame}{Problem}
+\begin{block}{}
+A type of candy bar is labeled 60 grams. We decide to test the label's accuracy using a random sample $X_1,\dots,X_5$ by rejecting the null hypothesis $H_0: \mu=60$ if $\overline X<59$. If the masses are normally distributed with $\sigma=0.8$, what is the Type I error probability $\alpha$?
+\end{block}
+
+\pause If $H_0$ is true, then $Z=\frac{\overline X-\mu}{\sigma/\sqrt{n}}=\frac{\overline X-60}{0.8/\sqrt5}$ is a standard normal random variable, \pause so
+\begin{align*}
+\alpha &= P(\overline X<59) \\
+&= P\left(\frac{\overline X-60}{0.8/\sqrt5} < \frac{59-60}{0.8/\sqrt5}\right)\\
+&= P(Z < -2.80) \\
+&= .0026
+\end{align*}
+\end{frame}
+
+\begin{frame}{Problem}
+\begin{block}{}
+A type of candy bar is labeled 60 grams. We decide to test the label's accuracy using a random sample $X_1,\dots,X_5$ by rejecting the null hypothesis $H_0: \mu=60$ if $\overline X<59$. If the actual mean mass is $\mu=58.5$, and $\sigma=0.8$, what is the Type II error probability $\beta$?
+\end{block}
+
+\pause In this case, $Z=\frac{\overline X-\mu}{\sigma/\sqrt{n}}=\frac{\overline X-58.5}{0.8/\sqrt{5}}$ is a standard normal random variable, \pause so
+\begin{align*}
+\beta &= P(\overline X\geq 59) \\
+&= P\left(\frac{\overline X-58.5}{0.8/\sqrt5} \geq \frac{59-58.5}{0.8/\sqrt5}\right)\\
+&= P(Z \geq 1.40) \\
+&= .0808
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Problem: Two-tailed Test}
+\begin{block}{}
+A machine is specified to drill holes with diameter 4 mm. We test the hypothesis $H_0: \mu=4$, using a random sample $X_1,\dots,X_{30}$. We reject $H_0$ if $\overline X>4.1$ or $\overline X<3.9$. If the diameters are normally distributed with $\sigma=.2$, find the Type I error probability $\alpha$.
+\end{block}
+
+\pause If $H_0$ is true, then $Z=\frac{\overline X-\mu}{\sigma/\sqrt{n}}=\frac{\overline X-4}{0.2/\sqrt{30}}$ is a standard normal random variable, \pause so
+\begin{align*}
+\alpha &= P(\overline X<3.9)+P(\overline X>4.1) \\
+&= 2P(\overline X<3.9) \\
+&= 2P\left(\frac{\overline X-4}{0.2/\sqrt{30}} < \frac{3.9-4}{0.2/\sqrt{30}}\right)\\
+&= 2P(Z < -2.74) \\
+&= .0062
+\end{align*}
+\end{frame}
+
+\begin{frame}{Significance Level}
+As we have seen, for a fixed sample size, selecting a rejection region for a test involves a tradeoff between the Type I error probabilities $\alpha$ and the Type II error probability $\beta$. 
+
+\vspace{.2cm}
+\pause A common practice is to design the test to achieve a specified small value of $\alpha$, such as $\alpha=.1, .05$, or .01. The choice for $\alpha$ is called the \emph{significance level}.
+\end{frame}
+
+\begin{frame}{$z$ Test for Mean of Normal Distribution with Known $\sigma$}
+\begin{block}{}
+Given a random sample $X_1,\dots,X_n$ from a normal distribution with known standard deviation $\sigma$, the \emph{$z$ test} for the null hypothesis $H_0: \mu=\mu_0$, based on the test statistic $Z=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$, is given by the following rejection region, depending on whether a one-tailed or two-tailed test is desired:
+\begin{center}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & Rejection region \\ \hline
+(Upper-tailed test) & $H_a: \mu>\mu_0$ & $Z\geq z_{\alpha}$ \\
+(Lower-tailed test) & $H_a: \mu<\mu_0$ & $Z\leq -z_{\alpha}$ \\
+(Two-tailed test) & $H_a: \mu\neq\mu_0$ & $|Z|\geq z_{\alpha/2}$\\
+\end{tabular}
+\end{center}
+Here $\alpha$ is the significance level (Type I error probability), and $z_{\alpha}$ is a critical value from the standard normal distribution.
+\end{block}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{block}{}
+A machine is specified to drill holes with diameter 4 mm. We wish to test the null hypothesis $H_0: \mu=4$ against the alternative $H_a: \mu\neq 4$. If the diameters are normally distributed with $\sigma=.2$, and we observe $\overline X=3.87$ in a sample of size 10, do we reject the null hypothesis at the significance level $\alpha=.05$?
+\end{block}
+
+\pause
+The test statistic is 
+$$Z=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}=\frac{3.87-4}{.2/\sqrt{10}}=-2.06$$
+\pause The rejection region is $\{|Z|>z_{\alpha/2}\}$ where $z_{\alpha/2}=z_{.025}=1.96$.
+
+\vspace{.2cm}
+\pause Since $|Z|=2.06>1.96$, the test statistic is in the rejection region, so we reject the null hypothesis.
+\end{frame}
+
+%\begin{frame}{Type II Error Probability for $z$ Test}
+%\begin{block}{}
+%Given a random sample $X_1,\dots,X_n$ from a normal distribution with known standard deviation $\sigma$, the Type II error probability $\beta$ for the $z$ test is as follows:
+%\begin{center}
+%\renewcommand*{\arraystretch}{1.2}
+%\begin{tabular}{l|l}
+%Alternative hypothesis & Type II Error Probability $\beta$ \\ \hline
+%$H_a: \mu>\mu_0$ & $\Phi(z_\alpha+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})$ \\
+%$H_a: \mu<\mu_0$ & $1-\Phi(-z_\alpha+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})$ \\
+%$H_a: \mu\neq\mu_0$ & $\Phi(z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})-\Phi(-z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})$\\
+%\end{tabular}
+%\end{center}
+%\end{block}
+%\end{frame}
+%
+%\begin{frame}{Example}
+%\begin{block}{}
+%A machine is specified to drill holes with diameter 4 mm. We wish to test the hypothesis $H_0: \mu=4$ against the alternative $H_a: \mu\neq 4$ using a $z$ test with significance level $\alpha=.05$ on a random sample of size 15. If the diameters are normally distributed with $\sigma=.2$ and the true mean is $\mu=3.95$, what is the Type II error probability?
+%\end{block}
+%\pause Here $\mu_0=4$, so
+%\begin{align*}
+%\beta&=
+%\Phi(z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})-\Phi(-z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})\\
+%\uncover<3->{&= \Phi(z_{.025}+\frac{4-3.95}{.2/\sqrt{15}})-\Phi(-z_{.025}+\frac{4-3.95}{.2/\sqrt{15}})\\}
+%\uncover<4->{&= \Phi(1.96+ 0.97)-\Phi(-1.96+0.97) \\}
+%\uncover<5->{&= \Phi(2.93)-\Phi(-0.99) }
+%\uncover<6->{= .837}
+%\end{align*}
+%\end{frame}
+
+
+% relationship between test and confidence interval
+\begin{frame}{Large-Sample $z$ Test for Mean with Unknown $\sigma$}
+\begin{block}{}
+Given a random sample $X_1,\dots,X_n$ from a distribution with unknown standard deviation, the \emph{$z$ test} for the null hypothesis $H_0: \mu=\mu_0$, based on the test statistic $Z=\frac{\overline X-\mu_0}{S/\sqrt{n}}$, is given by the following rejection region:
+\begin{center}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & Rejection region \\ \hline
+(Upper-tailed test) & $H_a: \mu>\mu_0$ & $Z\geq z_{\alpha}$ \\
+(Lower-tailed test) & $H_a: \mu<\mu_0$ & $Z\leq -z_{\alpha}$ \\
+(Two-tailed test) & $H_a: \mu\neq\mu_0$ & $|Z|\geq z_{\alpha/2}$\\
+\end{tabular}
+\end{center}
+Here $\alpha$ is the nominal significance level. If $n$ is large, then under $H_0$, $Z$ is approximately standard normal by the Central Limit Theorem, so the true significance level is approximately $\alpha$.
+\end{block}
+Note: Here we don't need to assume that the distribution of $X_1,\dots,X_n$ is normal.
+\end{frame}
+
+
+\begin{frame}{Example}
+\begin{block}{}
+A machine is specified to drill holes with diameter 4 mm. We wish to test the null hypothesis $H_0: \mu=4$ against the alternative $H_a: \mu\neq 4$. If we observe $\overline X=3.97$ and $S=.21$ in a sample of size 100, do we reject the null hypothesis at the significance level $\alpha=.05$?
+\end{block}
+
+\pause
+The test statistic is 
+$$Z=\frac{\overline X-\mu_0}{S/\sqrt{n}}=\frac{3.97-4}{.21/\sqrt{100}}=-1.43$$
+\pause The rejection region is $\{|Z|>z_{\alpha/2}\}$ where $z_{\alpha/2}=z_{.025}=1.96$.
+
+\vspace{.2cm}
+\pause Since $|Z|=1.43<1.96$, the test statistic is not in the rejection region, so we do not reject the null hypothesis. In other words, based on the data, it is plausible that the mean is $\mu=4$ as specified.
+\end{frame}
+
+\begin{frame}{$t$ Test for Mean of Normal Distribution with Unknown $\sigma$ }
+\begin{block}{}
+Given a random sample $X_1,\dots,X_n$ from a normal distribution with unknown standard deviation, the \emph{$t$ test} for the null hypothesis $H_0: \mu=\mu_0$, based on the test statistic $T=\frac{\overline X-\mu_0}{S/\sqrt{n}}$, is given by the following rejection region:
+\begin{center}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & Rejection region \\ \hline
+(Upper-tailed test) & $H_a: \mu>\mu_0$ & $T\geq t_{\alpha,n-1}$ \\
+(Lower-tailed test) & $H_a: \mu<\mu_0$ & $T\leq -t_{\alpha,n-1}$ \\
+(Two-tailed test) & $H_a: \mu\neq\mu_0$ & $|T|\geq t_{\alpha/2,n-1}$\\
+\end{tabular}
+\end{center}
+Here $\alpha$ is the significance level (Type I error probability), and $t_{\alpha,n-1}$ is a critical value from the $t$ distribution with $n-1$ degrees of freedom.
+\end{block}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{block}{}
+A type of candy bar is labeled 60 grams. Someone suggests that the candy bars weigh less than specified. To test this, we gather a random sample of size 5 and observe $\overline X=58.8$ and $S=0.9$. Do we reject the null hypothesis $H_0: \mu=60$ at the significance level $\alpha=.01$?
+\end{block}
+
+\pause We use the $t$ test with the one-tailed alternative $H_a: \mu<60$. The test statistic  is
+$$T=\frac{\overline X-\mu_0}{S/\sqrt{n}}=\frac{58.8-60}{0.9/\sqrt{5}}=-2.98$$
+
+\vspace{.2cm} 
+\pause The critical value is $t_{\alpha,n-1}=t_{.01,4}=3.747$. The rejection region is $\{T < -3.747\}$, whereas in our sample $T=-2.98>-3.747$, so we do not reject the null hypothesis.
+
+\vspace{.2cm}
+\pause In other words, the data does \textit{not} allow us to conclude that the average weight of the candy bars is less than specified.
+\end{frame}
+
+\begin{frame}{Large-Sample $z$ Test for Proportion}
+\begin{block}{}
+Given a random sample from a Bernoulli distribution with unknown parameter $p$, the \emph{$z$ test} for the null hypothesis $H_0: p=p_0$ based on the test statistic $Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$ is given by the following rejection region:
+\begin{center}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & Rejection region \\ \hline
+(Upper-tailed test) & $H_a: p>p_0$ & $Z\geq z_{\alpha}$ \\
+(Lower-tailed test) & $H_a: p<p_0$ & $Z\leq -z_{\alpha}$ \\
+(Two-tailed test) & $H_a: p\neq p_0$ & $|Z|\geq z_{\alpha/2}$\\
+\end{tabular}
+\end{center}
+Here $\alpha$ is the nominal significance level, and $z_{\alpha}$ is a critical value from the standard normal distribution.
+\end{block}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{block}{}
+We are given a coin which someone suggests may give outcomes with unequal proportions when we spin it on a table. We test this by spinning the coin 80 times. If we observe 54 heads, do we reject the null hypothesis at the $\alpha=.01$ significance level?
+\end{block}
+\pause We will use a large-sample $z$ test for the null hypothesis $H_0: p=\frac12$ against the alternative $H_0: p\neq\frac12$. \pause The test statistic is
+$$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}=\frac{\frac{54}{80}-\frac12}{\sqrt{\frac12(1-\frac12)/80}}=3.13$$
+\pause The rejection region is $\{|Z|>z_{\alpha/2}\}$ where $z_{\alpha/2}=z_{.005}=2.58$. \pause Since $|Z|=3.13>2.58$, we reject the null hypothesis. 
+
+\vspace{.2cm}
+\pause In other words, the test provides strong evidence that the coin indeed gives heads more often than tails when spun.
+\end{frame}
+
+
+\begin{frame}{P-Values}
+There is a major drawback of the hypothesis-testing procedures considered so far:
+The tests each only have two outcomes -- reject or do not reject -- even if the test statistic is near the border of the rejection region. 
+
+\vspace{.2cm}
+\pause One way to remedy this is to report the so-called P-value:
+
+\begin{block}{}
+The \emph{P-value} is the smallest significance level $\alpha$ for which the test would reject the null hypothesis.
+\end{block}
+
+\pause For example, in the candy bar example, at the $\alpha=.01$ we failed to reject the null hypothesis; however, if we had used a less strict significance level, $\alpha=.05$, then the test would have rejected. \pause The P-value would provide a more nuanced summary of the test result by indicating precisely at what significance level the test changes from rejecting to failing to reject.
+\end{frame}
+
+\begin{frame}{P-Values}
+
+Loosely speaking, another way to describe the P-value is as follows:
+\begin{block}{}
+The \emph{P-value} is the probability, calculated assuming that the null hypothesis is
+true, of obtaining a value of the test statistic at least as extreme as the value actually observed.
+\end{block}
+\pause
+Here are some key points:
+\begin{itemize}
+\item The P-value is a probability.
+\pause \item This probability is calculated assuming that the null hypothesis is true.
+\pause \item Beware: The P-value is not the probability that $H_0$ is true.
+\pause \item The interpretation of ``as extreme as" depends on the alternative hypothesis:
+\begin{itemize}
+\item For an upper-tailed alternative, it means ``as large as".
+\item For a lower-tailed alternative, it means ``as small as".
+\item For a two-tailed alternative, it means ``as large in absolute value as".
+ \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{P-Values for $z$ tests and $t$ test}
+With all of the $z$ test procedures, the P-value may be calculated as follows, where $z$ is the observed value of the test statistic $Z$ (assumed to have a standard normal distribution):
+\begin{center}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & P-value \\ \hline
+(Upper-tailed test) & $H_a: \mu>\mu_0$ & $P(Z\geq z)$ \\
+(Lower-tailed test) & $H_a: \mu<\mu_0$ & $P(Z\leq z)$ \\
+(Two-tailed test) & $H_a: \mu\neq\mu_0$ & $P(|Z|\geq |z|)$\\
+\end{tabular}
+\end{center}
+
+Similarly, for the $t$ test, the P-value may be calculated as follows, where $t$ is the observed value of the test statistic $T$ (assumed to have a t distribution with $n-1$ degrees of freedom):
+\begin{center}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & P-value \\ \hline
+(Upper-tailed test) & $H_a: \mu>\mu_0$ & $P(T\geq t)$ \\
+(Lower-tailed test) & $H_a: \mu<\mu_0$ & $P(T\leq t)$ \\
+(Two-tailed test) & $H_a: \mu\neq\mu_0$ & $P(|T|\geq |t|)$\\
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Example}
+%We return to our previous example to calculate the P-value:
+\begin{block}{}
+A type of candy bar is labeled 60 grams. Someone suggests that the candy bars weigh less than specified. To test this, we gather a random sample of size 5 and observe $\overline X=58.8$ and $S=0.9$. What is the P-value for the test?
+\end{block}
+
+\pause We use the $t$ test with the one-tailed alternative $H_a: \mu<60$. As before, the test statistic  is
+$$T=\frac{\overline X-\mu_0}{S/\sqrt{n}}=\frac{58.9-60}{0.9/\sqrt{5}}=-2.98$$
+\pause We use a table to find the probability of observing a value for $T$ at least this extreme:
+$$P=P(T\leq -2.98)
+\uncover<4->{ \approx .020 }$$
+\uncover<5->{ So $P=.020$ is the P-value for the test.}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{block}{}
+We are given a coin which someone suggests may give outcomes with unequal proportions when we spin it on a table. We test this by spinning the coin 80 times. If we observe 54 heads, what is the P-value of the test?
+\end{block}
+\pause Again, we are using a large-sample $z$ test for the null hypothesis $H_0: p=\frac12$ against the alternative $H_0: p\neq\frac12$. \pause We already calculated the test statistic:
+$$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}=\frac{\frac{54}{80}-\frac12}{\sqrt{\frac12(1-\frac12)/80}}=3.13$$
+\pause The P-value is the probability that we would observe a value of $Z$ this extreme (i.e., a value of $Z$ with $|Z|\geq 3.13$):
+$$ P = P(|Z|\geq 3.13) = 2\Phi(-3.13) \approx 2(.0009) = .0018$$ 
+
+%\vspace{.2cm}
+%\pause In other words, the test provides strong evidence that the coin indeed gives heads more often than tails when spun.
+\end{frame}
+
+\begin{frame}{Summary}
+
+\vspace{-.6cm}
+\begin{align*}
+\alpha &= \text{probability of Type I error, that $H_0$ is true but is rejected}\\
+\beta &= \text{probability of a Type II error, that $H_0$ is  false but is not rejected}\\
+P &= \text{P-value} = \text{smallest $\alpha$ for which the test would reject $H_0$} \\ 
+\end{align*}
+
+\vspace{-.8cm}
+\begin{center}
+\renewcommand*{\arraystretch}{1.4}
+\begin{tabular}{|p{.9in}|l|l|} \hline
+Test & Null Hypothesis & Test Statistic  \\ \hline
+z test & $H_0: \mu=\mu_0$ &$Z=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$  \\ \hline
+t test & $H_0: \mu=\mu_0$ & $T=\frac{\overline X-\mu_0}{S /\sqrt{n}}$  \\ \hline
+z test for a proportion& $H_0: p=p_0$ & $Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$  \\ \hline
+\end{tabular}
+
+\begin{center}
+\renewcommand*{\arraystretch}{1.1}
+\begin{tabular}{ll|l}
+\multicolumn{2}{c}{Alternative hypothesis} & P-value for $z$ test \\ \hline
+(Upper-tailed test) & $H_a: \mu>\mu_0$ & $P(Z\geq z)$ \\
+(Lower-tailed test) & $H_a: \mu<\mu_0$ & $P(Z\leq z)$ \\
+(Two-tailed test) & $H_a: \mu\neq\mu_0$ & $P(|Z|\geq |z|)$\\
+\end{tabular}
+\end{center}
+\end{center}
+
+Given a fixed significance level $\alpha$, we reject $H_0$ if  and only if $P\leq \alpha$.
+
+\end{frame}
+
+
+%
+%% Histogram
+%
+%\begin{frame}{P-Value for $t$ Test}
+%\end{frame}
+%
+%\begin{frame}{P-Value for Test of Proportion}
+%\end{frame}
+%
+%% Multiple Analyses -- xkcd
+
+%
+%% prior belief -- xkcd
+%
+%\begin{frame}{Statistical vs. Practical Significance}
+%\end{frame}
+%
+%\begin{frame}{Likelihood Ratio Principle}
+%\end{frame}
+
+\end{document}
