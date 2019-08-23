@@ -1,0 +1,247 @@
+\documentclass[]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        August 26, 2019
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Lecture Outline, 8/26}
+    Section 2.3
+    \begin{itemize}
+        \item Product Rule for $k$-tuples
+        \item Permutations and Combinations
+        \item Examples
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Counting Problems}
+    The probability of equally likely outcomes is known as soon as the number of outcomes is.\\
+    \nl{0.5}
+    Goal: Develop tools to count outcomes, surprisingly hard.\\
+    \nl{0.5}
+    \begin{itemize}
+    \item All of these variables are discrete. Continuous variables are, by nature, uncountable.
+    \item When dealing with equally likely events,
+    \pause \[P(\text{event}) = \frac{\text{number of outcomes in event}}{\text{number of outcomes in sample space}}\]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Product Rule for $k$-tuples, Method}
+    Suppose that you have $k$ random objects. Object 1, $O_1$, has $n_1$ outcomes. Object 2, $O_2$, has $n_2$ outcomes. Generally, object $i$, $O_i$, has $n_i$ outcomes. 
+    
+    \pause Idea: $O_1$ can take $n_1$ values.  $O_2$ can take $n_2$ values. So, the $2$-tuple can take $n_1 n_2$ values. The argument can be repeated for any $k$ by induction.
+
+    \pause The random {\bf $k$-tuple}
+    \[(O_1, O_2, \ldots, O_k)\]
+    has 
+    \[\prod_{i=1}^k n_i = n_1 n_2 \ldots n_k \text{ outcomes.}\]    
+\end{frame}
+
+\begin{frame}{Product Rule for $k$-tuples, Coin Flip Example}
+    Count the number outcomes from \blue{8} \red{coin flips}. What is the probability that the first coin is heads? What is the probability that all coins are the same?\\
+    \nl{0.5}
+    \pause Each \red{random object} is a distinct \red{coin flip} has \red{two outcomes}, $\{H,T\}$. The flips are organized as an \blue{8}-tuple, $(O_1,O_2,\ldots,O_7,O_8)$. Keep in mind that each is $O_i$ represents a random event with outcomes.
+
+    \pause \[\text{number of outcomes in sample space} = \red{2}^\blue{8} =256\]
+\end{frame}
+
+\begin{frame}{Product Rule for $k$-tuples, Coin Flip Example}
+    Count the number outcomes from 8 coin flips. What is the probability that the first coin is heads? What is the probability that all coins are the same?\\
+    \nl{0.5}
+    \pause One can see that there's a 0.5 probability for the first coin landing on heads and there is no impact from the rest of the coins. \pause To compute this using counting methods, we need to count the outcomes in event $A = $ "first coin lands on heads".
+    \[A=\{ (\blue{H}, O_2, O_3, \ldots, O_7, O_8) \}\]
+    or the set of all 8-tuple were the first is $H$. \blue{In $A$, $O_1$ has only outcome.}
+    \pause \[\text{number of outcomes in A} = \blue{1}\cdot 2^7 =128\]
+    \[P(A) = \frac{128}{256} = 0.5\]
+\end{frame}
+
+\begin{frame}{Product Rule for $k$-tuples, Coin Flip Example}
+    Count the number outcomes from 8 coin flips. What is the probability that the first coin is heads? What is the probability that all coins are the same?\\
+    \nl{0.5}
+    \pause There are only two outcomes in event $C =$"all coins land on the same side",
+    \[(H,H, \ldots, H,H) \text{ and } (T,T, \ldots, T,T).\]
+    \[P(C) = \frac{2}{256} = \frac{1}{128}\]
+    \pause Moreover, 
+    \[P(\text{"At least two coins land on a different side"}) = 1-P(C) = \frac{127}{128}\]
+\end{frame}
+
+\begin{frame}{Product Rule for $k$-tuples, Questions}
+    \qtns
+\end{frame}
+
+\begin{frame}{Permutations and Combinations, Definition}
+    Given group of $n$ {\bf distinct} objects, distinguishable by some trait, \\
+    \nl{0.5}
+    {\bf Permutations} are ordered subsets,
+    and\\
+    \nl{0.5}
+    {\bf Combinations} are unordered subset.
+
+    For example, when the set is $\{ A, B, C, D\}$ the subsets
+    \[(C, B, A) \text{ and } (A, B, C)\]
+    are different permutations, but the same combination.\\
+    \nl{0.5}
+    \pause Personally, I like to write to use curly brackets, $\{\}$, or no brackets for combinations since the ordering is irrelevant and parentheses, $()$, for permutations. For example, I would have written the last combination as $\{A,B,C,D\}$\\ 
+    \nl{0.5}
+    We will explore how to determine if objects should be modeled as k-tuples, combinations or permutations.
+\end{frame}
+
+\begin{frame}{Permutations, Explanation}
+    Suppose that you have $n$ distinct objects and your ordered subset has a size of $k\leq n$. The $1^{st}$ ordered element can take any of the $n$ outcomes. The $2^{nd}$ has one less outcome after the first is observed so it can be one of $n-1$ outcomes. This continues until the $k^{th}$ element can take one of $n-(k-1)$ outcomes. \pause Multiply the number of outcomes for each order element to determine the number of outcomes, 
+    \[P_{k,n} = \text{number of permutations of } n \text{ distinct objects of length } k \]
+    \[P_{k,n} = n\cdot (n-1) \cdots  (n-(k-1)) \pause = \frac{n\cdot (n-1) \cdots  (n-(k-1)) \cdot(n-k)!}{(n-k)!}\]
+    \[ P_{k,n} =\frac{n!}{(n-k!)}\]
+    Recall,
+    \[n! = n\cdot(n-1)\cdot(n-2) \cdots 2 \cdot 1 \text{ and } 0! =1\]
+\end{frame}
+
+\begin{frame}{Permutations, Example}
+    What is the probability that a random string of $5$ unique letters spells out "gnome"?
+    \\
+    \pause \nl{0.5} Each letter can only appear once, order matters for the strings and each string is equally likely.
+    \\
+    \nl{0.5}
+    There are \blue{$26$ letters} and \red{$5$ are selected}. The permutation formula can be used.
+    \[P_{\red{5},\blue{26}} = 26 \cdot 25 \cdot 24 \cdot 23 \cdot 22 = 7893600\]
+
+    \pause "gnome" or (g,n,o,m,e) is \grn{one} possible outcome.
+
+    \[P(\text{"gnome"}) = \frac{\grn{1}}{P_{\red{5},\blue{26}}} = \frac{1}{7893600}\]
+    
+\end{frame}
+
+\begin{frame}{Permutations, Comments and Questions}
+    \begin{itemize}
+        \item Used when ordering matters and each object appears once.
+        \item $\text{ permutations of } $k$ \text{ out of } n \text{ objects} = P_{k,n} = \frac{n!}{(n-k)!}$
+    \end{itemize}
+    \qtns
+\end{frame}
+
+\begin{frame}{Combinations, Explanation}
+    Consider the last example. What if the ordering of (g,n,o,m,e) did not matter? \pause In this case, (g,e,o,m,n), (g,o,m,m,e) and all other permutations of those five letters would considered to be the same combination. To find the number of combinations, I can divide the number of permutations 5 letters out of 26, by permutations of 5 letter out of 5.
+    \[\text{number of permutations of \{g,n,o,m,e\} } = P_{5,5} = \frac{5!}{0!} = 5!\]
+    \pause This argument can be applied any collection of $5$ unique letters, each unique combination produces $5!$ permutations of the original 26 letters. Use dimensional analysis.
+    \[P_{5,26} \text{ Permutations} \frac{\text{Combination}}{P_{5,5} \text{ Permutations}} = \frac{P_{5,26}}{5!} \text{ Combinations}\]
+\end{frame}
+
+\begin{frame}{Combinations, Explanation}
+    The argument can be repeated when determining the number of combinations of $k$ out of $n$ objects.
+    \\
+    \nl{0.5}
+    \[\text{combinations of } k \text{ out of } n \text{ objects} = \frac{P_{k,n}}{k!} = \frac{n!}{k!(n-k)!}\]
+    This operation is called "$n$ choose $k$" and denoted as $\binom{n}{k}$.
+    \[\binom{n}{k} = \frac{P_{k,n}}{k!} = \frac{n!}{k!(n-k)!}\]
+\end{frame}
+
+\begin{frame}{Combinations, Example}
+    A single person is dealt 5 cards from a standard 52 card deck. What is the probability that there are 4 aces?\\
+    \nl{0.5}
+    \pause The order of of cards is irrelevant and each card may only appear once. Each hand is equally likely to appear. This implies the \red{number of possible hands is $5$ choose $52$}.
+    \[\binom{52}{5} = \frac{52!}{5!47!} = 2598960\]
+    \pause The event $A =$ "4 aces dealt" can be written as 
+    \[\{ AH, AC,AD,AS, C \},\]
+    $AH$ is the ace of hearts, $AC$ is the ace of clubs, etc. and $C$ is the unobserved card. $C$ can take $52-4 = 48$ values. \pause There are \blue{48 outcomes in $A$}.
+    \[P(A) = \frac{\blue{48}}{\red{2598960}} = 0.00001846892\]
+\end{frame}
+
+\begin{frame}{Summary and Questions}
+    \begin{block}{$k$-tuples}
+        \begin{itemize}
+            \item Used when there are $k$ random objects and object $i$ has $n_i$ outcomes for $i=1,\ldots, k$.
+            \item $\text{ number of possible } k\text{-tuples} = \prod_{i=1}^k n_i$.
+        \end{itemize}
+    \end{block}
+    \begin{block}{Permutations}
+        \begin{itemize}
+            \item Used when $k$ distinct objects are randomly selected from a set of $n$ objects, order matters and without duplication.
+            \item $P_{k,n} = \frac{n!}{(n-k)!}$
+        \end{itemize}
+    \end{block}
+    \begin{block}{Combinations}
+        \begin{itemize}
+            \item Used when $k$ distinct objects are randomly selected from a set of $n$ objects, order does not matters and without duplication.
+            \item $\binom{n}{k} = \frac{n!}{k!(n-k)!}$
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Example, 2-tuple of Combinations}
+    You run a car dealership and own 26 cars, 16 new and 10 used. There are 8 parking spots in each of your 2 display rows. You want to fill the front row with new cars and the back row with used cars. How ways can the cars be arranged?\\
+    \nl{0.5}
+    \pause Two combinations, one for each row, are being selected. Each number of combinations needs to be found and multiplied, as expressed in the $k$-tuple formula with $k=2$.\\
+    \pause The first row can have $16$ choose $8$ combinations and the second row can have $10$ choose $8$ combinations.
+    \[\binom{16}{8}\binom{10}{8} = \frac{16!}{8!(16-8)!} \frac{10!}{8!(10-8)!} = \frac{16! 10!}{(8!)^3 2!}\]
+\end{frame}
+
+\begin{frame}{Example, Permutation in a Combination}
+    Five people get on an elevator that stops at five floors. Assuming that each has an equal probability of going to any one floor, find the probability that they all get off at different floors.\\
+    \nl{0.5}
+    \pause Each person can get off on any floor 1--5, \blue{5 outcomes and 5 random objects}.
+    \[\text{number of ways for 5 people to exit } = 5^5 = 3125\]
+    \pause If each of the \red{5 people} gets off on a different floor out the \red{5 floors}, then the order matters (person 1 goes to floor blah, person 2 \ldots) and there is no duplication.
+    \pause \[P(\text{"exit on different floors"}) = \frac{\red{P_{5,5}}}{\blue{5^5}} = \frac{5!}{5^5}\]
+\end{frame}
+
+\begin{frame}{Example, Variable Number of Variables}
+    A computing center has 3 processors that receive $n$ jobs, with the jobs assigned to the processors purely at random. What is the probability that one of them handles all of the jobs?
+    \pause
+    Each job is a random object that can take one of three values: processor 1, processor 2 and processor 3. \pause In total, there are 
+    \[\red{3^n \text{ job configurations}}.\]
+    \pause Event $\blue{A} = $ "one processor handle all jobs".
+    \pause \[A =\{ (1,1, \ldots,1,1), (2,2, \ldots,2,2), (3,3, \ldots,3,3) \}\]
+    \pause \[P(A) =  \frac{\blue{3}}{\red{3^n}}\]
+\end{frame}
+
+\begin{frame}{Example, Drawing from Multiple Sets}
+    You have a bag of 100 marbles all numbered. Half are red and 30 are blue and 20 are green. You draw 10 marbles. What is the probability that they are all the same? What is the probability that at least two are different.\\
+    \nl{0.5}
+    \pause Order does not matter, all draws are equally likely and there are no duplicate marbles.\\
+    \nl{0.5}
+    \pause The total number of marble draws is 100 choose 5, $\binom{100}{10}$.\\
+    \nl{0.5}
+    \pause If only red marbles are drawn, then it is a \red{combination of 5 marbles out of 50, $\binom{50}{10}$}. \pause Similiarly, \blue{$\binom{30}{10}$} for blue marbles and \grn{$\binom{20}{10}$} for green marbles.\\
+    \nl{0.5}
+    \pause Each event is disjoint and comprise the event $A=$ "all marbles are the same color",
+    \pause \[\text{\# of outcomes in }A = \red{\binom{50}{10}} + \blue{\binom{30}{10}} + \grn{\binom{20}{10}} = 10302507941\]
+\end{frame}
+
+\begin{frame}{Example, Drawing from Multiple Sets}
+    You have a bag of 100 marbles all numbered. Half are red and 30 are blue and 20 are green. You draw 10 marbles. What is the probability that they are all the same? What is the probability that at least two are different.\\
+    \nl{0.5}
+    \pause 
+    \[P(A) = \pause \frac{\binom{50}{10} + \binom{30}{10} + \binom{20}{10}}{\binom{100}{10}} = 0.000595166018\]
+    \pause \[P(\text{"at least two are different"}) \pause = 1 - P(A) = 1-0.000595166018\]
+\end{frame}
+
+\end{document}

@@ -11,6 +11,7 @@
 \newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
 \newcommand{\nl}[1]{\vspace{#1 em}}
 \newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\pImg}[2]{\includegraphics[scale=#2]{#1}}
 
 \title{Math 3070, Applied Statistics}
 
@@ -49,7 +50,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Lecture Outline, 8/12}
+\begin{frame}{Lecture Outline, 8/19}
     \begin{itemize}
         \item 1.1 Statistical nomenclature
         \item 1.1 Sampling methods
@@ -62,7 +63,7 @@
         \item {\bf Population}: group of interest.
         \item {\bf Data}: collection of facts, usually about the population.
         \item {\bf Quantitative data}: data which are numbers. Example: length, weight, volume and etc.
-        \item {\bf Quantitative data}: data which are categories. Example: open or close; color; dead, alive, dead, or undead; and etc.
+        \item {\bf Categorical data}: data which are categories. Example: open or close; color; dead, alive, dead, or undead; and etc.
         \item {\bf Census}: Data of the entire population
         \item {\bf Sample}: Data of a subset of the population. Most data is sample data. Sampling means to generate a sample.
         \item Sample data is compromised of observations consisting of variables, quantities/characteristics of interest.
@@ -260,40 +261,6 @@
     \red{leaf units: ones}
 \end{frame}
 
-\begin{frame}{Stem-and-Leaf Plot, Example}
-    Step 4: Indicate the units of the \red{stem} and \blue{leaf} digits.
-    \[\bluRed{6}{3},
-        \bluRed{4}{7},
-        \bluRed{5}{2},
-        \bluRed{5}{4},
-        \bluRed{5}{0},
-        \bluRed{5}{7},
-        \bluRed{3}{9},
-        \bluRed{4}{1},
-        \bluRed{4}{9},
-        \bluRed{4}{9},
-        \bluRed{5}{0},
-        \bluRed{5}{2},
-        \bluRed{5}{5},
-        \bluRed{5}{1},
-        \bluRed{5}{6},
-        \bluRed{5}{3},
-        \bluRed{5}{4},
-        \bluRed{4}{9},
-        \bluRed{5}{0},
-        \bluRed{6}{2}\]
-    \begin{table}
-        \begin{tabular}{r | l}
-            \blue{6} & \red{23}           \\
-            \blue{5} & \red{000122344567} \\
-            \blue{4} & \red{17999}        \\
-            \blue{3} & \red{9}            \\
-        \end{tabular}
-    \end{table}
-    \blue{stem units: tens}\\
-    \red{leaf units: ones}
-\end{frame}
-
 \begin{frame}{Stem-and-Leaf Plot, Second Example}
     Data: proportion of water in different drinks, rounded to nearest hundredths.
     \[\bluRed{0.7}{3},
@@ -335,26 +302,8 @@
     \qtns
 \end{frame}
 
-\begin{frame}{Stem-and-Leaf Plot, Comments and Questions}
-    \begin{itemize}
-        \item Shows visual shape of of the distribution
-        \item Displays observed values
-        \item Usually better for discrete data. Truly continuous will usually display one observation at each value.
-    \end{itemize}
-    \qtns
-\end{frame}
-
-\begin{frame}{Stem-and-Leaf Plot, Comments/Questions}
-    \begin{itemize}
-        \item Shows visual shape of of the distribution
-        \item Displays observed values
-        \item Usually better for discrete data. Truly continuous will usually display one observation at each value.
-    \end{itemize}
-    \qtns
-\end{frame}
-
 \begin{frame}{Dot Plot, Explanation and Example}
-    Dot plots are simliar to stem-and-leaf plots, except they have a hortizonal bar and there are dots instead of leaf digits.\\
+    Dot plots are hortizonal plots with a dots used to denote unique observations of a number.\\
     \nl{0.5}
     Example Data: Concrete flexural strength (in MPa) rounded to nearest tenth. Discrete quantitative data.
     \[5.9,6.3,6.3,6.5,6.8,6.8,7.0,7.0,7.2,7.3,7.4,7.6,7.7,7.7,\]
@@ -410,12 +359,12 @@
 
 \begin{frame}{Histogram, Method}
     \begin{center}
-        Histograms are appropriately visually quantitative, continuous data. Moreover, they can be used with discrete data as well.
+        Histograms appropriately visualize quantitative, continuous data. Moreover, they can be used with discrete data as well.
     \end{center}
     {\bf bins}: Intervals, usually equal length and consecutive. Most commonly, the left endpoint is excluded and the right endpoint is included.
     \begin{enumerate}
-        \item On a a segment of the number line, draw bins so that your each datum lies within a bins.
-        \item Within each bin draw a bar extending to the number of data observed in the bin, or the frequency of obervations in the bin.
+        \item Pick bins (interval classes) so that your each datum lies within a bins.
+        \item Within each bin draw a bar extending to the number of times a data value is observed in the bin, or the frequency of observations in the bin.
     \end{enumerate}
 \end{frame}
 
@@ -543,6 +492,40 @@
     What if we used a dot plot?
     \cntrImg{ch01_power_dot_stack.pdf}{0.5}
     Hard to see the shape of the data, no bins.
+    \qtns
+\end{frame}
+
+\begin{frame}{Describing Distributions, Explanation}
+    \begin{itemize}
+        \item {\bf Unimodal} data: data with a clear peak.
+        \item {\bf Multimodal} data: data more than one peak.
+        \item {\bf Bimodal} data: data with two peaks.
+        \item {\bf Right-Skewed Data (Positively-Skewed)} data: data with a right pointing tail.
+        \item {\bf Left-Skewed Data (Negatively-Skewed)} data: data with a left pointing tail.
+        \item {\bf Symmetric} data: data which is symmetric about a value.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Describing Distributions, Examples}
+    \begin{center}
+        \begin{tabular}{c c}
+            \pImg{Aug19P1.pdf}{0.125} & \pImg{Aug19P2.pdf}{0.125} \\
+            Unimodal Left-Skewed      & Unimodal Right-Skewed
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Describing Distributions, Examples}
+    \begin{center}
+        \begin{tabular}{c c}
+            \pImg{Aug19P3.pdf}{0.125} & \pImg{Aug19P4.pdf}{0.125} \\
+            Unimodal, Symmetric      & Bimodal, Symmetric
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Describing Distributions, Comments and Questions}
+    These terms appear frequently in this class and in life.
     \qtns
 \end{frame}
 
