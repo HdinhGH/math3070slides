@@ -303,7 +303,9 @@
     Proposition: $P(A) \leq 1$
     \begin{enumerate}
         \item By Axiom 1, $P(A), P(A') \geq 0$.
-        \item $1 = P(A) + P(A') \geq P(A)$.
+        \item $\mathcal{S} = A \cup A'$
+        \item $A \cap A' = \emptyset$
+        \item $1 = P(\mathcal{S}) = P(A) + P(A') \geq P(A)$.
     \end{enumerate}
     All probabilities of events are between 0 and 1.
 \end{frame}
@@ -424,7 +426,7 @@
 
 \begin{frame}{Interpretation of Probability}
 
-    Under this model of the probability of an event is the proportion of times it should occur in a very large sample. This is different from $\hat{p}$ which depends on the sample. Typically, the probability of a real event is hard or impossible to measure, but can be decently modeled.
+    Under this model of the probability of an event is the proportion of times it should occur in a very large sample, the \textit{frequentist} perspective. This is different from $\hat{p}$ which depends on the sample. Typically, the probability of a real event is hard or impossible to measure, but can be decently modeled.
 \end{frame}
 
 \begin{frame}{Equally Likely Outcomes}
@@ -531,13 +533,13 @@
     \end{frame}
 
     \begin{frame}{Example, Census Proportions}
-        Census data informs you that \blue{67\%} of households have more than one car, \grn{63\%} of households have more than one car and more than one person and \red{31\%} of households have one person. What is the probability that a randomly selected household has one person or more than one car?\\
+        Census data informs you that \blue{67\%} of households have more than one car, \grn{63\%} of households have more than one car and more than one person and \red{31\%} of households have one person. What is the probability that a randomly selected household has more than one person or more than one car?\\
         \nl{0.5}
         event $\blue{A} =$ "household has more than one car"\\
         \nl{0.5}
-        event $\red{B} =$ "household has more than one person"\\
+        event $B =$ "household has more than one person"\\
         \nl{0.5}
-        $B' =$ "household has one person"\\
+        $\red{B'} =$ "household has one person"\\
         \[P(B) = 1 - P(B') = 1 - \red{0.31} = 0.69\]
         \begin{alignat*}{3}
             P(A \cup B)  & = P(A) &+ P(B) &- \grn{P(A\cap B)}\\

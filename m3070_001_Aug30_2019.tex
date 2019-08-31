@@ -1,0 +1,227 @@
+\documentclass[handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        August 30, 2019
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Lecture Outline, 8/30}
+    Section 2.5
+    \begin{itemize}
+        \item Independence
+        \item Examples
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Independence, Definition}
+    \begin{block}{Definition}
+        Two events $A$ and $B$ are \textbf{independent} if $P(A|B) = P(A)$ and are \textbf{dependent} otherwise.
+    \end{block}
+    \pause $A$ is independent of $B$ implies that $B$ is independent of $A$.\\
+    Begin by assuming $P(A|B) = P(A)$
+    \begin{align*}
+        P(B|A) & = \frac{P(B \cap A)}{P(A)} \\
+        (\text{Multi. Rule for Cond. Prob.}) & = \frac{P(A|B) P(B)}{P(A)}\\
+        (\text{(A is independent of B)})& = \frac{P(A) P(B)}{P(A)}\\
+        & = P(B)
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Independence, Definition}
+    \begin{block}{Definition}
+        Two events $A$ and $B$ are \textbf{independent} if $P(A|B) = P(A)$ and are \textbf{dependent} otherwise.
+    \end{block}
+    \pause Intuition: The occurance of event $B$ does not impact the \underline{probability} of event $A$.
+    \pause \begin{block}{Multiplication Rule}
+        Two events $A$ and $B$ are \textbf{independent} if and only if
+        $$P(A\cap B) = P(A)\cdot P(B)$$
+    \end{block}
+    Proof: Use the definition of multiplication rule of conditional probability
+    $$P(A\cap B) = P(A|B)P(B) = P(A)P(B)$$
+    \pause This also means that $P(A|B) = P(A)$ implies $P(B|A) = P(B)$.
+\end{frame}
+
+\begin{frame}{Independence, Coin Flip Example}
+    Suppose two fair coins are flipped. Show that the first coin landing on heads independent of the second coin landing on heads.\\ \nl{0.5}
+    \pause The expected answer is yes. I will now show this in set notation.
+    \pause $$\mathcal{S} = \{ (H,H), (H,T), (T,H), (T,T) \} $$
+    \pause $$ \text{event } A = \text{ "first coin lands on heads" } = \{ (H,H),(H,T)\}$$
+    $$ \text{event } B = \text{ "second coin lands on heads" } = \{ (H,H),(T,H)\}$$
+    \pause $$ P(A) = \pause \frac{1}{2}$$
+    $$ P(A|B) = \frac{P(A\cap B)}{P(B)} = \frac{1/4}{1/2} = \frac{1}{2} = P(A)$$
+\end{frame}
+
+\begin{frame}{Independence, Comments}
+    If $A$ and $B$ are independent so are $A'$ and $B'$.\\ \nl{0.5}
+    \pause Proof:
+    \begin{align*}
+        P(A' \cap B') & = 1 - P(A \cup B) \\
+        & = 1 -(P(A) + P(B) - P(A\cap B)) \\
+       (\text{indep. of A and B}) & = 1 - (P(A) + P(B) - P(A)P(B)) \\
+       & \\
+       P(A') P(B')& = (1-P(A))(1-P(B)) \\
+        & = 1 - P(A) - P(B) + P(A)P(B)\\
+        & = 1 - (P(A) + P(B) - P(A)P(B))\\
+        & \\
+        P(A' \cap B' ) & = P(A') P(B')\\
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Independence, Comments}
+    If $A$ and $B$ are independent so are $A$ and $B'$.\\ \nl{0.5}
+    \pause Proof:
+    \begin{align*}
+        P(A) &= P(A\cap B) + P(A \cap B')\\
+         & = P(A|B)P(B) + P(A|B')P(B')\\
+         (\text{A and B are indep.})& = P(A)P(B) + P(A|B')P(B')\\
+         \text{rearrange}& \\
+        P(A|B')P(B') & = P(A) - P(A)P(B)\\
+         & = P(A)(1 - P(B))\\
+         & = P(A)(P(B'))\\
+         & \\
+         P(A|B') &= P(A) \\
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Mutual Independence, Definition}
+    \begin{block}{Definition}
+        Events $A_1,\dots,A_n$ are \textbf{mutually independent} if
+        $$P(A_{i_1} \cap A_{i_2} \cap \cdots \cap A_{i_k}) = P(A_{i_1})P(A_{i_2})\cdots P(A_{i_k})$$
+        for all choices of indices $1\leq i_1 < i_2 < \cdots < i_k \leq n$
+    \end{block}
+        \pause For example, saying three events $A, B, C$ are independent means 
+        \begin{align*}
+        P(A \cap B \cap C)&=P(A)P(B)P(C) \\
+        \blue{P(A \cap B)}&\blue{=P(A)P(B)} \\
+        \blue{P(A \cap C)}&\blue{=P(A)P(C)} \\
+        \blue{P(B \cap C)}&\blue{=P(B)P(C)}
+        \end{align*}
+        \pause If any two event are independent, then the events are \textbf{Pairwise independent}. Example, the \blue{last three statements} show pairwise Independence of $A,B$ and $C$.
+\end{frame}
+
+\begin{frame}{Mutual Independence, Example}
+    Suppose you flip 3 fair coins. Event A is that coin 1 lands on heads, event B is that coin 2 lands on heads and event C is that coin 3 lands on heads. Are the events mutually independent?
+    \\ \nl{0.5}
+    \pause You can verify by applying the reasoning from the two coin example.
+\begin{align*}
+    P(A \cap B)&=P(A)P(B) \\
+    P(A \cap C)&=P(A)P(C)\\
+    P(B \cap C)&=P(B)P(C)
+\end{align*}
+    \pause \[P(A\cap B\cap C) = P(\{  (H,H,H)\}) = \frac{1}{8} = \frac{1}{2} \frac{1}{2} \frac{1}{2}\]
+\end{frame}
+
+\begin{frame}{Mutual Independence, Nonexample}
+    Suppose you flip 2 fair coins. Event A is that coin 1 lands on heads, event B is that coin 2 lands on tails and event C is that the coins land on the same side. Are the events mutually independent?
+    \\ \nl{0.5}
+    \pause \[A = \{(H,T),(H,H)\}, B = \{(H,T),(T,T)\}, C = \{(T,T),(H,H)\}\]
+    \[P(A\cap B \cap C) = P(\emptyset) = 0\]
+    \pause nope, but they are pairwise independent.
+    \pause \[P(A\cap B) = P(\{ (H,T) \}) = \frac{1}{4} = P(A) P(B)\]
+    \[P(A\cap C) = P(\{ (H,H) \}) = \frac{1}{4} = P(A) P(C)\]
+    \[P(B\cap C) = P(\{ (T,T) \}) = \frac{1}{4} = P(B) P(C)\]
+\end{frame}
+
+\begin{frame}{Independence, Summary}
+    \begin{itemize}
+        \item Independence of $A$ and $B$:
+        $$P(A|B) = A, \hskip 1em P(A \cap B) = P(A)P(B)$$
+        \item $A$ is independent of $B$ implies the converse.
+        \item If $A$ and $B$ are independent then so are $A'$ and $B'$,\\ and $A$ and $B'$.
+        \item Be careful not to assume events are independent.
+        \item Pairwise Independence does not imply mutual Independence.
+        \item The idea of Independence will come in handy later.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Multiplication Rule and Containment Example}
+    A manufacturing process uses two machines, A and B, in serial. The probability that machine B fails is 1\%. The probability that machine A fails is 5\%. Assuming that the machines fail independently, what is the probability that machine $A$ fails given that at least one machine fails?
+    \pause $$\text{event } A = \text{ "machine A fails"}$$ 
+    $$\text{event } B = \text{ "machine B fails" }, $$
+    $$\text{event } C = \text{ "at least one machine fails" }, $$
+    \pause 
+    \begin{align*}
+        P(C) &= P(A \cup B) \\
+        &= P(A) + P(B) - P(A\cap B) \\
+        &= P(A) + P(B) - P(A)P(B) \\
+        & = 0.05 + 0.01 - 0.05(0.01) \\
+        & = 0.0595
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Multiplication Rule and Containment Example}
+    A manufacturing process uses two machines, A and B. The probability that machine B fails is 1\%. The probability that machine A fails is 5\%. Assuming that the machines fail independently, what is the probability that machine $A$ fails given that at least one machine fails?
+    \pause $$\text{event } A = \text{ "machine A fails"}$$ 
+    $$\text{event } B = \text{ "machine B fails" }, $$
+    $$\text{event } C = \text{ "at least one machine fails" }, $$
+    \pause 
+    \begin{align*}
+        P(A|C) &= \frac{P(A\cap C)}{P(C)} \\
+        \pause (\text{A is contained in C}) &= \frac{P(A)}{P(C)} = \frac{0.05}{0.0595} \approx 0.840336134
+    \end{align*}
+    Containment shown on next slide.
+\end{frame}
+
+\begin{frame}{Multiplication Rule and Containment Example}
+    \begin{center}
+    $(M_A,M_B)$ denotes the failure of each machine.\\
+    $M_A=F$ denotes that machine A fails.\\
+    $M_A=N$ denotes that machine A does not fails.\\
+    $M_B=N$ uses the same notation.\\
+    \end{center}
+    $$A = \{(F,F),(F,N)\}$$
+    $$C = \{(F,F),(F,N),(N,F)\}$$
+\end{frame}
+
+\begin{frame}{Serial Example}
+    A company uses 17 machines for a manufacturing process. Each fail mutually independently of each other. Each has a 7\% probability of failing. What is the probability that any are failing?
+    \begin{center}
+        event $A_{i} = $ machine $i$ fails
+    \end{center}
+    \begin{align*}
+        P(\text{"any are failing"}) &= 1-P(\text{"all are working"}) \\
+        &= 1-P(A_1' \cap \ldots \cap A_{17}') \\
+        (\text{indep})&= 1-[P(A_1') \cdot \ldots \cdot P(A_{17}')] \\
+        & \\
+        \pause P(A_i') = 1 - P(A_i) & = 1 - 0.07 = 0.93 \\
+        & \\
+        \pause P(\text{"any are failing"}) & = 1 - 0.93^{17} \approx 0.70878742441
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Serial Example}
+    If there are $n$ events $A_i$, same probability and mutually independent, then
+    \[P(A_1 \cap \cdots \cap A_{n}) = P(A_1) \cdot \ldots \cdot P(A_n) = P(A_1)^n\]
+\end{frame}
+
+\end{document}

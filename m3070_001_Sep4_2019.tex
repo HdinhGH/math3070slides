@@ -1,0 +1,104 @@
+\documentclass[]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        September 4, 2019
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Lecture Outline, 9/4}
+    Section 3.1
+    \begin{itemize}
+        \item Random Variables
+        \item Probability Mass Functions
+        \item Examples
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Random Variables}
+    \begin{block}{defintion}
+    A \text{random variable} is any rule that associates a number with each outcome in of a sample space, $\mathcal{S}$.
+    \end{block}
+    \begin{block}{notation}
+        Most of the time random variables will be denoted with as capital case letters, $X,Y,Z,U,V$.\\
+        \nl{0.5}
+        When statement such as  $P(X=1)$ are writen this means the probability that the event $X=1$ occurs. To find the probability, one could find the probability of the event which yields $X=1$.
+    \end{block}
+    \begin{block}{foreshadowing}
+        Later we will discuss random variables without explictly referring to a sample space, $\mathcal{S}$. In these cases, one may the values to be outcomes to relate back to the early parts of the course.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Random Variables, Discrete Versus Continuous}
+    \begin{block}{discrete random variables}
+        Random variables are \textbf{discrete} if they can take finitely many or countably many values. \textbf{Countably many} means the values can be listed one by one. For example, the integers and whole numbers are countable.
+    \end{block}
+    \begin{block}{continuous random variables}
+        A random variables is \textbf{continuous} when
+        \begin{enumerate}
+            \item its possible values contain on any interval
+            \item and the probability that it take on exactly one value is one, $P(X=c) = 0$ for all $c$.
+        \end{enumerate}
+        Random variables which take values on anywhere on the number line, an interval or half line, and satisfy property 2 are continuous random variables.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Discrete Random Variable Example}
+
+Example: Suppose we toss a fair coin 3 times. The set of outcomes is
+$$\Omega=\{(TTT),(TTH),(THT),(THH),(HTT),(HTH),(HHT),(HHH)\}$$
+Let $X$ be the number of heads. Then $X$ is a random variable:
+
+\begin{center}\begin{tabular}{p{4cm}p{4cm}}
+\begin{tabular}{l}
+$\begin{aligned}
+TTT: X&=0 \\
+TTH: X&=1 \\
+THT: X&=1 \\
+THH: X&=2
+\end{aligned}$
+\end{tabular} &
+\begin{tabular}{l}
+$\begin{aligned}
+HTT: X&=1 \\
+HTH: X&=2 \\
+HHT: X&=2 \\
+HHH: X&=3
+\end{aligned}$
+\end{tabular}
+\end{tabular}
+\end{center}
+
+The possible values of $X$ are 0, 1, 2, and 3.
+\end{frame}
+
+\end{document}

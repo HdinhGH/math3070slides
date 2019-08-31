@@ -1,4 +1,4 @@
-\documentclass[]{beamer}
+\documentclass[handout]{beamer}
 \usepackage{verbatim}
 \usepackage{xcolor}
 \usepackage{multirow}
@@ -111,7 +111,7 @@
     \[(C, B, A) \text{ and } (A, B, C)\]
     are different permutations, but the same combination.\\
     \nl{0.5}
-    \pause Personally, I like to write to use curly brackets, $\{\}$, or no brackets for combinations since the ordering is irrelevant and parentheses, $()$, for permutations. For example, I would have written the last combination as $\{A,B,C,D\}$\\ 
+    \pause Personally, I like to write to use curly brackets, $\{\}$ for combinations since the ordering is irrelevant and parentheses, $()$, for permutations. For example, I would have written the last combination as $\{A,B,C\}$\\ 
     \nl{0.5}
     We will explore how to determine if objects should be modeled as k-tuples, combinations or permutations.
 \end{frame}
@@ -120,7 +120,7 @@
     Suppose that you have $n$ distinct objects and your ordered subset has a size of $k\leq n$. The $1^{st}$ ordered element can take any of the $n$ outcomes. The $2^{nd}$ has one less outcome after the first is observed so it can be one of $n-1$ outcomes. This continues until the $k^{th}$ element can take one of $n-(k-1)$ outcomes. \pause Multiply the number of outcomes for each order element to determine the number of outcomes, 
     \[P_{k,n} = \text{number of permutations of } n \text{ distinct objects of length } k \]
     \[P_{k,n} = n\cdot (n-1) \cdots  (n-(k-1)) \pause = \frac{n\cdot (n-1) \cdots  (n-(k-1)) \cdot(n-k)!}{(n-k)!}\]
-    \[ P_{k,n} =\frac{n!}{(n-k!)}\]
+    \[ P_{k,n} =\frac{n!}{(n-k)!}\]
     Recall,
     \[n! = n\cdot(n-1)\cdot(n-2) \cdots 2 \cdot 1 \text{ and } 0! =1\]
 \end{frame}
@@ -196,6 +196,7 @@
     \end{block}
 \end{frame}
 
+
 \begin{frame}{Example, 2-tuple of Combinations}
     You run a car dealership and own 26 cars, 16 new and 10 used. There are 8 parking spots in each of your 2 display rows. You want to fill the front row with new cars and the back row with used cars. How ways can the cars be arranged?\\
     \nl{0.5}
@@ -215,16 +216,17 @@
 
 \begin{frame}{Example, Variable Number of Variables}
     A computing center has 3 processors that receive $n$ jobs, with the jobs assigned to the processors purely at random. What is the probability that one of them handles all of the jobs?
-    \pause
+    \pause\\
+    \nl{0.5}
     Each job is a random object that can take one of three values: processor 1, processor 2 and processor 3. \pause In total, there are 
     \[\red{3^n \text{ job configurations}}.\]
     \pause Event $\blue{A} = $ "one processor handle all jobs".
     \pause \[A =\{ (1,1, \ldots,1,1), (2,2, \ldots,2,2), (3,3, \ldots,3,3) \}\]
-    \pause \[P(A) =  \frac{\blue{3}}{\red{3^n}}\]
+    \pause \[P(A) =  \frac{\blue{3}}{\red{3^n}} = 3^{1-n}\]
 \end{frame}
 
 \begin{frame}{Example, Drawing from Multiple Sets}
-    You have a bag of 100 marbles all numbered. Half are red and 30 are blue and 20 are green. You draw 10 marbles. What is the probability that they are all the same? What is the probability that at least two are different.\\
+    You have a bag of 100 marbles, all numbered. Half are red and 30 are blue and 20 are green. You draw 10 marbles. What is the probability that they are all the same? What is the probability that at least two are different.\\
     \nl{0.5}
     \pause Order does not matter, all draws are equally likely and there are no duplicate marbles.\\
     \nl{0.5}
@@ -242,6 +244,8 @@
     \pause 
     \[P(A) = \pause \frac{\binom{50}{10} + \binom{30}{10} + \binom{20}{10}}{\binom{100}{10}} = 0.000595166018\]
     \pause \[P(\text{"at least two are different"}) \pause = 1 - P(A) = 1-0.000595166018\]
+    \pause
+    Note: if the marbles were not distingushable (unnumbered in our case), this would be a different problem and require a different counting method.
 \end{frame}
 
 \end{document}
