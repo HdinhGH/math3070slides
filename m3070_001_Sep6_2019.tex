@@ -1,0 +1,250 @@
+\documentclass[]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        September 6, 2019
+    \end{center}
+\end{frame}
+
+\begin{frame}{Lecture Outline, 9/6}
+    Section 3.3
+    \begin{itemize}
+        \item Bernoulli Random Variable
+        \item Expected Value of $X$
+        \item Variance of $X$
+        \item Linear Transformations and Examples
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bernoulli Random Variable, Definition}
+    \begin{block}{}
+        A Bernoulli Random Variable $X$ with a PMF of
+        $$f(x)= \left\{\begin{array}{lr}
+            p, & x = 1\\
+            1-p, & x= 0\\
+            0, & \text{otherwise}\\
+            \end{array}\right.$$
+            is denoted as $X \sim \text{bern}(p)$, a Bernoulli random variable with parameter $p$.
+    \end{block}
+    Note, parameters are variables that determine a random variable.
+\end{frame}
+
+\begin{frame}{Expected Value of $X$, Definitions}
+    \begin{block}{}
+        The \textbf{expected value} or \textbf{mean value} of a discrete random variable $X$ is 
+        $$E(X) = \mu_x = \sum_{x \in D} x \cdot p(x) $$
+        where $p(x)$ is the PMF of $X$ and $D$ is the all possible values of $X$.
+    \end{block}
+    \begin{block}{}
+        The \textbf{expected value} or \textbf{mean value} of a function of a random variable discrete random variable $h(X)$ is 
+        $$E[h(x)] = \sum_{x \in D} h(x) \cdot p(x) .$$
+    \end{block}
+    \begin{itemize}
+        \item Often used to describe distributions of random variables. Their estimation is key to generating probabilistic models.
+        \item Notice that that the mean value is a fixed number from a fixed distribution while the sample mean changes with the sample.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Expected Value of $X$, Examples}
+    Consider $X$, a random variable that takes the values of $\pi/2$ one fourth of the time and $\pi$ the remaining time. Compute the PMF. Compute the expected value of $X$ and $\sin(X+ \pi)$.
+    \pause
+    $$f(x)= \left\{\begin{array}{lr}
+        1/4, & x = \pi/2\\
+        3/4, & x= \pi\\
+        0, & \text{otherwise}\\
+        \end{array}\right.$$
+        \pause
+        $$ E(X) = \frac{\pi}{2} \frac{1}{4} + \pi \frac{3}{4} = \pi \frac{7}{8} $$
+        \pause
+        \begin{align*}
+            E[\sin(X+\pi)] & = \sin( \pi/2+ \pi) \frac{1}{4} + \sin( \pi+ \pi)\frac{3}{4}\\ 
+            & = (-1)\frac{1}{4} + 0\frac{3}{4} = -\frac{1}{4}\\
+        \end{align*}
+\end{frame}
+
+\begin{frame}{Expected Value of $X$, Examples}
+    Consider $X$ to be a bernoulli random variable, takes either $0$ or $1$. Given that $E(X) = 0.4$, find the PMF.
+    \pause
+    $$f(x)= \left\{\begin{array}{lr}
+        p, & x = 1\\
+        1-p, & x= 0\\
+        0, & \text{otherwise}\\
+        \end{array}\right.$$
+        \pause
+    $$ 0.4 = E(X) = 1\cdot p + 0 \cdot (1-p) = p $$
+    $$ p = 0.4$$
+    $$f(x)= \left\{\begin{array}{lr}
+        0.4, & x = 1\\
+        0.6, & x= 0\\
+        0, & \text{otherwise}\\
+        \end{array}\right.$$
+\end{frame}
+
+\begin{frame}{Expected Value of $X$, Comments and Questions}
+    \begin{itemize}
+        \item $E(X) = \mu_x = \sum_{x \in D} x \cdot p(x) $
+        \item $E[h(x)] = \sum_{x \in D} h(x) \cdot p(x) $
+        \item Parameters of random variables can be estimated using techniques based on expected values of functions of random variables. For example, sample mean estimates expected value and sample variance estimates variance.
+        \item Estimators are random. Parameters and expectations are not.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Variance of $X$, Definition}
+    \begin{block}{}
+        The \textbf{variance} of a discrete random variable $X$ is 
+        $$V(X) = \sigma^2_x = \sum_{x \in D} (x-\mu)^2 \cdot p(x) $$
+        where $p(x)$ is the PMF of $X$, $\mu = E(X)$, and $D$ is the all possible values of $X$.\\ \nl{0.5}
+        The \textbf{standard deviation} of $X$ is
+        $$ \sigma_x = \sqrt{\sigma_x^2} $$
+    \end{block}
+    Note,
+    $$\sigma_x^2 = E[(X-\mu)^2]$$
+    \begin{block}{}
+    Since $V(X)$, sums over nonnegative quantities, $V(X) \geq 0$.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Variance of $X$, Shortcut}
+    $$V(X) = E(X^2) - [E(X)]^2$$
+    proof:
+    \begin{align*}
+        V(X) & = E[(X-\mu)^2] \\
+        & = E[X^2 -2\mu X + \mu^2] \\
+        & = \sum_{x \in D} X^2 p(x) - \sum_{x \in D} 2\mu X p(x) + \sum_{x \in D} \mu^2 p(x) \\
+        & = \sum_{x \in D} X^2 p(x) - 2 \mu \sum_{x \in D} X p(x) + \mu^2 \sum_{x \in D} p(x) \\
+        & = E(X^2) - 2 \mu \mu + \mu^2 = E(X^2) - 2 E(X)^2 + E(X)^2\\
+        & = E(X^2) - [E(X)]^2
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Variance of $X$, Example}
+    Consider $X$, the value of a fair die roll. Compute the variance and standard deviation.
+    \pause
+    $$ E(X) = 1 \frac{1}{6} + 2\frac{1}{6} + 3 \frac{1}{6} + 4 \frac{1}{6} + 5 \frac{1}{6} + 6\frac{1}{6} = \frac{21}{6}$$
+    \pause
+    $$ E(X^2) = 1^2 \frac{1}{6} + 2^2 \frac{1}{6} + 3^2 \frac{1}{6} + 4^2 \frac{1}{6} + 5^2 \frac{1}{6} + 6^2 \frac{1}{6} = \frac{91}{6}$$
+    \pause
+    $$ \sigma^2 = E(X^2) - E(X)^2 = \frac{91}{6} - \Big(\frac{21}{6}\Big)^2 \approx 2.9166$$
+    $$ \sigma = \sqrt{\sigma^2} \approx 1.707$$
+    You can check for yourself that the direct calculation is longer.
+\end{frame}
+
+\begin{frame}{Variance of $X$, Comments and Questions}
+    \begin{itemize}
+        \item $\sigma^2 = Var(X) = E[(X-\mu)^2] = E(X^2) - [E(X)]^2$
+        \item $\sigma = \sqrt{\sigma^2}$, standard deviation
+        \item $V(X) \geq 0$ and $\sigma_X \geq 0$
+    \end{itemize}
+    \qtns
+\end{frame}
+
+\begin{frame}{Linear Transformations, Explanation}
+    Linear transformation of $X$ scale $\mu_X, \sigma^2_x$ and $\sigma_x$ as follows.
+        $$ E(aX + b) = a \cdot E(X) + b = a \mu_x + b$$
+        $$ Var(aX + b) = a^2 Var(X) = a^2 \sigma^2_x$$
+        $$ \sigma_{aX +b} = |a| \sigma_X$$
+    Same scaling laws as their sample versions.
+\end{frame}
+
+\begin{frame}{Linear Transformations, Mean Explanation}
+    $$ E(aX + b) = a \cdot E(X) + b $$
+    proof
+    \begin{align*}
+        E(aX + b) & = \sum_{x \in D} (a x+ b) p(x) \\
+        & = a \sum_{x \in D} x p(x)+  b \sum_{x \in D} p(x) \\
+        & = a \cdot E(X) + b
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Linearity of Expected Value, Explanation}
+    Expected values are linear.
+    $$ E[h(X) + ag(X) + b] = E[h(X)] + a\cdot E[h(Y)] + b$$
+    proof
+    \begin{align*}
+        E[h(X) + ag(X) + b] & = \sum_{x \in D} (h(X) + ag(X) + b)p(x)\\
+        & = \sum_{x \in D} h(X)p(x) + a \sum_{x \in D} g(X) p(x) + b \sum_{x \in D} p(x)\\
+        & = E[h(x)] + a\cdot E[g(x)] + b\\
+    \end{align*}
+    Can be useful but not in book.\\ \nl{0.5}
+    This also work with two random variables, but we will get this this case later.
+\end{frame}
+
+\begin{frame}{Linear Transformations, Variance Explanation}
+    $$ Var(aX + b) = a^2 Var(X) $$
+    proof
+    \begin{align*}
+        Var(aX + b) &= E[(aX + b)^2] - (E[(aX -b)])^2\\
+        & =E[a^2 X^2 -2 abX + b^2] - (a E(X) - b)^2\\
+        & =a^2 E[X^2] -2 abE[X] + b^2 - (a^2 E(X)^2 -2abE(X) - b^2)\\
+        & =a^2 E[X^2] -a^2 E(X)^2 \\
+        & = a^2 Var(X)\\
+    \end{align*}
+    Consequently,
+    $$\sigma_{aX+b} = |a|\sigma_X$$
+\end{frame}
+
+\begin{frame}{Linear Transformations, Example}
+    Consider $X$ to be the price of a used car. The expected value is $E[X] =4,000$ and $V(X) = 200$. As function of the inital price $X$, yearly maintaince cost is $h(X) = 0.1 X +100$. The yearly insurance cost is modeled as $g(X) = 0.3 X - 0.01 X^2$. Determine the expected value and standard deviation of the yearly maintaince.
+    \\ \nl{0.5}
+    \pause Use the linear transformation formulas.
+    $$ E[h(X)] = E[0.1 X + 100] = 0.1 E[X] + 100 = 500  $$
+    $$ V(h(X)) = V(0.1 X + 100) = 0.1^2 E[X]  = 40  $$
+\end{frame}
+
+\begin{frame}{Linear Transformations, Non-example}
+    Consider $X$ to be the price of a used car. The expected value is $E[X] =4,000$ and $E(X^2) = 2,000$. Why is the last sentence false?
+    \\ \nl{0.5}
+    \pause 
+    $$ V(X) = E[X^2] - (E[X])^2 = 2000 - 4000^2 = -15998000 < 0 $$
+\end{frame}
+
+\begin{frame}{Linear Transformations, Non-example}
+    Consider $X$ to be the price of a used car. The expected value is $E[X] =4,000$ and $V(X) = 200$. The yearly insurance cost is modeled as $g(X) = X - 0.0002 X^2$ Determine the expected value of the yearly insurance costs in this model.
+    \\ \nl{0.5}
+    \pause Use linearity of expected value.
+    $$E[g(X)] = E[0.3 X - 0.01 X^2] = E[X] - 0.0002 E[X^2] $$
+    \pause
+    $$V(X) = E[X^2] - E[X]^2 \rightarrow E[X^2] = V(X) + E[X]^2$$ 
+    $$ E[X^2] = 200 + 4000^2 = 16000200$$
+    \pause
+    $$ E[g(X)] =  4000 - 0.0002\cdot 16000200 = 799.96  $$
+\end{frame}
+
+\begin{frame}{Summary}
+    \begin{itemize}
+        \item $E[aX+b] = a\cdot E[X] + b$
+        \item $V(aX+b) = a^2\cdot V(X)$ and $\sigma_{aX+b} = |a| \sigma_{X}$
+        \item $E[g(X) + a h(X) + b] = E[g(X)] + a\cdot E[h(X)] + b$
+    \end{itemize}
+    \qtns
+\end{frame}
+
+\end{document}
