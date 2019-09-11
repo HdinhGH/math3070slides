@@ -1,0 +1,210 @@
+\documentclass[]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        September 13, 2019
+    \end{center}
+\end{frame}
+
+\begin{frame}{Lecture Outline, 9/13}
+    Section 3.6
+    \begin{itemize}
+        \item Poisson Distribution
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Poisson Process}
+    Consider a process where events occur at random times, such as
+    \begin{itemize}
+    \item The arrival times of customers at a store
+    \item Clicks of a Geiger counter exposed to a radioactive material
+    \item Webpage requests on an internet server
+    \item Incoming calls to a customer service center
+    \end{itemize}
+    \pause Such a process is called a \emph{Poisson process} if the following assumptions hold:
+    \begin{enumerate}
+    \item The mean number of events which occur in a time interval of length $t$ is $\lambda t$, where $\lambda$ is a constant, called the \emph{rate} of the Poisson process.
+    \item Events occur only one at a time.
+    \item The number of events which occur in a time interval is independent of the number and timing of past events.
+    \end{enumerate}
+    \end{frame}
+    
+    \begin{frame}{Poisson Distribution}
+    Given a Poisson process with rate $\lambda$, we want to find the pmf of the number of events $X$ which occur in the time interval $I=[0,t]$.
+    
+    \pause \begin{itemize}
+    \item By assumption (1), the mean of $X$ is $\mu=\lambda t$.
+    \item Divide the interval $[0,t]$ into equal-width subintervals $I_1, \dots, I_n$, each of length $t/n$.
+    %$$I_k = \left[k\cdot\frac t n, (k+1)\cdot\frac t n\right]$$
+    \item Let $X_k$ be the number of events which occur in the subinterval $I_k$, so $X=X_1+X_2+\cdots+X_n$. 
+    \item By assumption (1), $E(X_k)=\lambda\cdot \frac t n= \frac\mu n$. 
+    \item By assumption (2), if $n$ is large, then the probability of more than one event occuring in any given interval $I_k$ is very small. 
+    \item So we may approximate $X_k$ as a Bernoulli random variable with parameter $p=\frac{\mu}n$.
+    \item By assumption (3), the random variables $X_1,\dots, X_n$ are independent. Thus $X$ is approximately binomial, $Bin(n,\frac \mu n)$.
+    \end{itemize}
+    \end{frame}
+    
+    \begin{frame}{Poisson Distribution}
+    Recall from calculus that
+    $$\lim_{n\to\infty} \left(1+\frac{r}n\right)^n = e^r$$
+    We use this to find the pmf of a Poisson random variable $X$. We argued that for large $n$, $X$ is approximately binomial, $Bin(n,\frac{\mu}n)$, so
+    \begin{align*}
+    P(X=x) & \approx \binom{n}{x} (\mu/n)^x(1-\mu/n)^{n-x} \\
+    &= \frac{n(n-1)\cdots(n-x+1)}{x!}(\mu/n)^x(1-\mu/n)^{n-x} \\
+    &= \frac{n(n-1)\cdots(n-x+1)}{nn \cdots n}(1-\mu/n)^n(1-\mu/n)^{-x}\cdot \frac{\mu^x}{x!} \\
+    &\to 1 \cdot e^{-\mu}\cdot 1\cdot \frac{\mu^x}{x!} \hspace{4cm} (\text{as }n\to\infty)\\
+    &= \frac{e^{-\mu}\mu^x}{x!}
+    \end{align*}
+    \end{frame}
+    
+    \begin{frame}{Poisson Distribution}
+    \begin{block}{}
+    Given a Poisson process with rate $\lambda$, the number $X$ of events which occur in a time interval of length $t$ is a \textbf{Poisson} random variable with mean $\mu=\lambda t$. $X\sim Pois(\mu)$ The possible values of $X$ are $0, 1, 2,\dots$
+    $$P(X=x)=\frac{e^{-\mu}\mu^x}{x!}$$
+    \end{block}
+    
+    \pause \vspace{.1cm} Example: Suppose that at a small store, customers arrive at an average rate of 6 per hour. What is the probability that during a given hour only 3 or fewer customers will arrive?
+    
+    \pause \vspace{.3cm}Assuming a Poisson process,
+    \begin{align*}
+    P(X\leq 3) &= P(X=0)+P(X=1)+P(X=2)+P(X=3) \\
+    &= \frac{e^{-6}6^0}{0!} + \frac{e^{-6}6^1}{1!} + \frac{e^{-6}6^2}{2!} + \frac{e^{-6}6^3}{3!} \\
+    &= e^{-6} (1+6 + 18 + 36) = 61e^{-6} \approx .151
+    \end{align*}
+    \end{frame}
+
+    \begin{frame}{Poisson Distribution, Sum of PMF}
+    Recall from calculus that
+    $$e^\mu=\sum_{x=0}^\infty \frac{\mu^x}{x!}$$
+    \pause Therefore, the pmf $f(x)$ of a Poisson random variable satisfies
+    \begin{align*}
+    \sum_{x=0}^\infty f(x) &= \sum_{x=0}^\infty \frac{e^{-\mu}\mu^x}{x!} \\
+    &= e^{-\mu} \sum_{x=0}^\infty \frac{\mu^x}{x!}\\
+    &=e^{-\mu}e^\mu\\
+    &=1
+    \end{align*}
+    which shows that $f(x)$ is a valid pmf.
+    \end{frame}
+    
+    \begin{frame}{Mean of Poisson Distribution}
+    We may directly calculate the mean of a Poisson random variable $X$ based on the pmf:
+    \pause \begin{align*}
+    E(X) &= \sum_{x=0}^\infty x\cdot\frac{e^{-\mu}\mu^x}{x!} \\
+    &= \sum_{x=1}^\infty \frac{e^{-\mu}\mu^x}{(x-1)!} \\
+    &= \sum_{x=0}^\infty \frac{e^{-\mu}\mu^{x+1}}{x!} \\
+    &= \mu \sum_{x=0}^\infty \frac{e^{-\mu}\mu^x}{x!} \\
+    &= \mu
+    \end{align*}
+    This is what we expected based on the definition.
+    \end{frame}
+    
+    \begin{frame}{Variance of Poisson Distribution}
+    We can also calculate the variance:
+    {\small
+    \begin{align*}
+    E(X^2) &= \sum_{x=0}^\infty x^2\cdot\frac{e^{-\mu}\mu^x}{x!}\\
+    &= \sum_{x=1}^\infty x\cdot\frac{e^{-\mu}\mu^x}{(x-1)!}\\
+    &= \sum_{x=0}^\infty (x+1)\frac{e^{-\mu}\mu^{x+1}}{x!}\\
+    &= \sum_{x=0}^\infty x\frac{e^{-\mu}\mu^{x+1}}{x!} + \sum_{x=0}^\infty \frac{e^{-\mu}\mu^{x+1}}{x!}\\
+    &= \sum_{x=1}^\infty \frac{e^{-\mu}\mu^{x+1}}{(x-1)!} + \mu\sum_{x=0}^\infty \frac{e^{-\mu}\mu^{x}}{x!}\\
+    &= \sum_{x=0}^\infty \frac{e^{-\mu}\mu^{x+2}}{x!}+\mu
+    = \mu^2+\mu
+    \end{align*}}
+    So $V(X)=E(X^2)-[E(X)]^2=\mu^2+\mu-\mu^2 = \mu$.
+    \end{frame}
+
+    \begin{frame}{Example}
+        \begin{block}{}
+        Suppose that at random times a system suffers breakdowns requiring immediate repairs. If the system breaks down at a rate of once per year, what is the probability that the system will break down 3 or more times in one year?
+        \end{block}
+        \pause Solution: The given information suggests that the number $X$ of breakdowns in a year is a Poisson random variable with mean $\mu=\lambda t = 1(1)=1$. 
+        \pause \begin{align*}
+        P(X \geq 3) &= 1 - P(X \leq 2) \\
+        &= 1 - P(X=0) - P(X=1)-P(X=2) \\
+        &= 1 - \frac{e^{-1}1^0}{0!} - \frac{e^{-1}1^1}{1!} - \frac{e^{-1}1^2}{2!} \\
+        &= 1 - e^{-1}\left(1+1+\frac12\right) \\
+        &= 1 - \frac{5e^{-1}}2 \approx .080
+        \end{align*}
+        \end{frame}
+
+    \begin{frame}{Approximating Binomial for Rare Events}
+            Binomial random variables with small $p$ and large $n$ can also be approximated with a Poisson random variable, $\mu = np$.
+            \pause
+            \begin{align*}
+                P(X=x) &= \frac{n!}{x!(n-x)!} p^x(1-p)^{n-x}\\
+                & = \frac{n(n-1)\cdots (n-x+1)}{x!} \bigg( \frac{\mu}{n} \bigg)^x\bigg( 1 - \frac{\mu}{n} \bigg)^{n-x}\\
+                & = \frac{1}{x!}\frac{n^x(1-\frac{1}{n})\cdots(1-\frac{x-1}{n})}{n^x} \mu^x \bigg( 1 - \frac{\mu}{n} \bigg)^{n-x}\\
+                & \to \frac{e^{-\mu}\mu^x}{x!}, \quad  (\text{as } n \to \infty)
+            \end{align*}
+            \pause Note: $n$ and $p$ do not appear as parameters of the exponential distribution, but can be related by $\mu$.
+    \end{frame}
+
+    \begin{frame}{Approximating Binomial for Rare Events}
+        Consider $E(X)$ and $V(X)$ of $X\sim bin(n,p)$ \\
+        as $np \to \mu$ while $n\to \infty$ and $p\to 0$.
+        $$E(X) = np \to \mu $$
+        $$V(X) = np(1-p) \to \mu $$
+        Parameters match in the limit.
+    \end{frame}
+
+    \begin{frame}{Example, Approximating Binomial for Rare Events}
+        The Prussian army studied the likelihood of a soldier being killed by a horse kick. Over \red{twenty} years, it was observed that 122 soldiers from \blue{10} corps were killed horse kick. The size of each corps is 10,000 soldiers. Approximate the probability that no Prussian soldiers from \grn{two corps} are killed by horse kick in one year.
+        \\ \nl{0.5}
+        \pause
+        Estimate $p$ from the historical data,
+        $$ p \approx \frac{122}{10000\cdot \red{20} \cdot \blue{10}}.$$
+        Compute $\mu$.
+        $$ \mu = \grn{n} p = \grn{2\cdot 10000} \frac{122}{10000 \cdot 20 \cdot 10} = \frac{244}{200} = 1.22$$
+        Estimate with $X$ with a $exp(1.22)$ random variable.
+        $$ P(X = 0) = \frac{e^{-1.22} 1.22^0}{0!} =e^{-1.22} \approx 0.29523016692 $$
+    \end{frame}
+
+    \begin{frame}{Poisson Distribution, Summary}
+        \begin{itemize}
+            \item $X\sim Pois(\mu)$ mean X is a poisson random variable with rate $\mu$ and its PMF is
+            $$P(X=x)=\frac{e^{-\mu}\mu^x}{x!}$$
+            \item $$E(X) = V(X) = \mu $$
+            \item When modeling number of events in an interval, $\mu = \lambda t$. $\lambda$ is the rate of occurance per unit time. Sometimes, $\mu$ is call the rate instead of $\lambda$. Questions in this class will always assume $\mu$ is the mean.
+            \item When approximating the number of rare events in a large population, $\mu = np$. 
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Midterm September 18, Information}
+        \begin{itemize}
+            \item There is a midterm on September 18th in class. Calculator and notes allowed.
+            \item Study the quizzes, summary slides, and homework. See the Canvas 'Files' tab for information.
+            \item Review on September 16th. Come with questions.
+            \item Reschedule by Wednesday, September 11, if needed. No makeup or late exams.
+            \item One question from this week's material.
+            \item No quiz or homework due on exam weeks. Material is shifted to the later week.
+        \end{itemize}
+    \end{frame}
+\end{document}

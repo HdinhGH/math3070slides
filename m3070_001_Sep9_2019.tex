@@ -1,0 +1,226 @@
+\documentclass[handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        September 9, 2019
+    \end{center}
+\end{frame}
+
+\begin{frame}{Lecture Outline, 9/9}
+    Section 3.3
+    \begin{itemize}
+        \item Independent Random Variables
+        \item Binomial Probability Distribution
+        \item Binomial Mean and Variance
+        \item Examples
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Independent Random Variables, Definition}
+    \begin{block}{}
+        Two discrete random variables $X$ and $Y$ are \textbf{independent} if for every pair of $x$ and $y$,
+        $$ P(X=x,Y=y) = P(X=x)P(Y=y). $$
+        Multiple discrete random variables $X_1, \ldots, X_n$ are \textbf{independent} if for all n-tuples $(x_1,\ldots,x_n)$,
+        $$ P(X_1=x,\ldots,X_n=x_n) = P(X_1=x_1)\cdots P(X_n=x_n). $$
+    \end{block}
+    Not the current topic, but needed to explain binomial random variables. Will not ask questions about the independence of random variables for now, only independence of events. Will go into more detail in later sections.
+\end{frame}
+
+\begin{frame}{Binomial Distributions, Definition}
+    \begin{block}{}
+    Let $Y_1, Y_2, \ldots, Y_n$ be independent Bernoulli random variables with parameter $p$. Then their sum
+    $$X=Y_1+Y_2+\cdots+Y_n$$
+    is a \textbf{binomial random variable} with parameters $n$ and $p$. We write $X\sim Bin(n,p)$
+    \end{block}
+    In other words, given a sequence of $n$ independent trials, each with probability $p$ of success,  the binomial random variable $X$ counts the number of successes. The possible values of $X$ are $0, 1, \ldots, n$.
+    \vspace{.2cm}
+    For example, if we toss a fair coin 3 times, then the number of heads $X$ is a binomial random variable with parameters $n=3$ and $p=.5$.
+    \end{frame}
+
+    \begin{frame}{Binomial Distributions, Derivation of PMF}
+        Goal: Derive the PMF of a $X\sim Bin(n,p)$.
+        \begin{enumerate}
+            \item X = $Y_1 + \cdots + Y_n$ with $Y_i \sim bern(p)$.
+            \item Notice that the probability of observing a \underline{specific} outcome with $x$ successes can be calculated using the independence of the $Y_i$,
+            \begin{align*}
+            & P(Y_1=1, \ldots, Y_x=1, Y_{x+1} =0, \ldots, Y_n =0) \\
+            &=  P(Y_1=1)\cdots P(Y_x=1) P(Y_{x+1}=0) \cdots P(Y_n=0)\\
+            &= p^x (1-p)^{n-x}\\
+            \end{align*}
+        \end{enumerate}
+    \end{frame}
+    \begin{frame}{Binomial Distributions, Derivation of PMF}
+        Goal: Derive the PMF of a $X\sim Bin(n,p)$.
+        \begin{enumerate}
+            \setcounter{enumi}{3}
+            \item The Binomial Random Variable only counts the number of success, it does not care about their order. From a set of $n$ Bernoulli trials, the number of outcomes with $x$ successes is $\binom{n}{x}$ or the number of ways to pick $x$ successes from $n$ trials in any order.
+            \item Each trail with $x$ successes is a distinct outcome. Each have the same probability. The event $X=x$ is the sum of the probabilities of the disjoint outcomes.
+            $$P(X=x) = \binom{n}{x} p^x (1-p)^{n-x}$$
+            \item Account for all values of $X$.
+            $$P(X=x) = 
+            \left\{\begin{array}{lr}
+                \binom{n}{x} p^x (1-p)^{n-x}, &  x = 1, \ldots, n\\
+                0, & \text{otherwise}\\
+                \end{array}\right.
+            $$
+        \end{enumerate}
+    \end{frame}
+    \begin{frame}{Binomial Distributions, Example}
+        Suppose that a person's month of birth equally likely out of the twelve and independent from other birth months of others. What is probability that a three people out of 10 share the birth month of December?\\
+        \pause \nl{0.5} 
+        Correspond $i=1,\ldots, 10$ with a distinct person.\\
+        Consider 
+        $$Y_i = 
+            \left\{\begin{array}{lr}
+                1, &  \text{if person } i \text{ was born in December}\\
+                0, & \text{otherwise}\\
+                \end{array}\right.
+            $$
+        For each $Y_i$, $Y_i \sim bern(1/12)$. Define $X = Y_1 + \ldots + Y_{10}$.\\ Note that $\blue{X \sim bin(10,1/12)}$.
+        \pause
+        \begin{align*}
+        & P(\text{" three out of the ten are born in December"}) \\
+        & = P(X = 3) = \pause \blue{\binom{10}{3} (1/12)^3 (11/12)^7} \approx 0.0377674429
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Binomial Distributions, Summary}
+        \begin{itemize}
+            \item If $Y_1, \ldots, Y_n$ are independent $bern(p)$ random variables and $X = Y_1 + \cdots + Y_n$, then $X \sim bin(m,p)$.
+            \item If $X \sim bin(m,p)$ then the PMF is
+            $$f(x) = 
+            \left\{\begin{array}{lr}
+                \binom{n}{x} p^x (1-p)^{n-x}, &  x = 1, \ldots, n\\
+                0, & \text{otherwise}\\
+                \end{array}\right.
+            $$
+            \item Appears when counting successes of independent Bernoulli trails.
+        \end{itemize}
+    \end{frame}
+    \begin{frame}{Binomial Mean and Variance, Mean Derivation}
+        Goal: Compute $E(X)$ where $X \sim bin(n,p)$.
+        \begin{enumerate}
+            \item $X = Y_1 + \cdots + Y_n$ where $Y_i \sim bern(p)$.
+            \item \begin{align*}
+                E(X) &= E(Y_1 + \cdots + Y_n) & \\
+                & = E(Y_1) + \cdots + E(Y_n) & (\text{use linearity of }E) \\
+                & = p + \cdots + p & \\ 
+                & = np & (E(Y_i) = p \text{ from last chapter})\\
+            \end{align*}
+            \item $E(X) = np$
+        \end{enumerate}
+        Note, we have not discussed linearity of expected value with multiple random variables, used in step 2. Will return to this later. Alternatively, you can directly apply the definition of $E(X)$.
+    \end{frame}
+    \begin{frame}{Binomial Mean and Variance, Variance}
+        We should discuss much more independent random variables before discussing this computation. Without more on independent RVs, this calculation is annoying, using the definition of $Var(X)$. Will address this calculation later in the course.
+        \\ \nl{0.5}
+        If $X \sim bin(n,p)$,
+        $$ Var(X) = np(1-p). $$
+        IOU proof.
+    \end{frame}
+    \begin{frame}{Binomial Mean and Variance, Example}
+        You divide your farm plots into groups of \blue{five}. Each group is independent and they all have the same probability of failing to yield. Your family knows that expected number of failed fields from any group is 0.4. What is the variance?
+        \pause \\ \nl{0.5}
+        $$X = \text{"number of failed fields in a group"}, \hskip 1em X\sim bin(\blue{5},p)$$
+        \pause $$0.4 = E(X) = \blue{n}p = \blue{5} p  \rightarrow p = 0.4/5 = 0.08$$
+        \pause $$Var(X) = np(1-p) = 5\cdot 0.08(1-0.08) = 0.368$$
+    \end{frame}
+    \begin{frame}{Binomial Mean and Variance, Summary}
+        \begin{itemize}
+        \item If $X \sim bin(n,p)$ then
+        $$ E(X) = np \text{ and } Var(X) = np(1-p).$$
+        \item Can translate statstical information into a model. Of course, we need to discuss estimation.
+        \item Missing proofs. Will return to them after discussing independence.
+        \end{itemize}
+    \end{frame}
+    \begin{frame}{Examples, Missing Information}
+        Return to the potato example, $X\sim bin(5,p)$. Assume $E(X)$ is not known and $Var(X)=1$. Solve for $E(X)$.
+        \\ \nl{0.5}
+        \pause $$ Var(X) = np(1-p) = 5p(1-p) = 1 \rightarrow p(1-p) = 1/5 $$
+        \pause $$ -p^2 + p - 1/5 = 0 \rightarrow p = \frac{1}{2} \pm \frac{1}{2\sqrt{5}} \approx 0.276,0.723$$
+        \pause Two solutions with different behaviors!
+    \end{frame}
+    \begin{frame}{Examples, Complement Example}
+        Suppose that \blue{one in twenty five Tweets contain false information}. For a survey, a researcher collects \red{1000 independent tweets}. What is the probability that 3 or more of them contain false information?
+        \\ \nl{0.5}
+        \pause $$\text{Tweets with false information out of } 1000 = X \sim bin(\red{1000}, \blue{1/25})$$
+        \pause $$ P(3 \text{or more with false information}) = P(X\geq 3) = \pause 1- P(X<3)$$
+        \begin{align*}
+            \pause P(X<3) &= P(X\leq 2) = P(X=0) + P(X=1) + P(X=2) \\
+            & = \pause \binom{\red{1000}}{0} \bigg(\blue{\frac{1}{25}}\bigg)^0\bigg( \frac{24}{25}\bigg)^{1000} + \binom{\red{1000}}{1} \blue{\frac{1}{25}}\bigg( \frac{24}{25}\bigg)^{999}\\
+            & + \binom{\red{1000}}{2} \bigg(\blue{\frac{1}{25}}\bigg)^{2} \bigg( \frac{24}{25}\bigg)^{998} 
+            \approx 1.697 \times 10^{-15}
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Examples, Complement Example}
+        Suppose that \blue{one in twenty five Tweets contain false information}. For a survey, a researcher collects \red{1000 independent tweets}. What is the probability that 3 or more of them contain false information?
+        \\ \nl{0.5}
+        \begin{align*}
+            P(X\geq 3) &= 1- P(X\leq 2) \\
+             & \approx 1-1.697 \times 10^{-15}\\
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Examples, Conditioning Example}
+        There is a 0.5\% chance that a machine breaks on any given day. When the machine breaks in runs 10 processes with a 95\% chance of failure. What is the probability that the machine breaks and completes exactly 1 process without failure?
+        \\ \nl{0.5}
+        \pause $$ \text{event } A = \text{"machine breaks"},  X = \text{"number of successful processes"}$$
+        \pause
+        $$X|A \sim bin(10, 1-0.95)$$
+        Note, this notation means $X$ conditioned on the right event.
+        \pause $$ P(X=1, A) = P(X=1|A)P(A)  = \binom{10}{1} 0.05^1 0.95^9 0.005 $$
+        $$ P(X=1, A) \approx 0.0015756235243115234375 $$
+        Note, "$X=1, A$" means both events occur, the intersection.
+    \end{frame}
+    \begin{frame}{Examples, Law of Total Prob. Example}
+        Suppose that with 25\% probability four fair coins are flipped otherwise twelve fair coins are fliped. What is probability that exactly two heads are observed?
+        \\ \nl{0.5}
+        \pause $$ \text{event A} = \text{"four coins flipped"},  \text{event B} = \text{"twelve coins flipped"}$$
+        $$X = \text{"number of heads"} $$
+        \pause $$X|A \sim bin(4,0.5), \hskip 1em X|B \sim bin(12,0.5)$$
+        Note, this notation means $X$ conditioned on the right event.
+    \end{frame}
+    \begin{frame}{Examples, Law of Total Prob. Example}
+        Suppose that with 25\% probability four fair coins are flipped otherwise twelve fair coins are fliped. What is probability that exactly two heads are observed?
+        \\ \nl{0.5}
+        \begin{align*}
+            P(X=2) & = P(X=2|A)P(A) + P(X=2|B)P(B) \\
+            & = \pause \bigg[ \binom{4}{2}0.5^2(0.5^2) \bigg]0.25 + \bigg[ \binom{12}{2}0.5^2(0.5^{10}) \bigg]0.75 \\
+            & \approx 0.1058349609375 \\
+        \end{align*}
+    \end{frame}
+    \begin{frame}{Midterm September 18, Information}
+        \begin{itemize}
+            \item There is a midterm on September 18th in class. Calculator and notes allowed.
+            \item Study the quizzes, summary slides, and homework. See the Canvas 'Files' tab for information.
+            \item Review on September 16th. Come with questions.
+            \item Reschedule by Wednesday, September 11, if needed. No makeup for late exams.
+        \end{itemize}
+    \end{frame}
+\end{document}
