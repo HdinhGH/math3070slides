@@ -1,4 +1,4 @@
-\documentclass[]{beamer}
+\documentclass[handout]{beamer}
 \usepackage{verbatim}
 \usepackage{xcolor}
 \usepackage{multirow}
@@ -69,21 +69,21 @@
         F(x) & =\int_{-\infty}^x f(t)\ dt=\int_0^x \lambda e^{-\lambda t}\ dt \\
              & = -e^{-\lambda t}\big\vert_{t=0}^x = 1-e^{-\lambda x}
     \end{align*}
-    $$Fx) = \begin{cases}\lambda 1-e^{-\lambda x} & \text{if }x\geq 0 \\ 0 & \text{if }x<0\end{cases}$$
+    $$F(x) = \begin{cases} 1-e^{-\lambda x} & \text{if }x\geq 0 \\ 0 & \text{if }x<0\end{cases}$$
 \end{frame}
 \begin{frame}{Exponential Waiting Times}
     Consider a Poisson Random Variable with rate $\lambda$.
     \begin{itemize}
         \item Let $Y_t$ be the number of events occurring in the interval $[0,t]$.
               \pause \item So $Y_t$ is a Poisson random variable with mean $\lambda t$.
-              \pause \item Let $X$ be the time of the first event.
+              \pause \item Let $T_1$ be the time of the first event. Find it's PDF.
     \end{itemize}
     \begin{align*}
-        P(X \leq t)   & = P(\text{first event occurs by time $t$})                                             \\
+        P(T_1 \leq t)   & = P(\text{first event occurs by time $t$})                                             \\
         \uncover<4->{ & = P(\text{at least one event occurs in the interval $[0,t]$})\\}
         \uncover<5->{ & = P(Y_t \geq 1) \\}
         \uncover<6->{ & = 1- P(Y_t = 0) \\}
-        \uncover<7->{ & = 1 - \frac{e^{-\lambda t}(-\lambda t)^0}{0!} \\}
+        \uncover<7->{ & = 1 - \frac{e^{-\lambda t}(\lambda t)^0}{0!} \\}
         \uncover<8->{ & = 1 - e^{-\lambda t}}
     \end{align*}
     \uncover<9->{This is the cdf of an exponential random variable of rate $\lambda$. Therefore, in a Poisson process, the waiting time for the first event is an exponential random variable with rate $\lambda$.}
@@ -108,7 +108,7 @@
         \uncover<6->{ & = 2\left[0-0-\frac1{\lambda^2}e^{-\lambda x}\big\vert_0^\infty\right] = \frac2{\lambda^2}}
     \end{align*}
     \uncover<7->{So $V(X)=E(X^2)-[E(X)]^2 = \frac2{\lambda^2} - \left(\frac1\lambda\right)^2=\frac1{\lambda^2}$.
-    In other words, the standard deviation is $\sigma=1/\lambda=\mu$.}
+    Moreover, the standard deviation is $\sigma=1/\lambda=\mu$.}
 \end{frame}
 \begin{frame}{Memoryless Property of Exponential}
     The exponential distribution is useful for modeling the lifetime of components where breakdowns are the result of sudden, random failures rather than gradual deterioration.
@@ -129,10 +129,10 @@
 \end{frame}
 \begin{frame}{Example}
     \begin{block}{}
-        Suppose that the lifetime $X$ of a lightbulb follows an exponential distribution with mean $\mu=100$ days. What is the probability that the lifetime is at least 50 days?
+        Suppose that lightbulbs failures over 200 days follow a Poisson Distribution and average 2 light bulbs. What is the probability that a lightbulb lifetime is at least 50 days?
     \end{block}
 
-    \pause \vspace{.2cm}Solution: The rate of failure is $\lambda = 1/\mu = 1/100$ per day. Therefore,
+    \pause \vspace{.2cm}Solution: The rate of failure is $\lambda = \mu/t =2/200 = 1/100$ per day. Therefore,
     \begin{align*}
         P(X \geq 50)  & = \int_{50}^{\infty} \lambda e^{-\lambda x}\ dx                    \\
         \uncover<3->{ & = -e^{-\lambda x}\big\vert_{50}^{\infty} \\}
@@ -160,14 +160,14 @@
 \end{frame}
 \begin{frame}{Summary}
     \begin{itemize}
-        \item $X\sim exp(\lambda)$ means $X$ follows an exponential distribution with parameter $\lambda$.
+        \item $X\sim exp(\lambda)$ means $X$ follows an exponential distribution with parameter $\lambda$. On a given interval, $\mu=\lambda t$. $\mu$ from Poisson.
         \item Poisson models number of events with rate $\lambda$. Exponential with the same $\lambda$ models wait times between them.
-        \item Memoryless property is a subtle modeling issue, but mathematical nice.
+        \item Memoryless property is a subtle modeling issue, but mathematical nice. $P(X>t+s|X>s) = P(X>t)$.
         \item PDF:
               $$f(x) = \begin{cases}\lambda e^{-\lambda x} & \text{if }x\geq 0 \\ 0 & \text{if }x<0\end{cases}$$
         \item CDF:
-              $$Fx) = \begin{cases}\lambda 1-e^{-\lambda x} & \text{if }x\geq 0 \\ 0 & \text{if }x<0\end{cases}$$
-        \item $$ E[X] = \frac{1}{\lambda} \hskip 2em Var(X) = \frac{1}{\lambda^2} $$
+              $$Fx) = \begin{cases} 1-e^{-\lambda x} & \text{if }x\geq 0 \\ 0 & \text{if }x<0\end{cases}$$
+        \item $$ E[X] = \frac{1}{\lambda} \hskip 2em Var(X) = \frac{1}{\lambda^2} \hskip 2em \sigma_X = \frac{1}{\lambda}$$
     \end{itemize}
 \end{frame}
 
@@ -190,7 +190,7 @@
     \begin{align*}
         P(Z^2<x) & = P(-\sqrt{x}<Z \sqrt{x})                                                             \\
                  & = \int_{-\sqrt{x}}^{\sqrt{x}} \frac{1}{\sqrt{2\pi}} \exp\bigg(\frac{-y^2}{2}\bigg) dy \\
-                 & = 2 \int_{-\infty}^{\sqrt{x}} \frac{1}{\sqrt{2\pi}} \exp\bigg(\frac{-y^2}{2}\bigg) dy
+                 & = 2 \int_{0}^{\sqrt{x}} \frac{1}{\sqrt{2\pi}} \exp\bigg(\frac{-y^2}{2}\bigg) dy
     \end{align*}
     \pause Last step uses symmetry of the distribution. Differentiate in $x$ to recover the PDF.
     \pause
