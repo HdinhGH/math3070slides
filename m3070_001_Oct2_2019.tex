@@ -1,0 +1,285 @@
+\documentclass[handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\begin{document}
+\begin{frame}
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        October 2, 2019
+    \end{center}
+\end{frame}
+\begin{frame}{Lecture Outline, 10/2}
+    Section 5.1
+    \begin{itemize}
+        \item Joint Probability Mass Functions
+        \item Marginal PMFs
+        \item Independence
+        \item Conditional PMFs
+    \end{itemize}
+\end{frame}
+\begin{frame}{Joint Probability Mass Function}
+    \begin{block}{}
+        Let $X$ and $Y$ be discrete random variables. Their \textbf{joint probability mass function} (joint pmf) is
+        $$f(x,y) = P(X=x \cap Y=y)$$
+        Need $f(x,y)\geq 0$ and $\sum_{x,y} f(x,y) = 1$
+    \end{block}
+
+    \pause Example: An insurance agency serves both an automobile policy and a homeowner’s policy. The possible amounts for a deductible are \$100 and \$250 for an automobile policy, and \$0, \$100, and \$200 for a homeowner's policy. If a customer is selected at random, and $X$ is their auto deductible and $Y$ the deductible on the homeowner’s policy, then the joint pmf of $X$ and $Y$ is:
+    \begin{center}
+        \begin{tabular}{l||l|l|l}
+            $f(x,y)$ & $y=0$ & $y=100$ & $y=200$ \\ \hline \hline
+            $x=100$  & .20   & .10     & .20     \\ \hline
+            $x=250$  & .05   & .15     & .30
+        \end{tabular}
+    \end{center}
+\end{frame}
+\begin{frame}{Example, Joint PMF}
+    \begin{block}{}
+        Suppose we roll two fair 6-sided dice, and let $X$ be the smaller of the two rolls, and let $Y$ be the larger. Find the joint probability mass function $f(x,y)$ of $X$ and $Y$.
+    \end{block}
+    \pause
+    \begin{center}
+        \begin{tabular}{l||l|l|l|l|l|l}
+            $f(x,y)$ & $y=1$ & $y=2$ & $y=3$ & $y=4$ & $y=5$ & $y=6$ \\ \hline\hline
+            $x=1$    & 1/36  & 2/36  & 2/36  & 2/36  & 2/36  & 2/36  \\ \hline
+            $x=2$    & 0     & 1/36  & 2/36  & 2/36  & 2/36  & 2/36  \\ \hline
+            $x=3$    & 0     & 0     & 1/36  & 2/36  & 2/36  & 2/36  \\ \hline
+            $x=4$    & 0     & 0     & 0     & 1/36  & 2/36  & 2/36  \\ \hline
+            $x=5$    & 0     & 0     & 0     & 0     & 1/36  & 2/36  \\ \hline
+            $x=6$    & 0     & 0     & 0     & 0     & 0     & 1/36
+        \end{tabular}
+    \end{center}
+
+    Note: $f(2,3)=2/36$, but $f(3,2)=0$.
+\end{frame}
+\begin{frame}{Marginal Probability Mass Function}
+    \begin{block}{}
+        Let $X$ and $Y$ be discrete random variables with joint probability mass function $f(x,y)$. The \textbf{marginal probability mass function} of $X$ is defined as
+        $$f_X(x) = \sum_y f(x,y)$$
+        where the sum is taken over all possible values of $Y$. Similarly, the marginal probability mass function of $Y$ is
+        $$f_Y(y) = \sum_x f(x,y)$$
+        where the sum is taken over all possible values of $X$.
+    \end{block}
+
+    Note: $f_X$ is simply the probability mass function of $X$ considered as a random variable on its own: $f_X(x) = P(X=x)$.
+\end{frame}
+
+\begin{frame}{Example, Marginal PMF}
+    Recall the joint pmf for the auto insurance deductible $X$ and homeowner's insurance deductible $Y$ from earlier:
+    \begin{center}
+        \begin{tabular}{l||l|l|l}
+            $f(x,y)$ & $y=0$ & $y=100$ & $y=200$ \\ \hline \hline
+            $x=100$  & .20   & .10     & .20     \\ \hline
+            $x=250$  & .05   & .15     & .30
+        \end{tabular}
+    \end{center}
+    \pause The marginal pmf for the auto insurance deductible $X$ is given by
+    \begin{align*}
+        f_X(100) & = .50 \\
+        f_X(250) & = .50
+    \end{align*}
+    \pause The marginal pmf for the homeowner's deductible $Y$ is given by
+    \begin{align*}
+        f_Y(0)   & = .25 \\
+        f_Y(100) & = .25 \\
+        f_Y(200) & = .50
+    \end{align*}
+\end{frame}
+\begin{frame}{Independence of Random Variables}
+    \begin{block}{}
+        Discrete random variables $X$ and $Y$ are \textbf{independent} if their joint probability mass function $f(x,y)$ is the product of the marginal probability mass functions $f_X(x)$ and $f_Y(y)$:
+        $$f(x,y) = f_X(x)f_Y(y)$$
+        Their events are also independent, $P(a<X<b \cap c<Y<d) = P(a<X<b)P(c<Y<d)$.
+    \end{block}
+
+    In the insurance example,
+    \begin{center}
+        \begin{tabular}{l||l|l|l}
+            $f(x,y)$ & $y=0$ & $y=100$ & $y=200$ \\ \hline \hline
+            $x=100$  & .20   & .10     & .20     \\ \hline
+            $x=250$  & .05   & .15     & .30
+        \end{tabular}
+    \end{center}
+    the random variables $X$ and $Y$ are dependent, because, e.g.,
+    $$f(100,0) = .20 \neq (.50)(.25) = f_X(100)f_Y(0)$$
+\end{frame}
+\begin{frame}{Example, Independence}
+    \begin{block}{}
+        If $X$ and $Y$ are independent geometric random variables with parameter $p$ and $q$ respectively, find the joint pmf of $X$ and $Y$.
+    \end{block}
+    \pause Solution: The marginal pmf of $X$ is
+    $$f_X(x) = p(1-p)^x$$
+    \pause while the marginal pmf of $Y$ is
+    $$f_Y(y) = q(1-q)^y$$
+    \pause Since $X$ and $Y$ are independent, their joint pmf is the product of their marginal pmfs:
+    $$f(x,y) = f_X(x)f_Y(y) = p(1-p)^xq(1-q)^y$$
+\end{frame}
+
+\begin{frame}{Conditional Probability Mass Function}
+    \begin{block}{}
+        Let $X$ and $Y$ be random variables with joint pmf $f(x,y)$. The \textbf{conditional probability mass function} of $Y$ given $X=x$ is
+        $$f_{Y\mid X}(y\mid x) = \frac{f(x,y)}{f_X(x)}$$
+    \end{block}
+    \pause The conditional pmf may be expressed in terms of conditional probabilities:
+    $$f_{Y\mid X}(y\mid x) = P(Y=y \mid X=x)$$
+    \pause If $X$ and $Y$ are independent, then the conditional pmf of $Y$ given $X$ is simply the marginal pmf of $Y$:
+    $$f_{Y\mid X}(y\mid x) = \frac{f(x,y)}{f_X(x)} = \frac{f_X(x)f_Y(y)}{f_X(x)} = f_Y(y)$$
+\end{frame}
+
+\begin{frame}{Example, Conditional PMF}
+    In the insurance example, the auto deductible $X$ and homeowner's deductible $Y$ had joint pmf given by
+
+    \begin{center}
+        \begin{tabular}{l||l|l|l}
+            $f(x,y)$ & $y=0$ & $y=100$ & $y=200$ \\ \hline \hline
+            $x=100$  & .20   & .10     & .20     \\ \hline
+            $x=250$  & .05   & .15     & .30
+        \end{tabular}
+    \end{center}
+
+    Find the conditional pmf of homeowner's deductible $Y$, given the auto deductible $X$ is \$100:
+
+    \vspace{.2cm}
+    \pause
+    Solution:
+    \begin{align*}
+        f_{Y\mid X}(0 \mid 100)   & = \frac{f(100,0)}{f_X(100)} = \frac{.20}{.50} = .40   \\
+        f_{Y\mid X}(100 \mid 100) & = \frac{f(100,100)}{f_X(100)} = \frac{.10}{.50} = .20 \\
+        f_{Y\mid X}(200 \mid 100) & = \frac{f(100,200)}{f_X(100)} = \frac{.20}{.50} = .40
+    \end{align*}
+\end{frame}
+
+\begin{frame}{PMF of Several Random Variables}
+    If $X_1, \dots, X_n$ are random variables, their joint pmf is defined as
+    $$f(x_1,\dots,x_n) =P(X_1=x_1, \dots, X_n=x_n)$$
+    \pause The marginal pmf of $X_1$ is defined as
+    $$f_{X_1}(x)= \sum_{x_2}\sum_{x_3}\cdots\sum_{x_n} P(X_1=x, X_2=x_2,\dots,X_n=x_n)$$
+    \pause The random variables $X_1,\dots,X_n$ are independent if
+    $$f(x_1,x_2,\dots,x_n) = f_{X_1}(x_1)f_{X_2}(x_2)\cdots f_{X_n}(x_n)$$
+    \pause Conditioning can be applied on any set of variables. Questions in this course will not cover conditioning with more than two variables.
+\end{frame}
+
+\begin{frame}{Joint PMF, Summary}
+    \begin{itemize}
+        \item Joint PMF: $f(x,y)=P(X=x \cap Y=y)$
+        \item Marginal PDF: $f_X(x) = \sum_{y} f(x,y)$. Is a univariate PMF.
+        \item If $X$ and $Y$ are independent, $f(x,y)=f_X(x)f_Y(y)$. \\
+        Their events are also independent $P(a<X<b \cap c<Y<d) = P(a<X<b)P(c<Y<d)$
+        \item Conditional PMF: 
+        $$f_{Y\mid X}(y\mid x) = \frac{f(x,y)}{f_X(x)}$$
+        Note: the conditioned varible $X$ is fixed, $X=x$. Think of this as a function of $y$.
+        \item Can define these with more variables than two.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Example, Independence?}
+    There are two cashiers. The number of customers that visit each is modeled by a Poisson distribution with a mean of 5. The probability that each cashier sees one customer in an hour less than 85\%. Is the number of customers at one cashier independent from the other?
+
+    \uncover<1->{$X$ = number customer at one cashier. $X\sim Poisson(5)$ \\ $Y$ = number of customers at the other. $Y\sim Poisson(5)$\\}
+    \uncover<2->{Assume independence $f(x,y) = f_X(x)f_Y(y)$ and see if there is a contradiction}
+    \begin{align*}
+        \uncover<3->{P(X>0\cap Y>0)} & \uncover<4->{= P(X>0)P(Y>0)}\\
+        & \uncover<5->{= (1-P(X=0))(1-P(Y=0))}\\
+        & \uncover<6->{= (1-5^0e^{-5}/0!)(1-5^0e^{-5}/0!)}\\
+        & \uncover<7->{= (1-e^{-5})^2 \approx 0.98656950593}\\
+    \end{align*}
+    \uncover<8->{No, independence assumption yields a probability that is too high. }
+\end{frame}
+
+\begin{frame}{Example, Reconstructing from Marginals (for fun)}
+    Suppose that $X$ and $Y$ are Bernoulli random variables with the following marginal distributions. Can one calculate the joint PMF?
+    $$
+        f_X(x) = \begin{cases} 
+            0.25 , & x=1 \\ 
+            0.75, & x=0
+        \end{cases}
+        \hskip 1em
+        f_Y(y) = \begin{cases} 
+            0.75 , & y=1 \\ 
+            0.25, & y=0
+        \end{cases}
+    $$
+    \pause \begin{center}
+        \begin{tabular}{l||l|l|l}
+            $f(x,y)$ & $y=0$ & $y=1$  & $\blue{f_X(x)}$\\ \hline \hline
+            $x=0$  & $a=P(X=0 \cap Y=0)$   & $b=P(X=0 \cap Y=1)$ & $\blue{0.75}$\\ \hline
+            $x=1$  & $c=P(X=1 \cap Y=0)$   & $d=P(X=1 \cap Y=1)$& $\blue{0.25}$\\ \hline
+            $\red{f_Y(y)}$ & $\red{0.25}$ & $\red{0.75}$ & \\
+        \end{tabular}
+    \end{center}
+    \pause \begin{align*}
+        a+b = 0.75 & & c+d=0.25\\
+        a+c = 0.25 & & b+d=0.75\\
+    \end{align*}
+\end{frame}
+\begin{frame}{Example, Reconstructing from Marginals (for fun)}
+    Suppose that $X$ and $Y$ are Bernoulli random variables with the following marginal distributions. Can one calculate the joint PMF?
+    $$
+        f_X(x) = \begin{cases} 
+            0.25 , & x=1 \\ 
+            0.75, & x=0
+        \end{cases}
+        \hskip 1em
+        f_Y(y) = \begin{cases} 
+            0.75 , & y=1 \\ 
+            0.25, & y=0
+        \end{cases}
+    $$
+    $$
+    M
+    \begin{bmatrix}
+        a \\
+        b \\
+        c \\
+        d \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 & 1 & 0 & 0 \\
+        1 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 1 \\
+        0 & 0 & 1 & 1 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        a \\
+        b \\
+        c \\
+        d \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0.75\\
+        0.25 \\
+        0.75 \\
+        0.25 \\
+    \end{bmatrix}
+    $$
+    \uncover<1->{$det(M)=0 \implies $ no unique solution. \\
+    The PMF cannot be determined.}
+\end{frame}
+\end{document}

@@ -1,0 +1,230 @@
+\documentclass[t]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        October 16, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 10/16}
+    Section 5.3
+    \begin{itemize}
+        \item Random Samples and Statistics
+        \item Sampling Distributions
+    \end{itemize}
+\end{frame}
+\begin{frame}{Random Samples}
+    \begin{block}{}
+        $X_1, X_2, \ldots, X_n$ are a called a \textbf{simple random sample} of size $n$ if
+        \begin{itemize}
+            \item[1] The $X_i$'s are independent.
+            \item[2] Every $X_i$ has the same probability distribution.
+    \end{itemize}
+    Note: These two assumptions are frequently referred to as \textbf{independently and identically distributed} (i.i.d.).
+    \end{block}
+    For example, measurements of parts from an assembly line or outcomes of sufficently randomized polls could be considered simple random sample. Framework is extermely flexible, can describe most settings, and be used to compute statistical errors.
+\end{frame}
+\begin{frame}{Statistics}
+    \begin{block}{}
+        A \textbf{statistic} is an quantity whose value can be calculated from a random sample.\\
+        \nl{0.5}
+        Note: Statistics are also random variables since $X_i$'s are random. Parameters are not.
+    \end{block}
+    \uncover<2->{Examples:
+    $$ \overline{X} = \frac{1}{n}\sum_{i=1}^n X_i  \hskip 2em S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \overline{X})^2$$}
+    \uncover<3->{Both $\overline{X}$ and $S^2$ functions of $X_i$ so they are random. But, they estimate $E[X_i]=\mu$ and $Var(X_i)=\sigma^2$ which are numbers and not random.}
+\end{frame}
+\begin{frame}{Why $n-1$?}
+    Check the expected value of $S^2$ assuming $\mu = E[X_i]$, $\sigma^2 = Var(X_i)$, and the $X_i$'s are i.i.d.
+    {\small
+    \begin{align*}
+        \uncover<2->{&E[\overline{X}] = E\bigg[ \frac{1}{n} \sum_{i=1}^n X_i\bigg] = \frac{1}{n}\sum_{i=1}^n E[X_i] = E[X_i] =\mu \\}
+        \uncover<3->{& \text{auxiliary identity}\\}
+        \uncover<4->{& \sum_{i=1}^n \bigg(X_i - \frac{1}{n} \sum_{j=1}^n X_j\bigg)^2 = \sum_{i=1}^n \bigg(X_i^2 - \frac{2}{n} X_i \sum_{j=1}^n X_j + \bigg( \frac{1}{n} \sum_{k=1}^n X_k \bigg)^2 \bigg)\\}
+        \uncover<5->{& = \bigg(\sum_{i=1}^n X_i^2\bigg) - \frac{2}{n} \bigg( \sum_{i=1}^n \sum_{j=1}^n X_i X_j\bigg) + \frac{1}{n^2}\sum_{i=1}^n \bigg( \sum_{j=1}^n  X_j\bigg)^2\\}
+        \uncover<6->{& = \bigg(\sum_{i=1}^n X_i^2\bigg)  - \frac{2}{n} \bigg( \sum_{j=1}^n  X_j\bigg)^2 + \frac{1}{n} \bigg( \sum_{j=1}^n  X_j\bigg)^2\\
+        &= \bigg(\sum_{i=1}^n X_i^2\bigg) - \frac{1}{n} \bigg( \sum_{j=1}^n  X_j\bigg)^2}
+    \end{align*}
+    }
+\end{frame}
+\begin{frame}{Why $n-1$?}
+    \begin{align*}
+        & \text{use } Var(Z) = E[Z^2] - E[Z]^2  \to E[Z^2] = Var(Z) + E[Z]^2\\
+        \uncover<2->{& E \bigg[ \sum_{i=1}^n \bigg(X_i - \frac{1}{n} \sum_{j=1}^n X_j\bigg)^2 \bigg] = E\bigg[\bigg(\sum_{i=1}^n X_i^2\bigg) - \frac{1}{n} \bigg( \sum_{j=1}^n  X_j\bigg)^2\bigg]\\
+        & = \sum_{i=1}^n E[X_i^2] - \frac{1}{n} E\bigg[ \bigg( \sum_{j=1}^n  X_j\bigg)^2 \bigg]\\}
+        \uncover<3->{& = \bigg[\sum_{i=1}^n (\sigma^2 + \mu^2)\bigg] - \frac{1}{n} \bigg[ Var \bigg( \sum_{j=1}^n  X_j\bigg) + \bigg(E\bigg[ \sum_{j=1}^n  X_j \bigg]\bigg)^2 \bigg]\\}
+        \uncover<4->{& = n (\sigma^2 + \mu^2) - \frac{1}{n} \bigg[ \sum_{j=1}^n Var ( X_j) + \bigg(\sum_{j=1}^n E[ X_j ]\bigg)^2 \bigg]\\
+        & = n (\sigma^2 + \mu^2)- \frac{1}{n} \bigg[ \sum_{j=1}^n \sigma^2 + \bigg(\sum_{j=1}^n \mu\bigg)^2 \bigg]\\}
+    \end{align*}
+\end{frame}
+\begin{frame}{Why $n-1$?}
+    \begin{align*}
+        & = n (\sigma^2 + \mu^2)- \frac{1}{n} [ n \sigma^2 + (n \mu)^2 ]\\
+        \uncover<2->{& = n\sigma^2 + n\mu^2 - \sigma^2 - n\mu^2 = (n-1) \sigma^2\\}
+        \uncover<3->{E[S^2] & = E\bigg[\frac{1}{n-1} \sum_{i=1}^n \bigg(X_i - \frac{1}{n} \sum_{j=1}^n X_j\bigg)^2 \bigg]\\
+        & = \frac{1}{n-1} E\bigg[ \sum_{i=1}^n \bigg(X_i - \frac{1}{n} \sum_{j=1}^n X_j\bigg)^2 \bigg]\\
+        & = \frac{n-1}{n-1} \sigma^2 = \sigma^2}
+    \end{align*}
+    \uncover<4->{As $n$ becomes very large, dividing by $n$ or $n-1$ is mostly irrelevant.}
+\end{frame}
+\begin{frame}[c]{Sampling Distributions}
+    Sampling distributions are the PMF/PDF of a statistic.
+\end{frame}
+\begin{frame}{Sampling Distributions, PMF Example}
+    Weights $X$ of randomly selected seeds follow PMF $f$. Compute the sampling distribution of the sample mean of two seeds weights.
+    $$
+    f(x)=
+    \begin{cases}
+        0.25, & x=1 \\
+        0.50, & x=2 \\
+        0.25, & x=3
+    \end{cases}
+    $$
+    \uncover<2->{$$ 
+    \overline{X} = \frac{X_1+X_2}{2} 
+    $$}
+    \begin{center}
+        \uncover<3->{\begin{tabular}{l|r|r|r|r|r}
+            $\overline{X}$ & $1$ & $1.5$ & $2$ & $2.5$ & $3$ \\
+            \hline
+            $f_X(x)$ & $0.0625$ & $0.25$ & $0.375$ & $0.25$ & $0.0625$\\
+        \end{tabular}}
+    \end{center}
+    \uncover<4->{\begin{align*}
+        P(\overline{X} = 1) &= P(X_1=1 \cap X_2 =1)\\ &= P(X_1=1) P( X_2 =1)= 0.25^2 = 0.0625\\
+        P(\overline{X} = 1.5) &= P(X_1=2 \cap X_2 =1) + P(X_1=1 \cap X_2 =2)\\ &= 0.5(0.25) +  0.25(0.5)= 0.25\\
+    \end{align*}}
+\end{frame}
+\begin{frame}{Sampling Distributions, PMF Example (Slick Approach)}
+    Consider $U_i$ to be indepdent random variables, $Bern(0.5)$.\\
+    \uncover<2->{Define $Y_i=U_{i,1} + U_{i,2}$. Notice that 
+    $$
+    f_Y(y)=
+    \begin{cases}
+        0.25, & y=0 \\
+        0.50, & y=1 \\
+        0.25, & y=2
+    \end{cases}
+    $$}
+    \uncover<3->{Since they have the same distribution, $X_i = Y_i+1$ can be used.
+\begin{align*} 
+    \overline{X} & = \frac{X_1 + X_2}{2} = \frac{Y_1 + 1 + Y_2 + 1}{2} = \frac{Y_1 + Y_2}{2} + 1\\
+    & = \frac{U_{1,1} + U_{1,2} + U_{2,1} + U_{2,2}}{2} + 1 = \frac{Z}{2} + 1 
+\end{align*}}
+\uncover<4->{\vskip -0.5em
+Since $Z$ is the sum of four independent bernoulli random variables, $Z$ is also a bionomial random variable with $n=4$ and $p=0.5$.}
+\end{frame}
+\begin{frame}{Sampling Distributions, PMF Example (Slick Approach)}
+    Transform the PMF of $\overline{X}$ into the PMF of $Z$.
+    \uncover<2->{$$ P(\overline{X} = t ) = P\bigg( \frac{Z}{2} + 1 = t\bigg) = P(Z = 2(t-1))$$}
+    \begin{center}
+        \uncover<3->{\begin{tabular}{l|r|r|r|r|r}
+            $\overline{X}=t$ & $1$ & $1.5$ & $2$ & $2.5$ & $3$ \\
+            \hline
+            $f_X(x)$ & $0.0625$ & $0.25$ & $0.375$ & $0.25$ & $0.0625$\\
+            \hline
+            $z=2(t-1)$ & $0$ & $1$ & $2$ & $3$ & $4$\\
+            \hline
+            $f_Z(z)$ & $0.0625$ & $0.25$ & $0.375$ & $0.25$ & $0.0625$\\
+        \end{tabular}}
+    \end{center}
+\end{frame}
+\begin{frame}{Sampling Distributions, Mean and Variance Example}
+    In the previous problem, determine the mean and variance of $\overline{X}$, and the mean of $\hat{S}^2=\dfrac{1}{n}\sum_{i=1}^n (X_i - \overline{X})^2$.
+    {\small
+    \uncover<2->{$$ \overline{X} = \frac{1}{n} \sum_{i=1}^n X_i \hskip 1.5em S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \overline{X})^2 $$}
+    \begin{align*}
+        \uncover<3->{E[X_i] & = E[ U_{i,1} + U_{i,1} + 1 ] = E[U_{i,1}] + E[U_{i,2}] + 1 \\
+        & = p + p + 1 = 2\\
+     Var(X_i) & = Var( U_{i,1} + U_{i,1} + 1 ] = Var(U_{i,1}) + Var(U_{i,2})\\ &= p(1-p) + p(1-p)  = 0.5\\}
+     \uncover<4->{E[\overline{X}] & = E\bigg[\frac{X_1 + X_2}{2}\bigg] = \frac{E[X_1] + E[X_2]}{2}\\}
+     \uncover<5->{& = E[X_i] = 2\\}
+     \uncover<6->{Var(\overline{X}) & = Var\bigg(\frac{X_1 + X_2}{2}\bigg) = \frac{Var(X_1) + Var(X_2)}{4} =} \uncover<7->{\frac{Var(X_i)}{2} = 0.25\\}
+    \end{align*}
+    }
+\end{frame}
+\begin{frame}{Sampling Distributions, Mean and Variance Example}
+    Note: $$ \hat{S}^2 = \frac{n-1}{n}S^2 $$
+    \begin{align*}
+        \uncover<2->{E[\hat{S}^2] & = E \bigg[ \frac{n-1}{n}S^2 \bigg] = \frac{n-1}{n} E[S^2] =} \uncover<3->{\frac{2-1}{2}0.5= 0.5}\\
+    \end{align*}
+    \uncover<4->{
+        Fun Fact:
+        $$ Var(S^2) = \frac{\mu_4}{n} - \frac{\sigma^2 (n-3)}{n(n-1)} $$
+        where
+        $$ \mu_4 = E[(X_i - \mu)^4] $$
+        \url{https://math.stackexchange.com/questions/2476527/variance-of-sample-variance}
+    }
+\end{frame}
+\begin{frame}{Sampling Distributions, Sum of Normals Example}
+    Suppose that the weight $X_i$ of pumpkins is normally distributed with a mean of $9$ pounds with a standard deviation of $4$ pounds. Determine the distribution of the sample average weight of n pumpkins.\\ \nl{0.5}
+    Recall, the sum of normal random variables is normally distributed. We only need to find the expected value and standard deviation to identify a normal distribution.
+    $$ \uncover<2->{ \overline{X} = \frac{1}{n} \sum_{i=1}^{n} X_i } \hskip 2em \uncover<7->{\overline{X} \sim N\bigg(9, \frac{4}{\sqrt{n}}\bigg)} $$
+    $$ \uncover<3->{E[\overline{X}] = \frac{1}{n} \sum_{i=1}^{n} E[X_i] =} \uncover<4->{\frac{1}{n} \sum_{i=1}^{n} 9 = 9} $$
+    $$ \uncover<5->{Var(\overline{X}) = \frac{1}{n^2} \sum_{i=1}^{n} Var(X_i) =} \uncover<6->{\frac{1}{n^2} \sum_{i=1}^{n} 4^2 = \frac{16}{n}} $$
+\end{frame}
+\begin{frame}{Sampling Distributions, Sum of Exponentials Example}
+    Suppose that $T_i$, wait tines between redlights, follow an exponential distribution with mean 2. Compute the PDF of the sample average of two wait times.
+    \uncover<2->{$$\overline{T} = \frac{T_1+T_2}{2}$$}
+    \uncover<3->{Find CDF and differentiate. Due to the memoryless property wait times are independent.}
+    \begin{align*}
+        \uncover<4->{P(\overline{T}<t) &= P(T_1 + T_2<2t) = P(T_1<2t - T_2)\\}
+        \uncover<5->{& = \int_{-\infty}^\infty \int_{-\infty}^{2t-y} f_{T_1}(x)f_{T_2}(y)dx dy\\
+        & = \int_{-\infty}^\infty f_{T_2}(y) \int_{-\infty}^{2t-y} f_{T_1}(x)dx dy\\}
+        \uncover<6->{& = \int_{-\infty}^\infty f_{T_2}(y) F_{T_1}(2t-y) dy\\}
+    \end{align*}
+\end{frame}
+\begin{frame}{Sampling Distributions, Sum of Exponentials Example}
+    \begin{align*}
+        \frac{d}{dt} P(\overline{T}<t) & = \frac{d}{dt} \int_{-\infty}^\infty f_{T_2}(y) F_{T_1}(2t-y) dy\\
+        \uncover<2->{& = \int_{-\infty}^\infty f_{T_2}(y) \frac{d}{dt} F_{T_1}(2t-y) dy\\}
+        \uncover<3->{& = \int_{-\infty}^\infty 2 f_{T_2}(y)  f_{T_1}(2t-y) dy \\}
+        \uncover<4->{&  \text{note: }y>2t \rightarrow f_{T_1}(2t-y) = 0\\
+        & = \int_{0}^{2t} 2 \frac{\exp(-y/2)}{2}  \frac{\exp(-t + y/2)}{2} dy\\}
+        \uncover<5->{& = \int_{0}^{2t} \frac{\exp(-t)}{2}   dy = \frac{t}{2} \exp(-t)\\}
+        \uncover<6->{\overline{T}& \sim Gamma(2,1)}
+    \end{align*}
+\end{frame}
+\begin{frame}[c]{Summary}
+    \begin{itemize}
+        \item Simple random sample or independent identically distributed assumption applies in many cases, but not all.
+        \item Sampling distribution can model the probablistic behavior of statistics, but are often hard to find.
+        \item Sum of Normal Random Variables is a Normal Random Variable. It's mean and standard deviation must be identified.
+        \item Assuming $X_i$'s are i.i.d.
+        $$ E[\overline{X}] = E[X_i]=\mu \hskip 1.5em Var(\overline{X}) = \frac{Var(X_i)}{n} =\frac{\sigma}{n}  $$
+        $$ E[S^2] = Var(X_i) =\sigma^2 $$
+    \end{itemize}
+\end{frame}
+\end{document}
