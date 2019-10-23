@@ -1,0 +1,129 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        October 23, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 10/23}
+    Section 6.2
+    \begin{itemize}
+        \item Maximum Likelihood Estimators
+    \end{itemize}
+\end{frame}
+\begin{frame}{Likelihood Functions}
+    \begin{block}{}
+        Given a random sample $X_1=x_1, \ldots, X_n=x_n$. \textbf{Likelihood function} $L$ is a function which varies with parameter(s) of interest $\lambda$.
+        $$ L(\lambda) = \prod_{i=1}^n f_{X_i}(x_i,\lambda) $$
+        Here $f_{X_i}(x_i,\lambda)$ is the density function of $X_i$ and $\lambda$ is a parameter. Note: this product formula assumes uses that the $X_i$ of the sample are independent.
+    \end{block}
+\end{frame}
+\begin{frame}{Maximum Likelihood Estimator (MLE)}
+    \begin{block}{}
+        The \textbf{Maximum Likelihood Estimator} (MLE) is the value of $\lambda$ which maximizes the Likelihood Function $L$.\\
+        \nl{0.5}
+        In practice, one often maximizes the \textbf{log likelihood function} $\ell$ instead since they are maximized at the same values.
+        $$ \ell(\lambda) = \log [L(\lambda)] = \sum_{i=1}^n \log[ f(x_i,\lambda) ] $$
+    \end{block}
+    Note: The log function preserves maximums of functions. The maximums of $f(x)$ and $\log f(x)$ occur at the same place.
+\end{frame}
+\begin{frame}{Log Tranforms and MLEs}
+    Note: The log function preserves maximums of postive functions. The maximums of $f(x)$ and $\log f(x)$ occur at the same place.\\
+    Proof:
+    { \small
+    \begin{align*}
+        \frac{d}{dx} \log[f(x)] & = \frac{f'(x)}{f(x)} \\
+        \frac{d^2}{dx^2} \log[f(x)] & = \frac{d}{dx} \frac{f'(x)}{f(x)} \\
+        & = \frac{f''(x)}{f(x)} - \frac{f'(x)}{f^2(x)} \\
+        & \text{Suppose } f(x) \text{ is maximized at } c\\
+        f'(c)= \frac{f'(c)}{f(c)} & = \frac{0}{f(c)} = 0\\
+        f''(c)= \frac{f''(c)}{f(c)} - \frac{f'(c)}{f^2(c)} & = \frac{f''(c)}{f(c)} - \frac{0}{f^2(c)} > 0\\
+    \end{align*}
+    }
+    Note: PDFs are nonnegative and their maxima should be positive.
+\end{frame}
+\begin{frame}{Maximum Likelihood Estimation}
+    \begin{block}{}
+    Suppose a Poisson process has unknown rate $\lambda$. We observe the process for 2 hours, and the number of events which occur is $X=40$. What value of $\lambda$ gives the largest probability $P(X=40)$?
+    \end{block}
+    \pause $X$ is a Poisson random variable with mean $2\lambda$, so
+    $$P(X=40) = \frac{e^{-2\lambda}(2\lambda)^{40}}{40!}$$
+    \pause The function $L(\lambda)=\frac{e^{-2\lambda}(2\lambda)^{40}}{40!}$ here is called the \emph{likelihood function}. \pause To maximize $L(\lambda)$, we take the derivative:
+    $$L'(\lambda) = 
+    \frac1{40!}(e^{-2\lambda}\cdot40(2\lambda)^{39}\cdot2-2e^{-2\lambda}(2\lambda)^{40})$$
+    \pause Setting this equal to zero gives $40-2\lambda=0$, so $\lambda=20$. This is called the \emph{maximum likelihood estimate} of $\lambda$.
+    \end{frame}
+    
+    \begin{frame}{Maximum Likelihood Estimation}
+    In the previous problem, the likelihood function was given by
+    $$L(\lambda)=\frac{e^{-2\lambda}(2\lambda)^{40}}{40!}$$
+    \pause The \emph{log-likelihood function} is
+    $$\ell(\lambda) = \ln(L(\lambda)) = -2\lambda+40\ln(2\lambda)-\ln(40!)$$
+    \pause The value of $\lambda$ which maximizes $\ell(\lambda)$ will also maximize $L(\lambda)$. The log-likelihood function is often easier to differentiate than the likelihood function. 
+    \pause In this case,
+    $$\ell'(\lambda) = -2+\frac{40}\lambda$$
+    \pause Setting this equal to zero gives $\lambda=20$ as before.
+\end{frame}
+\begin{frame}{Maximum Likelihood Estimation}
+    In general, given a random variable $X$ with pmf or pdf $f(x; \theta)$ depending on a parameter $\theta$, the \emph{maximum likelihood estimator} (mle) is the value $\hat\theta$ of $\theta$ that maximizes $f(X; \theta)$. 
+    
+    \vspace{.2cm}
+    \pause More generally, given a random sample $X_1,\dots,X_n$, the mle is the value $\hat\theta$ that maximizes the joint pmf or joint pdf of $X_1,\dots,X_n$: $f(X_1,\dots,X_n; \theta)=f(X_1;\theta)f(X_2;\theta)\cdots f(X_n;\theta)$.
+    
+    \pause \vspace{.2cm}Under fairly general conditions, the maximum likelihood estimator $\hat\theta$ satisfies some desirable statistical properties:
+    \begin{itemize}
+    \pause \item $\hat\theta$ exists and is unique.
+    \pause \item $\hat\theta$ is \textit{asymptotically unbiased}: for large sample sizes, it is practically an unbiased estimator. 
+    \pause \item $\hat\theta$ is \textit{asymptotically efficient}: for large sample sizes, it approximately achieves the smallest possible variance for an unbiased estimator.
+    \pause \item $\hat\theta$ is \textit{asymptotically normal}: for large sample sizes, it has approximately a normal distribution.
+    \end{itemize}
+    \end{frame}
+    \begin{frame}{Invariance Principle for MLE}
+        \begin{block}{}
+        Let $h(\theta)$ be a function of $\theta$. If $\hat\theta$ is the mle for $\theta$, then $h(\hat\theta)$ is the mle for $h(\theta)$.
+        \end{block}
+        \pause Example: Given a random sample $X_1,\dots,X_n$ from an exponential distribution with rate $\lambda$, we found that the mle for $\lambda$ was $$\hat\lambda = \frac{n}{\sum_{i=1}^n X_i}$$
+        Therefore, the mle for $\mu=1/\lambda$ is $$\hat\mu = 1/\hat\lambda = \frac{\sum_{i=1}^n X_i}n = \overline{X}$$
+        Thus, the mle for $\mu$ is simply the sample mean. It can be shown that this in fact is the minimum variance unbiased estimator for $\mu$.
+
+        \end{frame}
+        \begin{frame}{Invariance Principle for MLE}
+            
+            \pause Example: Given an observation of an exponential random variable $X$ with unknown rate $\lambda$, we found that the mle for $\lambda$ was $$\hat\lambda = \frac1X$$
+            Therefore, the mle for $\mu=1/\lambda$ is $$\hat\mu = 1/\hat\lambda = \frac1{1/X}=X$$
+            Thus, the mle for $\mu$ is simply the observed value $X$. It can be shown that this in fact is the minimum variance unbiased estimator for $\mu$.
+            \end{frame}
+\end{document}

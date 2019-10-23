@@ -1,5 +1,5 @@
-%\documentclass[handout]{beamer}
-\documentclass{beamer}
+\documentclass[handout]{beamer}
+%\documentclass{beamer}
 %\documentclass{article}
 \usepackage{animate}
 \usepackage{amsmath}
@@ -200,39 +200,39 @@ E(S^2) &= E\left[\frac1{n-1}\left(\sum_{i=1}^n X_i^2 - n\overline{X}^2\right)\ri
 \end{align*}
 \end{frame}
 
-%\begin{frame}{Minimum of Exponential Random Variables}
-%\begin{block}{}
-%Suppose $X_1,\dots,X_n$ are iid exponential random variables with mean $\mu$. Find an unbiased estimator for $\mu$ based on $\min\{X_1,\dots,X_n\}$.
-%\end{block}
-%\pause Solution: First we need to identify the distribution of $T=\min\{X_1,\dots,X_n\}$. \pause Letting $\lambda=\frac1\mu$, the cdf of $T$ is
-%\begin{align*}
-%F(t) &= P(T\leq t) = 1- P(T>t) \\
-%\uncover<4->{&= 1-P(\min\{X_1,\dots,X_n\}>t) \\}
-%\uncover<5->{&= 1-P(X_1>t, X_2>t,\dots, X_n>t)\\}
-%%&= 1- P(X_1>t)P(X_2>t)\cdots P(X_n>t) \\
-%\uncover<6->{&= 1 - (e^{-\lambda t})^n = 1-e^{-n\lambda t}}
-%\end{align*}
-%\uncover<7->{This is the cdf of an exponential random variable with rate $n\lambda$. }
-%\uncover<8->{Now
-%$$E(T) = \frac1{n\lambda} = \frac\mu n$$}
-%\uncover<9->{So $\hat\mu=nT=n\min\{X_1,\dots,X_n\}$ is an unbiased estimator of $\mu$.}
-%\end{frame}
-%
-%\begin{frame}{Minimum of Exponential Random Variables}
-%Given a random sample $X_1,\dots,X_n$ from an exponential distribution with mean $\mu$, we found an unbiased estimator for $\mu$: 
-%$$\hat\mu = nT = n\min\{X_1,\dots,X_n\}$$
-%\pause \vspace{-.6cm}\begin{block}{}What is the variance of this estimator?
-%\end{block}
-%
-%\vspace{.1cm}
-%\pause Recalling that $T$ is exponential with rate $n\lambda$, we calculate
-%\begin{align*}
-%V(nT) = n^2V(T) = n^2\cdot \frac1{(n\lambda)^2} = \frac1{\lambda^2} = \mu^2
-%\end{align*}
-%\pause We note that as the sample size $n$ increases, the variance does not decrease but remains a constant $\mu^2$. This suggests that $\hat\mu$ is a poor estimator of $\mu$. \pause Compare this to the sample mean:
-%
-%$$V(\overline{X}) = \frac{V(X_1)}n=\frac{1/\lambda^2}n=\frac{\mu^2}n$$
-%\end{frame}
+% \begin{frame}{Minimum of Exponential Random Variables}
+% \begin{block}{}
+% Suppose $X_1,\dots,X_n$ are iid exponential random variables with mean $\mu$. Find an unbiased estimator for $\mu$ based on $\min\{X_1,\dots,X_n\}$.
+% \end{block}
+% \pause Solution: First we need to identify the distribution of $T=\min\{X_1,\dots,X_n\}$. \pause Letting $\lambda=\frac1\mu$, the cdf of $T$ is
+% \begin{align*}
+% F(t) &= P(T\leq t) = 1- P(T>t) \\
+% \uncover<4->{&= 1-P(\min\{X_1,\dots,X_n\}>t) \\}
+% \uncover<5->{&= 1-P(X_1>t, X_2>t,\dots, X_n>t)\\}
+% %&= 1- P(X_1>t)P(X_2>t)\cdots P(X_n>t) \\
+% \uncover<6->{&= 1 - (e^{-\lambda t})^n = 1-e^{-n\lambda t}}
+% \end{align*}
+% \uncover<7->{This is the cdf of an exponential random variable with rate $n\lambda$. }
+% \uncover<8->{Now
+% $$E(T) = \frac1{n\lambda} = \frac\mu n$$}
+% \uncover<9->{So $\hat\mu=nT=n\min\{X_1,\dots,X_n\}$ is an unbiased estimator of $\mu$.}
+% \end{frame}
+
+% \begin{frame}{Minimum of Exponential Random Variables}
+% Given a random sample $X_1,\dots,X_n$ from an exponential distribution with mean $\mu$, we found an unbiased estimator for $\mu$: 
+% $$\hat\mu = nT = n\min\{X_1,\dots,X_n\}$$
+% \pause \vspace{-.6cm}\begin{block}{}What is the variance of this estimator?
+% \end{block}
+
+% \vspace{.1cm}
+% \pause Recalling that $T$ is exponential with rate $n\lambda$, we calculate
+% \begin{align*}
+% V(nT) = n^2V(T) = n^2\cdot \frac1{(n\lambda)^2} = \frac1{\lambda^2} = \mu^2
+% \end{align*}
+% \pause We note that as the sample size $n$ increases, the variance does not decrease but remains a constant $\mu^2$. This suggests that $\hat\mu$ is a poor estimator of $\mu$. \pause Compare this to the sample mean:
+
+% $$V(\overline{X}) = \frac{V(X_1)}n=\frac{1/\lambda^2}n=\frac{\mu^2}n$$
+% \end{frame}
 %
 %\begin{frame}{Censored Sampling}
 %\begin{block}{}
@@ -318,15 +318,15 @@ $$\ell'(\lambda) = -2+\frac{40}\lambda$$
 %The derivative is $l'(\lambda)=-2+\frac{40}\lambda$. Setting this equal to 0 and solving for $\lambda$ gives $\lambda=20$. This is the \emph{maximum likelihood estimate} of $\lambda$.
 %\end{frame}
 %%
-%%\begin{frame}
-%%The log-likelihood function was found to be
-%%$$l(\lambda)=\ln(L(\lambda)) = -2\lambda+40\ln(2\lambda)-\ln(40!)$$
-%%The maximum of log-likelihood function may be found by setting the derivative equal to zero:
-%%\begin{align*}
-%%l'(\lambda) = -2+\frac{40}{2\lambda}\cdot 2 = -2+\frac{40}{\lambda} = 0
-%%\end{align*}
-%%Solving for $\lambda$ gives $\lambda=20$. This is the \emph{maximum likelihood estimate} for $\lambda$.
-%%\end{frame}
+\begin{frame}
+The log-likelihood function was found to be
+$$l(\lambda)=\ln(L(\lambda)) = -2\lambda+40\ln(2\lambda)-\ln(40!)$$
+The maximum of log-likelihood function may be found by setting the derivative equal to zero:
+\begin{align*}
+l'(\lambda) = -2+\frac{40}{2\lambda}\cdot 2 = -2+\frac{40}{\lambda} = 0
+\end{align*}
+Solving for $\lambda$ gives $\lambda=20$. This is the \emph{maximum likelihood estimate} for $\lambda$.
+\end{frame}
 %%
 \begin{frame}{Maximum Likelihood Estimation}
 In general, given a random variable $X$ with pmf or pdf $f(x; \theta)$ depending on a parameter $\theta$, the \emph{maximum likelihood estimator} (mle) is the value $\hat\theta$ of $\theta$ that maximizes $f(X; \theta)$. 
@@ -343,19 +343,19 @@ In general, given a random variable $X$ with pmf or pdf $f(x; \theta)$ depending
 \end{itemize}
 \end{frame}
 
-%\begin{frame}{Example}
-%\begin{block}{}
-%Given a random sample $X_1,\dots,X_n$ from an exponential distribution with rate $\lambda$, find the mle for $\lambda$.
-%\end{block}
-%\pause
-%The pdf of each $X_i$ is $f(x;\lambda)=\lambda e^{-\lambda x}$. 
-%\pause Since $X_1,\dots,X_n$ are independent, the likelihood function is
-%$$L(\lambda)=f(x_1,\dots,x_n;\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda\sum_{i=1}^n x_i}$$
-%\pause The log-likelihood is therefore
-%$$\ell(\lambda) = n\ln\lambda-\lambda\sum_{i=1}^n x_i$$
-%\pause Setting the derivative equal to zero gives $\frac n\lambda-\sum_{i=1}^n x_i=0$. \pause Solving for $\lambda$, we find the mle: $$\hat\lambda = \frac n{\sum_{i=1}^n X_i} 
-%\uncover<7->{= 1/\overline{X}}$$
-%\end{frame}
+\begin{frame}{Example}
+\begin{block}{}
+Given a random sample $X_1,\dots,X_n$ from an exponential distribution with rate $\lambda$, find the mle for $\lambda$.
+\end{block}
+\pause
+The pdf of each $X_i$ is $f(x;\lambda)=\lambda e^{-\lambda x}$. 
+\pause Since $X_1,\dots,X_n$ are independent, the likelihood function is
+$$L(\lambda)=f(x_1,\dots,x_n;\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda\sum_{i=1}^n x_i}$$
+\pause The log-likelihood is therefore
+$$\ell(\lambda) = n\ln\lambda-\lambda\sum_{i=1}^n x_i$$
+\pause Setting the derivative equal to zero gives $\frac n\lambda-\sum_{i=1}^n x_i=0$. \pause Solving for $\lambda$, we find the mle: $$\hat\lambda = \frac n{\sum_{i=1}^n X_i} 
+\uncover<7->{= 1/\overline{X}}$$
+\end{frame}
 
 \begin{frame}{Example}
 \begin{block}{}

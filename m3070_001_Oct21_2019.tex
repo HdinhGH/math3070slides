@@ -1,0 +1,183 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        October 21, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 10/21}
+    Section 5.3
+    \begin{itemize}
+        \item Central Limit Theorem
+        \item Exercises
+    \end{itemize}
+\end{frame}
+\begin{frame}{Central Limit Theorem}
+    A result of probability theory guarantees that in general, if $n$ is large ($n>30$) , then the sample mean $\overline{X}$ is approximately normal: 
+    \begin{block}{}
+    Let $X_1,X_2,\dots$ be independent, identically distributed (iid) random variables with mean $\mu$ and standard deviation $\sigma$, then
+    $$\lim_{n\to\infty} P\left(a \leq \frac{\overline{X}-\mu}{\sigma/\sqrt{n}} \leq b\right) = P(a \leq Z\leq b)=\Phi(b)-\Phi(a)$$
+    where $Z$ is a standard normal random variable.\\
+    Can also be used to approximate probability of events involving sums of many i.i.d. random variables.
+    \end{block}
+    A simple proof is beyond the scope of this course. Need to discuss moment generating functions.\\
+    \nl{0.5}
+    $n>40$ and $n>50$ are sometimes used instead. This is an empirical rule.
+\end{frame}
+\begin{frame}[c]{Central Limit Theorem, Suggested Algorithm}
+    \begin{itemize}
+        \item[1] Check sample size.
+        \item[2]  Find $\mu$ and $\sigma$.
+        \item[3]  Write down the event of interest.
+        \item[4]  Construct $(\overline{X}-\mu)/(\sigma/\sqrt{n})$.
+        \item[5] Approximate using CLT.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Example, Normal Approximation to Binomial}
+    \begin{block}{}
+    Bob is a candidate for political office in a large city and must take more than half the votes in order to win the election. Suppose a poll finds that 170 of 300 randomly sampled voters favor Bob. Approximate the probability that the poll would find so many voters favoring Bob if the true proportion were only .5.
+    \end{block}
+    
+    \uncover<2->{The number $X$ of sampled voters favoring Bob is a hypergeometric random variable; but since the population is large, we may approximate $X$ as binomial, $Bin(300,.5)$.}
+    
+    \vspace{.1cm}
+    \uncover<3->{The Central Limit Theorem implies that $X$, a sum of i.i.d. Bernoulli random variables, is approximately normal, with mean $\mu = np=150$ and standard deviation $\sigma=\sqrt{np(1-p)}=\sqrt{75}\approx 8.66$.} \uncover<5->{$Z\sim N(0,1)$}
+    {\small
+    \begin{align*}
+    \uncover<4->{P(X \geq 170) &\approx P(8.66Z+150 \geq 170)} \\
+    \uncover<5->{&\approx P(Z \geq 2.31) \\}
+    \uncover<6->{&= P(Z\leq -2.31)} 
+    \uncover<7->{ = \Phi(-2.31) }
+    \uncover<8->{\approx .0104}
+    \end{align*}
+    }
+\end{frame}
+    
+\begin{frame}{Example, Normal Approximation to Poisson}
+    \begin{block}{}
+    A Geiger counter placed next to a certain radioactive specimen clicks an average of 90 times per minute. Over a 10 minute period, approximate the probability that it would click 800 times or less.
+    \end{block}
+    \uncover<2->{The number of clicks $X$ in a 10 minute period has a Poisson distribution with mean $\mu=900$. The variance of $X$ is $V(X)=\mu=900$, so the standard deviation is $\sigma=\sqrt{900}=30$.}
+    
+    \vspace{.2cm}
+    \uncover<3->{Since $\mu$ is large, the distribution of $X$ is approximately normal. So we can approximate $X$ as $30Z+900$ where $Z$ is a standard normal random variable.}
+    \begin{align*}
+    P(X \leq 800) &\approx P(30Z+900 \leq 800) \\
+    \uncover<4->{&\approx P(Z \leq -3.33)}
+    \uncover<5->{ = \Phi(-3.33) }
+    \uncover<6->{\approx .0004 }
+    \end{align*}
+    We can also think of $X$ as a sum of 600 poisson random variables, sum of clicks in second. These have a mean of 9/6 ticks per minute. CLT gives the same result.
+\end{frame}
+
+\begin{frame}{CLT Example 1}
+    \begin{block}{}
+    On any workday, the number of minutes $T_i$ that a diligent employee arrives early to work is distributed as an exponential random variable with an expected value of $6$ minutes. Assuming there are 250 work days in a year, approximate the probability that employee spends an extra full day at work.
+    \end{block}
+    \vskip -1em
+    \uncover<2->{$$T_i\sim exp(1/6) \hskip 1.5em \mu= E[T_i] = 6, \hskip 0.5em \sigma^2 = Var(T_i)=36$$}
+    \uncover<3->{Since $n=250$ is large, the Central Limit Theorem applies,
+    $$ \overline{T} \sim N(6, 36/250)$$
+    Note: this notation uses variance as the second parameter.}\\
+    \uncover<4->{$$\text{extra time} = \sum_{i=1}^{250} T_i = 250 \overline{T}$$}
+\end{frame}
+\begin{frame}{CLT Example 1}
+    \begin{align*}
+        \uncover<2->{P(250\overline{T} > 24*60) & = P(250\overline{T} > 1440) = P\bigg( \overline{T}>\frac{1440}{250} \bigg)\\}
+        \uncover<3->{& = P\bigg( \frac{\overline{T}-6}{6/\sqrt{250}} > \frac{\frac{1440}{250}-6}{6/\sqrt{250}} \bigg)\\}
+        \uncover<4->{& \approx P(Z>-0.632455532)\\
+        & =P(Z\leq 0.632455532) \approx 0.7365}
+    \end{align*}
+    \uncover<4->{$Z\sim N(0,1)$. Recall that the first $\approx$ is needed since the Central Limit Theorem is true when $n\to \infty$, but $n=250$.\\}
+    \nl{0.5}
+    \uncover<5->{Tip: Only used the exponential distribution to extract a mean and variance. Same idea might apply to other distributions in CLT problems. A large sample size ($n>30$) is the indication that CLT may be used.}
+\end{frame}
+\begin{frame}{CLT example 2}
+    \begin{block}{}
+            Suppose that one in a thousand have a rare illness. Estimate the probability that proportion of a simple random sample of 1000 is at least twice the population proprtion.
+    \end{block}
+    \uncover<1->{Consider bernoulli random variables $X_i$ that are one when a person has the illness. In the simple random sample, $X_i \sim Bern(0.001)$.}
+    \uncover<2->{$$ E[X_i] = 0.001 \hskip 1em Var(X_i) = (0.001)(1-0.001)=0.000999 $$}
+    \begin{align*}
+        \uncover<3->{P(\overline{X}>0.002) & = P\bigg(\frac{\overline{X} - 0.001}{\sqrt{0.000999}\sqrt{1000}} > \frac{0.002 - 0.001}{\sqrt{0.000999}\sqrt{1000}}\bigg) \\}
+        \uncover<4->{& \approx P(Z>1.00050038)\\
+        & \approx 0.1587\\}
+    \end{align*}
+\end{frame}
+\begin{frame}{CLT example 3}
+\begin{block}{}
+    From past experience, it is known that the number of tickets purchased by a student standing in line at the ticket window for the football match of UU against BYU is at least one plus a number which follows a Poisson distribution with a mean equal to 0.2. Suppose that few hours before the start of one of these matches there are 100 eager students standing in line to purchase tickets. If only 121 tickets remain, what is the probability that all 100 students will be able to purchase the tickets they desire?
+\end{block}
+\uncover<2->{$$\text{tickets purchased by student } i = X_i + 1$$
+where $X_i \sim Poi(1)$.}
+\uncover<3->{$$ E[X_i + 1] = E[X_i ]+ 1 = 0.2 + 1 = 1.2$$}
+\uncover<4->{$$ Var(X_i + 1) = Var(X_i) =0.2 $$}
+\end{frame}
+\begin{frame}{CLT Example 3}
+    \begin{align*}
+        \uncover<2->{P\bigg(\sum_{i=1}^{100} X_i \leq 150 \bigg) & =} \uncover<3->{P\bigg(\frac{\sum_{i=1}^{100} X_i}{100} < 1.21 \bigg) \\
+        & = P(\overline{X} < 1.21 ) \\}
+       \uncover<4->{& = P\bigg( \frac{\overline{X} - 1.2}{0.2/\sqrt{100}}< \frac{1.21 - 1.2}{0.2/\sqrt{100}}\bigg)\\}
+        \uncover<5->{& \approx P( Z< 0.223606798) \approx 0.5885\\}
+    \end{align*}
+    \uncover<5->{$Z\sim N(0,1)$}
+\end{frame}
+\begin{frame}{CLT Example 4}
+    \begin{block}{}
+        The duration of your daily commute to work $W_i$ averages 25 minutes and the duration of the commute home $H_i$ averages 35 minutes. You want to find a reasonable commute time to report on expense reports. Assuming that the commute times are exponential distributed and a 250 work days per year, estimate the value which at which your yearly commute times has a 75\% of being below.
+    \end{block}
+    $$\text{Total commute time in a year } = T = \sum_{i=1}^{250}  [H_i + W_i]$$
+    $$ E[H_i + W_i] = E[H_i] + E[W_i] = 25 + 35 = 60$$
+    $$ Var(H_i + W_i ) = 25^5 + 35^2 = 1850$$
+    Want to find $c$ so that 
+     $$ P(T<c) = 0.75 $$
+\end{frame}
+\begin{frame}{CLT Example 4}
+    \begin{align*}
+        P(T<c) & = P \bigg( \overline{T} < \frac{c}{250} \bigg) \\
+            & = P \bigg( \frac{\overline{T} - 60}{\sqrt{1850}/\sqrt{250}} < \frac{\frac{c}{250}-60}{\sqrt{1850}/\sqrt{250}} \bigg) \\
+            & \approx P \bigg( Z < \frac{\frac{c}{250}-60}{\sqrt{1850}/\sqrt{250}} \bigg) \\
+    \end{align*}
+    \vskip -2.5 em
+    $$\overline{T} = T/250, Z\sim N(0,1)$$
+    We see that $\Phi^{-1}(0.75) \approx 0.6745$ or $P(Z< 0.6745)\approx 0.75$ and use as to approximate $c$.
+    \begin{align*}
+        \frac{\frac{c}{250}-60}{\sqrt{1850}/\sqrt{250}} & \approx 0.6745\\
+        \Rightarrow c & \approx 250(0.6745 \sqrt{1850}/\sqrt{250} + 60) \\
+        &  \approx 15480 \text{ minutes or } 258 \text{ hours}
+    \end{align*}
+\end{frame}
+\end{document}

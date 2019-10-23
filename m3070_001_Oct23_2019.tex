@@ -1,0 +1,253 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        October 23, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 10/23}
+    Section 6.1
+    \begin{itemize}
+        \item Estimators
+    \end{itemize}
+\end{frame}
+\begin{frame}{Parameters and Estimators}
+    A \textbf{parameter} is a constant describing a distribution:
+    \begin{itemize}
+    \item In a normal distribution, the mean $\mu$ and variance $\sigma^2$ are parameters.
+    \pause\item In an exponential distribution, the rate $\lambda$ is a parameter.
+    \pause\item We will often use the symbol $\theta$ to represent a parameter generically.
+    \end{itemize}
+    
+    \pause An \textbf{estimator} is a random variable which is used to estimate a parameter.
+    \begin{itemize}
+    \pause\item Given a random sample $X_1,\dots,X_n$, the sample mean $\overline{X} = \frac1n(X_1+\cdots+X_n)$ is an estimator for the mean $\mu$.
+    \pause\item The sample variance $S^2 = \frac1{n-1}\sum_{i=1}^n (X_i-\overline{X})^2$ is an estimator for the variance $\sigma^2$.
+    \pause\item We will often use the symbol $\hat\theta$ to represent an estimator generically.
+    \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Unbiased Estimators}
+        \begin{block}{}
+        An estimator $\hat\theta$ is an \textbf{unbiased} estimator for $\theta$ if $E(\hat\theta) = \theta$.
+        \end{block}
+        \pause\begin{itemize}
+        \item If $X$ is a binomial random variable, then the \emph{sample proportion} $\hat p=\frac X n$ is an unbiased estimator of $p$:
+        \pause $$E(\hat p) = E\left(\frac X n\right) 
+        \uncover<4->{= \frac1nE(X) }
+        \uncover<5->{= \frac1n\cdot np }
+        \uncover<6->{= p}$$
+        \item \uncover<7->{ If $X_1,\dots,X_n$ is a random sample from a distribution with mean $\mu$, the sample mean $\overline{X}$ is an unbiased estimator for $\mu$:}
+        \pause \begin{align*}
+        \uncover<8->{E(\overline{X}) &= E\left(\frac1n\sum_{i=1}^n X_i\right)}
+        \uncover<9->{= \frac1n E\left(\sum_{i=1}^n X_i\right) \\}
+        \uncover<10->{&= \frac1n \sum_{i=1}^n E(X_i) }
+        \uncover<11->{= \frac1n \sum_{i=1}^n \mu }
+        \uncover<12->{= \frac1n \cdot n\mu}
+        \uncover<13->{= \mu}
+        \end{align*}
+        \end{itemize}
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        Given a random sample $X_1,\dots,X_n$ from a uniform distribution on $[0,\theta]$, how do we estimate $\theta$?
+        
+        \begin{itemize}
+        \pause\item The mean $\mu$ is the midpoint of the interval, $\mu=\theta/2$. Therefore, $\theta=2\mu$. Since we can estimate $\mu$ with $\overline{X}$, we can estimate $\theta$ with $\hat\theta = 2\overline{X}$.
+        \pause\item Each of the observations $X_1,\dots,X_n$ will be less than $\theta$, and if $n$ is large we expect one of them to be close to $\theta$. So we may estimate $\theta$ using the maximum: $\hat\theta = \max\{X_1,\dots,X_n\}$.
+        \end{itemize}
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        We gave two possible estimators for the parameter $\theta$ of a uniform distribution on $[0,\theta]$:
+        \begin{align*}
+        \hat\theta_1 &= 2\overline{X} \\
+        \hat\theta_2 &= \max\{X_1,\dots,X_n\}
+        \end{align*}
+        \pause Question: Are these estimators unbiased?
+        
+        \vspace{.2cm}
+        \pause We may calculate the expected value of $\hat\theta_1$:
+         \begin{align*}
+        \uncover<4->{E(\hat\theta_1) = E(2\overline{X})}
+        \uncover<5->{= 2E(\overline{X}) }
+        \uncover<6->{= 2\mu }
+        \uncover<7->{= \theta}
+        \end{align*}
+        \uncover<8->{Since $E(\hat\theta_1)=\theta$, this means that $\hat\theta_1$ is an unbiased estimator for $\theta$.}
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        %Now we want to check if $\hat\theta_2=\max\{X_1,\dots,X_n\}$ is an unbiased estimator for the parameter $\theta$ of a uniform distribution $[0,\theta]$.
+        
+        Since $\hat\theta_2=\max\{X_1,\dots,X_n\}$ is always less than $\theta$, intuition suggests that $\hat\theta_2$ will underestimate $\theta$ and hence must be biased.
+        
+        \vspace{.2cm}
+        \pause Now we will calculate $E(\hat\theta_2)$. For $0\leq x\leq \theta$, the cdf $F(x)$ of $\hat\theta_2$ is
+        \begin{align*}
+        \uncover<2->{F(x) &= P(\hat\theta_2 \leq x) }
+        \uncover<3->{= P(\max\{X_1,\dots,X_n\} \leq x) \\}
+        \uncover<4->{&= P(X_1\leq x, X_2\leq x, \dots, X_n\leq x)\\}
+        \uncover<5->{&= P(X_1\leq x)P(X_2\leq x)\cdots P(X_n\leq x) = (x/\theta)^n}
+        \end{align*}
+        
+        \uncover<6->{Therefore the pdf of $\hat\theta_2$ is, for $0\leq x\leq \theta$,}
+        $$\uncover<6->{f(x) = F'(x) }
+        \uncover<7->{= \frac{d}{dx} (x/\theta)^n }
+        \uncover<8->{= nx^{n-1}/\theta^n$$}
+        \uncover<9->{So the expected value of $\hat\theta_2$ is}
+        $$\uncover<9->{E(\hat\theta_2) = \int_{-\infty}^\infty xf(x)\ dx }
+        \uncover<10->{= \int_0^\theta x\cdot \frac{nx^{n-1}}{\theta^n}\ dx }
+        \uncover<11->{= \frac{n}{n+1}\theta$$}
+        %Since $E(\hat\theta_2) \neq \theta$, this means that $\hat\theta_2$ is a biased estimator of $\theta$.
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        We considered two estimators for the parameter $\theta$ of a uniform distribution on $[0,\theta]$,
+        \begin{align*}
+        \hat\theta_1 &= 2\overline{X} \\
+        \hat\theta_2 &= \max\{X_1,\dots,X_n\}
+        \end{align*}
+        \pause We found that $\hat\theta_1$ was unbiased but that $\hat\theta_2$ was biased. \pause However, it is easy to modify $\hat\theta_2$ to produce an unbiased estimator $\hat\theta_3$:
+        $$\hat\theta_3 = \frac{n+1}n \hat\theta_2 = \frac{n+1}n\max\{X_1,\dots,X_n\}$$
+        \pause Since $E(\hat\theta_2)=\frac n{n+1}\theta$, it follows that
+        $$E(\hat\theta_3) = E\left(\frac{n+1}n\hat\theta_2\right) 
+        \uncover<5->{= \frac{n+1}n E(\hat\theta_2) }
+        \uncover<6->{= \frac{n+1}n\cdot\frac n{n+1}\theta = \theta}$$
+        \uncover<7->{so $\hat\theta_3$ is in fact an unbiased estimator for $\theta$.}
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        We now have two unbiased estimators for the parameter $\theta$ of a uniform distribution on $[0,\theta]$:
+        \begin{align*}
+        \hat\theta_1 &= 2\overline{X} \\
+        \hat\theta_3 &= \frac{n+1}n\max\{X_1,\dots,X_n\}
+        \end{align*}
+        Question: Which of these estimators is better?
+        
+        \pause \vspace{.2cm}To answer this, we need a measure of how good an estimator is. One commonly used such measure is the \textit{variance} of the estimator. 
+        
+        \pause \vspace{.2cm}We can calculate the variance of $\hat\theta_1$:
+        \begin{align*}
+        V(\hat \theta_1) &= V(2\overline{X}) 
+        \uncover<4->{= 4V(\overline{X}) }
+        \uncover<5->{= \frac4nV(X_1) }
+        \uncover<6->{= \frac4n\cdot \frac{\theta^2}{12}}
+        \uncover<7->{ = \frac{\theta^2}{3n}}
+        \end{align*}
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        Recall the pdf of $\hat\theta_2$ is $f(x)=nx^{n-1}/\theta^n$. \pause Therefore,
+        \begin{align*}
+        \uncover<2->{E(\hat\theta_2^2) &= \int_0^\infty x^2f(x)\ dx }
+        \uncover<3->{= \int_0^\infty nx^{n+1}/\theta^n\ dx}
+        \uncover<4->{= \frac n{n+2}\theta^2\\}
+        \uncover<5->{V(\hat\theta_2) &= E(\hat\theta_2^2)-[E(\hat\theta_2)]^2}
+        \uncover<6->{= \frac{n}{n+2}\theta^2 - \left(\frac n{n+1}\theta\right)^2 \\}
+        \uncover<7->{&=\left(\frac{n(n+1)^2-n^2(n+2)}{(n+1)^2(n+2)}\right)\theta^2}
+        \uncover<8->{= \frac{n}{(n+1)^2(n+2)}\theta^2 \\}
+        \uncover<9->{V(\hat\theta_3) &= V\left(\frac{n+1}n \hat\theta_2\right) }
+        \uncover<10->{= \left(\frac{n+1}n\right)^2V(\hat\theta_2)\\}
+        \uncover<11->{&= \left(\frac{n+1}n\right)^2 \cdot \frac{n}{(n+1)^2(n+2)}\theta^2}
+        \uncover<12->{= \frac{\theta^2}{n(n+2)}}
+        \end{align*}
+        \end{frame}
+        
+        \begin{frame}{Example: Uniform Distribution}
+        We considered two unbiased estimators for the parameter $\theta$ of a uniform distribution on $[0,\theta]$:
+        \begin{align*}
+        \hat\theta_1 &= 2\overline{X} \\
+        \hat\theta_3 &= \frac{n+1}n\max\{X_1,\dots,X_n\}
+        \end{align*}
+        \pause We calculated that their variances were
+        $V(\hat\theta_1)=\frac{\theta^2}{3n}$ and $V(\hat\theta_3)= \frac{\theta^2}{n(n+2)}$.
+        Therefore, for $n>1$, $\hat\theta_3$ has a smaller variance. 
+        
+        \pause \vspace{.2cm} More advanced statistical theory can be used to show that in fact $\hat\theta_3$ is a \emph{minimum variance unbiased estimator}: it has a smaller variance than any other unbiased estimator. 
+        \end{frame}
+        \begin{frame}{Unbiasedness of Sample Variance}
+            \begin{block}{}
+            Given a distribution with variance $\sigma^2$,  the sample variance $S^2 = \frac1{n-1}\sum_{i=1}^n (X_i-\overline{X})^2$ is an unbiased estimator for $\sigma^2$.
+            \end{block}
+            
+            \pause
+            \vspace{-.2cm}
+            \begin{align*}
+            E(S^2) &= E\left[\frac1{n-1}\left(\sum_{i=1}^n X_i^2 - n\overline{X}^2\right)\right] \\
+            \uncover<3->{&= \frac1{n-1}\left[\sum_{i=1}^n E(X_i^2)-nE(\overline{X}^2)\right]\\}
+            \uncover<4->{&= \frac1{n-1}\left[\sum_{i=1}^n (V(X_i)+[E(X_i)]^2)-n(V(\overline{X})+[E(\overline{X})]^2)\right]\\}
+            \uncover<5->{&= \frac1{n-1}\left[\sum_{i=1}^n (\sigma^2+\mu^2)-n(\frac{\sigma^2}n+\mu^2)\right]}
+            \uncover<6->{= \sigma^2}
+            %E(S^2) &= E\left[\frac1{n-1}\sum_{i=1}^n (X_i-\overline{X})^2\right] \\
+            %&= \frac1{n-1}E\left[\sum_{i=1}^n ((X_i-\mu)+(\mu-\overline{X}))^2\right]\\
+            %&= \frac1{n-1}E\left[\sum_{i=1}^n ((X_i-\mu)^2+2(X_i-\mu)(\mu-\overline{X})+(\mu-\overline{X})^2)\right]\\
+            \end{align*}
+            \end{frame}
+            \begin{frame}{Minimum of Exponential Random Variables}
+                \begin{block}{}
+                Suppose $X_1,\dots,X_n$ are iid exponential random variables with mean $\mu$. Find an unbiased estimator for $\mu$ based on $\min\{X_1,\dots,X_n\}$.
+                \end{block}
+                \pause Solution: First we need to identify the distribution of $T=\min\{X_1,\dots,X_n\}$. \pause Letting $\lambda=\frac1\mu$, the cdf of $T$ is
+                \begin{align*}
+                F(t) &= P(T\leq t) = 1- P(T>t) \\
+                \uncover<4->{&= 1-P(\min\{X_1,\dots,X_n\}>t) \\}
+                \uncover<5->{&= 1-P(X_1>t, X_2>t,\dots, X_n>t)\\}
+                %&= 1- P(X_1>t)P(X_2>t)\cdots P(X_n>t) \\
+                \uncover<6->{&= 1 - (e^{-\lambda t})^n = 1-e^{-n\lambda t}}
+                \end{align*}
+                \uncover<7->{This is the cdf of an exponential random variable with rate $n\lambda$. }
+                \uncover<8->{Now
+                $$E(T) = \frac1{n\lambda} = \frac\mu n$$}
+                \uncover<9->{So $\hat\mu=nT=n\min\{X_1,\dots,X_n\}$ is an unbiased estimator of $\mu$.}
+                \end{frame}
+                
+                \begin{frame}{Minimum of Exponential Random Variables}
+                Given a random sample $X_1,\dots,X_n$ from an exponential distribution with mean $\mu$, we found an unbiased estimator for $\mu$: 
+                $$\hat\mu = nT = n\min\{X_1,\dots,X_n\}$$
+                \pause \vspace{-.6cm}\begin{block}{}What is the variance of this estimator?
+                \end{block}
+                
+                \vspace{.1cm}
+                \pause Recalling that $T$ is exponential with rate $n\lambda$, we calculate
+                \begin{align*}
+                V(nT) = n^2V(T) = n^2\cdot \frac1{(n\lambda)^2} = \frac1{\lambda^2} = \mu^2
+                \end{align*}
+                \pause We note that as the sample size $n$ increases, the variance does not decrease but remains a constant $\mu^2$. This suggests that $\hat\mu$ is a poor estimator of $\mu$. \pause Compare this to the sample mean:
+                
+                $$V(\overline{X}) = \frac{V(X_1)}n=\frac{1/\lambda^2}n=\frac{\mu^2}n$$
+                \end{frame}
+\end{document}

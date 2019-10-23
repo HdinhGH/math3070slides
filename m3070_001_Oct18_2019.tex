@@ -86,6 +86,12 @@
         Var(Y)& = \sum_{i=1}^n a_i^2 Cov(X_i,X_i) = \sum_{i=1}^n a_i^2 Var(X_i) \text{ , assuming independence}
     \end{align*}
 \end{frame}
+\begin{frame}{Linear Cominations of Normal Random Variables}
+    If $X_i \sim N(\mu_i,\sigma_i)$, then $$Y=\sum_{i=1}^n a_i X_i \sim N\bigg(\sum_{i=1}^n a_i \mu_i, \sqrt{\sum_{i=1}^n a_i^2 \sigma^2_i} \bigg)$$
+    Using variance notation instead of standard deviation notation looks more tidy.
+    $$X_i \sim N(\mu_i,\sigma^2_i) \Rightarrow Y= \sum_{i=1}^n a_i X_i \sim N\bigg(\sum_{i=1}^n a_i \mu_i, \sum_{i=1}^n a_i^2 \sigma^2_i \bigg)$$
+    I plan to use variance notation in the notes from here and onward.
+\end{frame}
 \begin{frame}{Linear Combination, Example}
     The number of bus arrivals at any stop are independent follow a Poisson distribution and average 5 hours an hour. You need to take 3 buses to reach Lagoon. Each bus ride takes 10 minutes. You are currently waiting for the first bus. Compute the mean and standard deviation of the total time of the trip.
     \uncover<2->{$$X_i = \# \text{ of buses in an hour at stop } i, X_i \sim Poisson(5)$$}
@@ -98,6 +104,8 @@
     \end{align*}}
 \end{frame}
 \begin{frame}{Linear Combination, Example}
+    \vskip -1em
+    {\small
     \begin{align*}
         \uncover<2->{E[T] &=E[T_1 + T_2 + T_3 + 1/2]  \\
         &=E[T_1] + E[T_2] + E[T_3] + \frac{1}{2}  \\}
@@ -107,29 +115,27 @@
         Var(T) & = V(T_1 + T_2 + T_3 + \frac{1}{2})\\
         & = V(T_1) + V(T_2) + V(T_3)\\}
         \uncover<5->{& = \frac{1}{\lambda^2} + \frac{1}{\lambda^2} + \frac{1}{\lambda^2} = \frac{1}{25} + \frac{1}{25} + \frac{1}{25}\\
-        & \approx 7.2 \text{minutes} }
+        & \approx 7.2 \text{minutes} }\\
+        \sigma & = \frac{\sqrt{3}}{5}
     \end{align*}
-\end{frame}
-\begin{frame}{Linear Cominations of Normal Random Variables}
-    If $X_i \sim N(\mu_i,\sigma_i)$, then $$Y=\sum_{i=1}^n a_i X_i \sim N\bigg(\sum_{i=1}^n a_i \mu_i, \sqrt{\sum_{i=1}^n a_i^2 \sigma^2_i} \bigg)$$
-    Using variance notation instead of standard deviation notation looks more tidy.
-    $$X_i \sim N(\mu_i,\sigma^2_i) \Rightarrow Y= \sum_{i=1}^n a_i X_i \sim N\bigg(\sum_{i=1}^n a_i \mu_i, \sum_{i=1}^n a_i^2 \sigma^2_i \bigg)$$
-    I plan to use variance notation in the notes from here and onward.
+    }
 \end{frame}
 \begin{frame}{Example, Difference of Random Variables}
     A machine produces $X$ grams of chemical X. Another produces $Y$ grams of another chemical Y. Every two grams of chemical Y reacts one gram of chemical X when mixed. Assume that $X$ is normally distributed with a mean of 150 grams and a standard deviation of 2 grams, $Y$ is normally distributed with a mean of 300 grams and variance of 1 gram, and that $X$ and $Y$ are independent. What is the probability that more than one gram of chemical Y remains after mixing?
     \uncover<2->{$$ X\sim N(150,4) , Y\sim  N(300,1)$$}
-    \uncover<3->{$L = \frac{1}{2}Y-X$ normally distributed. Just need the mean and standard deviation. There is leftover chemical Y when $L>0$.}
+    \uncover<3->{$L = \frac{1}{2}Y-X$ normally distributed. Just need the mean and standard deviation. There is more than one leftover gram of chemical Y when $L>0$.}
+    {\small
     \uncover<4->{$$E[L] = \frac{1}{2}E[Y] - E[X] = \frac{1}{2}300 - 150 = 0 $$}
-    \uncover<5->{$$ Var(L) = \bigg(\frac{1}{2}\bigg)^2Var(Y) + (-1)^2Var(X) = 1+ 1=2 $$}
+    \uncover<5->{$$ Var(L) = \bigg(\frac{1}{2}\bigg)^2Var(Y) + (-1)^2Var(X) = \frac{1}{4}+ 4=\frac{15}{4} $$}
+    }
 \end{frame}
 \begin{frame}{Example, Difference of Random Variables}
-    $$L\sim N(0,2)$$
+    $$L\sim N\bigg(0,\frac{15}{4}\bigg)$$
     \uncover<2->{Want $P(L>1)$ which has an event contained inside the event that there is leftover chemical Y, $\{L>0\}$.}
     \begin{align*}
-        \uncover<3->{P(L>1) & = P\bigg( \frac{L}{\sqrt{2}} > \frac{1}{\sqrt{2}} \bigg)\\
-            \uncover<4->{& = P\bigg( Z > \frac{1}{\sqrt{2}} \bigg)\\
-            & = \Phi(1/\sqrt{2}) \approx 0.2398}}
+        \uncover<3->{P(L>1) & = P\bigg( \frac{L}{\sqrt{15/4}} > \frac{1}{\sqrt{15/4}} \bigg)\\
+            \uncover<4->{& = P\bigg( Z > \frac{1}{\sqrt{15/4}} \bigg)\\
+            & = \Phi(1/\sqrt{15/4}) \approx 0.3028}}
     \end{align*}
 \end{frame}
 \begin{frame}[c]{Summary}
