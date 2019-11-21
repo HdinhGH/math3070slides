@@ -1,0 +1,177 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        November 11, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 11/11}
+    Section 8.1
+    \begin{itemize}
+        \item Z-Tests for Proportion
+        \item T-Tests for Population Mean with unknown $\sigma$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Large-Sample $z$ Test for Proportion}
+    \begin{block}{}
+        Given a random sample from a Bernoulli distribution with unknown parameter $p$, the \emph{$z$ test} for the null hypothesis $H_0: p=p_0$ based on the test statistic $Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$ is given by the following rejection region:
+        \begin{center}
+            \begin{tabular}{ll|l}
+                \multicolumn{2}{c}{Alternative hypothesis} & Rejection region                          \\ \hline
+                (Upper-tailed test)                        & $H_a: p>p_0$     & $Z\geq z_{\alpha}$     \\
+                (Lower-tailed test)                        & $H_a: p<p_0$     & $Z\leq -z_{\alpha}$    \\
+                (Two-tailed test)                          & $H_a: p\neq p_0$ & $|Z|\geq z_{\alpha/2}$ \\
+            \end{tabular}
+        \end{center}
+        Here $\alpha$ is the nominal significance level, and $z_{\alpha}$ is a critical value from the standard normal distribution.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Example}
+    \begin{block}{}
+        We are given a coin which someone suggests may give outcomes with unequal proportions when we spin it on a table. We test this by spinning the coin 80 times. If we observe 54 heads, do we reject the null hypothesis at the $\alpha=.01$ significance level?
+    \end{block}
+    \pause We will use a large-sample $z$ test for the null hypothesis $H_0: p=\frac12$ against the alternative $H_0: p\neq\frac12$. \pause The test statistic is
+    $$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}=\frac{\frac{54}{80}-\frac12}{\sqrt{\frac12(1-\frac12)/80}}=3.13$$
+    \pause The rejection region is $\{|Z|>z_{\alpha/2}\}$ where $z_{\alpha/2}=z_{.005}=2.58$. \pause Since $|Z|=3.13>2.58$, we reject the null hypothesis.
+
+    \vspace{.2cm}
+    \pause In other words, the test provides strong evidence that the coin indeed gives heads more often than tails when spun.
+\end{frame}
+
+\begin{frame}{Example}
+    \begin{block}{}
+        We are given a coin which someone suggests may give outcomes with unequal proportions when we spin it on a table. We test this by spinning the coin 80 times. If we observe 54 heads, what is the P-value of the test?
+    \end{block}
+    \pause Again, we are using a large-sample $z$ test for the null hypothesis $H_0: p=\frac12$ against the alternative $H_0: p\neq\frac12$. \pause We already calculated the test statistic:
+    $$Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}=\frac{\frac{54}{80}-\frac12}{\sqrt{\frac12(1-\frac12)/80}}=3.13$$
+    \pause The P-value is the probability that we would observe a value of $Z$ this extreme (i.e., a value of $Z$ with $|Z|\geq 3.13$):
+    $$ P = P(|Z|\geq 3.13) = 2\Phi(-3.13) \approx 2(.0009) = .0018$$
+
+    %\vspace{.2cm}
+    %\pause In other words, the test provides strong evidence that the coin indeed gives heads more often than tails when spun.
+\end{frame}
+
+\begin{frame}{$t$ Test for Mean of Normal Distribution with Unknown $\sigma$ }
+    \begin{block}{}
+        Given a random sample $X_1,\dots,X_n$ from a normal distribution with unknown standard deviation, the \emph{$t$ test} for the null hypothesis $H_0: \mu=\mu_0$, based on the test statistic $T=\frac{\overline X-\mu_0}{S/\sqrt{n}}$, is given by the following rejection region:
+        \begin{center}
+            \begin{tabular}{ll|l}
+                \multicolumn{2}{c}{Alternative hypothesis} & Rejection region                                 \\ \hline
+                (Upper-tailed test)                        & $H_a: \mu>\mu_0$    & $T\geq t_{\alpha,n-1}$     \\
+                (Lower-tailed test)                        & $H_a: \mu<\mu_0$    & $T\leq -t_{\alpha,n-1}$    \\
+                (Two-tailed test)                          & $H_a: \mu\neq\mu_0$ & $|T|\geq t_{\alpha/2,n-1}$ \\
+            \end{tabular}
+        \end{center}
+        Here $\alpha$ is the significance level (Type I error probability), and $t_{\alpha,n-1}$ is a critical value from the $t$ distribution with $n-1$ degrees of freedom.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Example}
+    \begin{block}{}
+        A type of candy bar is labeled 60 grams. Someone suggests that the candy bars weigh less than specified. To test this, we gather a random sample of size 5 and observe $\overline X=58.8$ and $S=0.9$. Do we reject the null hypothesis $H_0: \mu=60$ at the significance level $\alpha=.01$?
+    \end{block}
+
+    \pause We use the $t$ test with the one-tailed alternative $H_a: \mu<60$. The test statistic  is
+    $$T=\frac{\overline X-\mu_0}{S/\sqrt{n}}=\frac{58.8-60}{0.9/\sqrt{5}}=-2.98$$
+
+    \vspace{.2cm}
+    \pause The critical value is $t_{\alpha,n-1}=t_{.01,4}=3.747$. The rejection region is $\{T < -3.747\}$, whereas in our sample $T=-2.98>-3.747$, so we do not reject the null hypothesis.
+
+    \vspace{.2cm}
+    \pause In other words, the data does \textit{not} allow us to conclude that the average weight of the candy bars is less than specified.
+\end{frame}
+\begin{frame}{Example}
+    %We return to our previous example to calculate the P-value:
+    \begin{block}{}
+        A type of candy bar is labeled 60 grams. Someone suggests that the candy bars weigh less than specified. To test this, we gather a random sample of size 5 and observe $\overline X=58.8$ and $S=0.9$. What is the P-value for the test?
+    \end{block}
+
+    \pause We use the $t$ test with the one-tailed alternative $H_a: \mu<60$. As before, the test statistic  is
+    $$T=\frac{\overline X-\mu_0}{S/\sqrt{n}}=\frac{58.9-60}{0.9/\sqrt{5}}=-2.98$$
+    \pause We use a table to find the probability of observing a value for $T$ at least this extreme:
+    $$P=P(T\leq -2.98)
+        \uncover<4->{ \approx .020 }$$
+    \uncover<5->{ So $P=.020$ is the P-value for the test.}
+\end{frame}
+
+\begin{frame}{Summary}
+
+    \vspace{-.6cm}
+    \begin{align*}
+        \alpha & = \text{probability of Type I error, that $H_0$ is true but is rejected}          \\
+        \beta  & = \text{probability of a Type II error, that $H_0$ is  false but is not rejected} \\
+        P      & = \text{P-value} = \text{smallest $\alpha$ for which the test would reject $H_0$} \\
+    \end{align*}
+
+    \vspace{-.8cm}
+    \begin{center}
+        \renewcommand*{\arraystretch}{1.4}
+        \begin{tabular}{|p{.9in}|l|l|} \hline
+            Test                    & Null Hypothesis  & Test Statistic                                \\ \hline
+            z test                  & $H_0: \mu=\mu_0$ & $Z=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$ \\ \hline
+            t test                  & $H_0: \mu=\mu_0$ & $T=\frac{\overline X-\mu_0}{S /\sqrt{n}}$     \\ \hline
+            z test for a proportion & $H_0: p=p_0$     & $Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$    \\ \hline
+        \end{tabular}
+    \end{center}
+\end{frame}
+\begin{frame}
+    \begin{center}
+        \renewcommand*{\arraystretch}{1.1}
+        \begin{tabular}{ll|l}
+            \multicolumn{2}{c}{Alternative hypothesis} & P-value for $z$ test                    \\ \hline
+            (Upper-tailed test)                        & $H_a: \mu>\mu_0$     & $P(Z\geq z)$     \\
+            (Lower-tailed test)                        & $H_a: \mu<\mu_0$     & $P(Z\leq z)$     \\
+            (Two-tailed test)                          & $H_a: \mu\neq\mu_0$  & $P(|Z|\geq |z|)$ \\
+        \end{tabular}
+    \end{center}
+    Given a fixed significance level $\alpha$, we reject $H_0$ if  and only if $P\leq \alpha$. Here, $z\sim N(0,1)$.
+
+    \begin{center}
+        \renewcommand*{\arraystretch}{1.1}
+        \begin{tabular}{ll|l}
+            \multicolumn{2}{c}{Alternative hypothesis} & P-value for $z$ test                    \\ \hline
+            (Upper-tailed test)                        & $H_a: \mu>\mu_0$     & $P(T\geq t)$     \\
+            (Lower-tailed test)                        & $H_a: \mu<\mu_0$     & $P(T\leq t)$     \\
+            (Two-tailed test)                          & $H_a: \mu\neq\mu_0$  & $P(|T|\geq |t|)$ \\
+        \end{tabular}
+    \end{center}
+
+    Given a fixed significance level $\alpha$, we reject $H_0$ if  and only if $P\leq \alpha$. Here, $t\sim t(n-1)$.
+
+\end{frame}
+\end{document}

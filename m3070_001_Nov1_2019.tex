@@ -1,0 +1,286 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        November 1, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 11/1}
+    Section 7.1 and 7.2
+    \begin{itemize}
+        \item Confidence Intervals 
+        \item Large-sample Confidence Interval
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Confidence Interval for the Sample Mean}
+    \begin{block}{}
+    If a random sample of size $n>30$ is taken from a distribution with unknown mean $\mu$ and known standard deviation $\sigma$, then an equal-tailed $100(1-\alpha)\%$ confidence interval for $\mu$ is given by
+    $$\overline X \pm \frac{z_{\alpha/2}\cdot\sigma}{\sqrt n}$$
+    where $z_{\alpha/2}$ is a \emph{critical value} given by
+    $$z_{\alpha/2} = -\Phi^{-1}(\alpha/2)$$
+    \end{block}
+\end{frame}
+\begin{frame}{Confidence Interval for Sample Mean}
+    Proof: The sample mean $\overline{X}$ is approximately normal with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$, so $\frac{\overline{X}-\mu}{\sigma/\sqrt n}$ is standard normal, hence
+    \small\begin{align*}
+    1-\alpha &\approx P\left(-z_{\alpha/2} \leq \frac{\overline X-\mu}{\sigma/\sqrt n} \leq z_{\alpha/2}\right) \\
+    &= P\left(\overline X-\frac{z_{\alpha/2}\cdot\sigma}{\sqrt n} \leq \mu \leq \overline X+\frac{z_{\alpha/2}\cdot\sigma}{\sqrt n}\right) 
+    \end{align*}
+    The "$\approx$" uses CLT.
+\end{frame}
+
+\begin{frame}{Confidence Intervals}
+    \begin{itemize}
+    \item Suppose we are given a random sample $X_1,\dots,X_n$ from a distribution with an unknown parameter $\theta$.
+    \pause \item A 95\% \emph{confidence interval} for $\theta$ is an interval $[A,B]$ based on the sample, such that $P(A \leq \theta \leq B)=.95$.
+    \pause \item In general, a $100(1-\alpha)\%$ \emph{confidence interval} for $\theta$ is an interval $[A,B]$ such that $P(A \leq \theta \leq B)=1-\alpha$.
+    \pause \item We are usually interested in constructing \emph{equal-tailed} confidence intervals, where $P(\theta<A)=P(\theta>B)=\alpha/2$.
+    \end{itemize}
+    \end{frame}
+
+\begin{frame}{Standard Normal Probability}
+    \begin{block}{}
+    If $Z$ is a standard normal random variable, find a constant $c$ such that $P(-c \leq Z \leq c)=.95$.
+    \end{block}
+    \pause Solution: We have
+    \begin{align*}
+    .95 = P(-c \leq Z \leq c) = 1-2\Phi(-c)
+    \end{align*}
+    \pause Solving for $c$ gives
+    $$c = -\Phi^{-1}(.025) = 1.96$$
+    \end{frame}
+    
+    \begin{frame}{Problem}
+    \begin{block}{}
+    Suppose a machine drills holes whose diameters are normally distributed with mean $\mu=3.0 $ mm and standard deviation $\sigma=0.4$ mm. If a random sample of 16 holes are measured, find an interval $[a,b]$ centered on 3.0 such that the sample mean $\overline{X}$ diameter will be in the interval $[a,b]$ with probability .95.
+    \end{block}
+    \pause The sample mean $\overline{X}$ is normal with mean $\mu=3.0$ and standard deviation $\sigma_{\overline X} = \sigma/\sqrt{16} = 0.1$. So $(\overline X-3.0)/0.1$ is a standard normal random variable. 
+    \pause By the previous slide,
+    \begin{align*}
+    E(X) &= \mu=3.0 \\
+    V(X) &= \frac{\sigma^2}n = \frac{0.16}{16} = 0.01
+    \end{align*}
+\end{frame}
+    \begin{frame}{Problem continued}
+    \begin{align*}
+    .95 &= P(a \leq \overline{X} \leq b) \\
+    &= P(3.0-c \leq \overline{X} \leq 3.0+c) \\
+    &= P\left(\frac{-c}{.1} \leq \frac{\overline{X}-3.0}{0.1} \leq \frac{c}{.1}\right)
+    = 1-2\Phi(-c/.1)
+    \end{align*}
+    This gives $c=-(.1)\Phi^{-1}(.025)\approx -(.1)(-1.96) = .196$. Therefore $\overline X$ will be between 2.804 and 3.196 with probability .95.
+    \begin{align*}
+    .95 = P(-1.96 \leq \frac{\overline X-3.0}{0.1} \leq 1.96)
+    \end{align*}
+    \pause Rearranging,
+    $$.95 = P(2.804 \leq \overline{X} \leq 3.196)$$
+    \end{frame}
+    
+    \begin{frame}{Problem -- Other Way Around}
+    \begin{block}{}
+    Suppose a machine drills holes whose diameters are normally distributed with unknown mean $\mu$ and known standard deviation $\sigma=0.4$ mm. Given a random sample of 16 holes, find an interval $[A,B]$ depending on the sample mean $\overline X$ such that $\mu$ is in the interval $[A,B]$ with probability .95. %If $\overline X=3.05$, what is $[A,B]$?
+    \end{block}
+    \pause 
+    %Since $X$ is normal with mean $\mu$ and standard deviation $\sigma=0.4$, 
+    $\overline X$ is normal with mean $\mu$ and standard deviation $\sigma/\sqrt{16}=0.1$, so $\frac{\overline X-\mu}{0.1}$ is a standard normal random variable. 
+    \pause Therefore
+    \begin{align*}
+    .95 &= P\left(-1.96 \leq \frac{\overline X-\mu}{0.1} \leq 1.96\right) \\
+    \uncover<4->{&= P(\overline X-.196 \leq \mu \leq \overline X+.196)}
+    \end{align*}
+    \uncover<5->{So we may take $[A,B]=[\overline X-.196, \overline X+.196]$.}
+    \uncover<6->{ For example, if $\overline X=3.05$, then $[A,B]=[2.854,3.246]$.}
+    \end{frame}
+    
+    \begin{frame}{Confidence Intervals}
+        Recall the confidence interval for the mean $\mu$ of a normal population:
+        $$\overline{X}\pm \frac{z_{\alpha/2} \cdot \sigma}{\sqrt n}$$
+        \pause The margin of error may be decreased in any of the following ways:
+        
+        \begin{itemize}
+        \pause\item Decrease the confidence level (e.g., from 99\% to 90\%).
+        \pause\item Decrease the standard deviation $\sigma$ of the population.
+        \pause\item Increase the sample size $n$.
+        \end{itemize}
+        \pause\textit{Caution}: Confidence intervals are used to estimate parameters, not to predict future observations:
+        \begin{itemize}
+        \pause\item If $[4.9,5.1]$ is a 95\% confidence interval for the mean diameter $\mu$, we can be $95\%$ confident that $\mu$ is between 4.9 and 5.1. 
+        \pause\item It does \textit{not} mean that 95\% of beads will have diameter between 4.9 and 5.1.
+        \end{itemize}
+        \end{frame}
+        
+        \begin{frame}{Constructing a Confidence Interval}
+        \begin{itemize}
+        \item A common method for constructing confidence intervals is to use a \emph{pivotal statistic}, a quantity defined in terms of the random sample and the parameters but whose distribution is known.
+        
+        \pause \item For a normal random sample with unknown mean $\mu$ and known standard deviation $\sigma$, a pivotal statistic is given by $\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$, which has a standard normal distribution regardless of the parameters $\mu$ and $\sigma$.
+        \end{itemize}
+        \end{frame}
+
+    \begin{frame}{Example}
+    \begin{block}{}
+    A process produces alginate beads
+    with diameters (in mm) normally distributed with unknown mean $\mu$ and standard deviation
+    $\sigma=.7$. A random sample of 9 beads have the following diameters:
+    $$3.9, 5.1, 5.2, 5.7, 5.8, 6.1, 6.2, 6.3, 6.5$$
+    Find a 99\% confidence interval for the mean diameter $\mu$.
+    \end{block}
+    \pause Here $\alpha=1-.99=.01$, so the relevant critical value is 
+    $$z_{\alpha/2}=z_{.005} = -\Phi^{-1}(.005) = 2.57$$
+    \pause The sample mean is $\overline X=5.64$, so the confidence interval is given by
+    $$\overline X \pm \frac{z_{\alpha/2} \cdot \sigma}{\sqrt n} = 5.64 \pm \frac{2.57 \cdot 0.7}{\sqrt{9}} = 5.64 \pm  0.60$$
+    Note: we are ignoring the need for $n>30$. This is usually not okay, but this is an excerise for learning.
+    \end{frame}
+    
+    \begin{frame}{Determining Necessary Sample Size}
+    \begin{block}{}
+    In the previous example, a random sample of 9 beads was used to estimate the mean diameter $\mu$, with a margin of error of $0.60$, at a 99\% confidence level. What sample size would be required for a margin of error of no more than $0.10$, at the 99\% confidence level?
+    \end{block}
+    \pause
+    We were given that the standard deviation of the bead diameters is $\sigma=.7$. 
+    %The confidence interval for $\mu$ has the form
+    %$\overline X \pm \frac{z_{\alpha/2} \cdot \sigma}{\sqrt n}$
+    %where $z_{\alpha/2}=2.57$.
+     Setting the margin of error $\frac{z_{\alpha/2} \cdot \sigma}{\sqrt n}$ equal to 0.10 gives an equation
+    $$ \frac{2.57 \cdot 0.7}{\sqrt n} = 0.10$$
+    \pause Solving for $n$ gives $$n=\left(\frac{2.57\cdot0.7}{0.10}\right)^2=323.64$$
+    \pause Rounding up to an integer, a sample size of at least $n=324$ would be required.
+    \end{frame}
+    
+    %\begin{frame}{Quiz}
+    %\begin{block}{}
+    %Next class we'll have a quiz. There will be two parts:
+    %\begin{itemize}
+    %\item Based on a random sample, I'll ask you construct a confidence interval for the mean $\mu$ of a normal distribution with known standard deviation $\sigma$.
+    %\item I'll ask you to determine the sample size that would be necessary to achieve a certain margin of error with a given confidence level.
+    %\end{itemize}
+    %See the Practice Quiz on Canvas.
+    %\end{block}
+    %\end{frame}
+    
+    % \begin{frame}{Confidence Interval for Mean of Exponential}
+    % \begin{block}{} 
+    % Given an exponential random sample $X_1,\dots,X_n$, derive a $100(1-\alpha)\%$ equal-tail confidence interval for the mean $\mu$.
+    % \end{block}
+    
+    % \vspace{-.2cm}\begin{itemize}
+    % \pause \item Dividing by $\mu$, $X_i/\mu$ has exponential distribution with mean 1.
+    % \pause \item Therefore, $Y=\sum_{i=1}^n \frac{X_i}\mu$ is the sum of $n$ independent exponential random variables each with mean 1.
+    % \pause \item So $Y$ has a gamma distribution with $k=n$ and $\lambda=1/\mu=1$. 
+    % \pause \item Then $2Y$ has a $\chi^2$ distribution with $\nu=2n$.
+    % \pause \item We can use a computer or a table to find critical values $y_{\alpha/2}$ and $y_{1-\alpha/2}$ so that $P(Y>y_{\alpha/2})=P(Y<y_{1-\alpha/2})=\alpha/2$.
+    % \end{itemize}
+    % \pause Then, \hspace{2cm}$\begin{aligned}[t]
+    % 1-\alpha &= P(y_{1-\alpha/2} \leq 2Y \leq y_{\alpha/2}) \\
+    % \uncover<8->{&= P(y_{1-\alpha/2} \leq 2\sum_{i=1}^n \frac{X_i}\mu \leq y_{\alpha/2}) \\}
+    % \uncover<9->{&= P\left(\frac{2\sum_{i=1}^n X_i}{y_{\alpha/2}} \leq \mu \leq \frac{2\sum_{i=1}^n X_i}{y_{1-\alpha/2}}\right)}
+    % \end{aligned}$
+    % \end{frame}
+    
+    % \begin{frame}{Problem}
+    % \begin{block}{}
+    % The lifetime of a certain type of bulb is exponential with unknown mean $\mu$. Suppose we test 10 bulbs and the lifetimes are (in hours)
+    % $$263, 1446, 172, 383, 4094, 632, 146, 754, 802, 2570$$
+    % Find a 95\% confidence interval for $\mu$.
+    % \end{block}
+    % \pause In the previous slide we found a general confidence interval:
+    % $$1-\alpha = P\left(\frac{2\sum_{i=1}^n X_i}{y_{\alpha/2}} \leq \mu \leq \frac{2\sum_{i=1}^n X_i}{y_{1-\alpha/2}}\right)$$
+    % \pause Here $\alpha=.05$ and $\sum_{i=1}^n X_i=11262$, and we find the critical values using a $\chi^2$ table with $\nu=20$: 
+    % \pause $$y_{.025}=34.170, \quad y_{.975}=9.591$$
+    % \pause Putting this together, we get the interval $[659.2, 2348.5]$.
+    % \end{frame}
+    
+    \begin{frame}{Large-sample Confidence Interval for Mean}
+    \begin{block}{}
+    If $X_1,\dots,X_n$ are a random sample from a distribution with unknown mean $\mu$ and \textit{unknown} variance $\sigma^2$, and if $n$ is sufficiently large, then an approximate $100(1-\alpha)\%$ confidence interval for $\mu$ is given by
+    $$\overline{X} \pm \frac{z_{\alpha/2}\cdot S}{\sqrt{n}}$$
+    \end{block}
+    \begin{itemize}
+    \pause\item This is based on the fact that if $n$ is large then $S \approx \sigma$.
+    \pause\item Here $S$ is the sample standard deviation
+    $$S=\sqrt{\frac1{n-1}\sum_{i=1}^n (X_i-\overline{X})^2}$$
+    \pause\item Rule of thumb: The large-sample confidence interval for $\mu$ may be used if $n>40$.
+    \end{itemize}
+    \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    Suppose that a random sample of 600 light bulbs of a certain type had a mean lifetime $\overline{X}=842$ hours, with sample standard deviation $S=799$. Find the large-sample approximate $95\%$ confidence interval for the mean lifetime $\mu$.
+    \end{block}
+    \pause\begin{align*}
+    \overline{X} \pm \frac{z_{\alpha/2}\cdot S}{\sqrt{n}} &= 842 \pm \frac{1.96 \cdot 799}{\sqrt{600}} \\
+    \uncover<3->{&= 842 \pm 63.9\\ }
+    \uncover<4->{&= [778.1,905.9]}
+    \end{align*}
+    \uncover<5->{If we had used our earlier method for constructing a confidence interval for the mean of an exponential distribution, we would have gotten $[778.5, 913.7]$.}
+    
+    \uncover<6->{One advantage of the large-sample method is that it does not require a specific assumption about the underlying distribution, e.g. the bulbs could have a Weibull distribution instead of exponential.}
+    \end{frame}
+    \begin{frame}{Estimating a Proportion}
+    \begin{block}{}Suppose $X$ is a binomial random variable counting the number of successes in $n$ trials where each trial has probability $p$ of success. If $n$ is sufficiently large an approximate $100(1-\alpha)\%$ confidence interval is given by
+    $$\hat p \pm z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}n}$$
+    where $\hat p=X/n$ is the sample proportion, and $z_{\alpha/2}$ is a critical value from the standard normal distribution.
+    \end{block}
+    Rule of thumb: This may be used if the number of successes $X$ and the number of failures $n-X$ are both at least 10.
+    %The sample proportion $\hat p$ has mean $p$ and variance
+    %$$V(\hat p) = V\left(\frac X n\right) = \frac1{n^2}V(X) = \frac1{n^2}\cdot np(1-p) = \frac{p(1-p)}n$$
+    %\begin{block}{}
+    %\end{block}
+    %\begin{align*}
+    %S^2 &= \frac1{n-1}(\sum_{i=1}^n {X_i^2}-n\overline{X}^2) \\
+    %&= \frac1{n-1}(n\hat p-n\hat p^2)
+    %\end{align*}
+    \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    A quality control team for a manufacturer tests 200 randomly selected devices, out of which 15 are defective. Assume that defective devices occur independently of one another. Find an approximate 95\% confidence interval for the proportion defective.
+    \end{block}
+    Here the sample proportion is $\hat p=15/200=.075$, and the critical value is $z_{.025}=1.96$, so the approximate 95\% confidence interval is
+    \begin{align*}
+    \hat p \pm z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}n} &= .075 \pm 1.96\sqrt{\frac{.075(1-.075)}{200}} \\
+    &= .075 \pm .037
+    \end{align*}
+    \end{frame}
+    
+    % \begin{frame}{Small-Sample Confidence Interval for Mean of Normal}
+    % Suppose we have a random sample $X_1,\dots,X_n$ from a normal distribution, where the mean $\mu$ and variance $\sigma^2$ are both unknown. 
+    
+    % We have seen that if $n$ is large, then the pivotal statistic $T=\frac{\overline{X}-\mu}{S/\sqrt{n}}$ is approximately a standard normal random variable. However, if $n$ is small then $T$ instead has a so-called \emph{t distribution with $\nu=n-1$ degrees of freedom}.
+    % \end{frame}
+
+\end{document}

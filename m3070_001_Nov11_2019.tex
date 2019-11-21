@@ -1,0 +1,146 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        November 11, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 11/11}
+    Section 8.1
+    \begin{itemize}
+        \item Z-Tests for Population Mean
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{$z$ Test for Mean of Normal Distribution with Known $\sigma$}
+    \begin{block}{}
+    Given a random sample $X_1,\dots,X_n$ from a normal distribution with known standard deviation $\sigma$, the \emph{$z$ test} for the null hypothesis $H_0: \mu=\mu_0$, based on the test statistic $Z=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}$, is given by the following rejection region, depending on whether a one-tailed or two-tailed test is desired:
+    \begin{center}
+    \begin{tabular}{ll|l}
+    \multicolumn{2}{c}{Alternative hypothesis} & Rejection region \\ \hline
+    (Upper-tailed test) & $H_a: \mu>\mu_0$ & $Z\geq z_{\alpha}$ \\
+    (Lower-tailed test) & $H_a: \mu<\mu_0$ & $Z\leq -z_{\alpha}$ \\
+    (Two-tailed test) & $H_a: \mu\neq\mu_0$ & $|Z|\geq z_{\alpha/2}$\\
+    \end{tabular}
+    \end{center}
+    Here $\alpha$ is the significance level (Type I error probability), and $z_{\alpha}$ is a critical value from the standard normal distribution.
+    \end{block}
+    \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    A machine is specified to drill holes with diameter 4 mm. We wish to test the null hypothesis $H_0: \mu=4$ against the alternative $H_a: \mu\neq 4$. If the diameters are normally distributed with $\sigma=.2$, and we observe $\overline X=3.87$ in a sample of size 10, do we reject the null hypothesis at the significance level $\alpha=.05$?
+    \end{block}
+    
+    \pause
+    The test statistic is 
+    $$Z=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}=\frac{3.87-4}{.2/\sqrt{10}}=-2.06$$
+    \pause The rejection region is $\{|Z|>z_{\alpha/2}\}$ where $z_{\alpha/2}=z_{.025}=1.96$.
+    
+    \vspace{.2cm}
+    \pause Since $|Z|=2.06>1.96$, the test statistic is in the rejection region, so we reject the null hypothesis.
+    \end{frame}
+    
+    \begin{frame}{Type II Error Probability for $z$ Test}
+    Given a random sample $X_1,\dots,X_n$ from a normal distribution with known standard deviation $\sigma$, the Type II error probability $\beta$ for the $z$ test is as follows:
+    \begin{center}
+    \renewcommand*{\arraystretch}{1.2}
+    \begin{tabular}{l|l}
+    Alternative hypothesis & Type II Error Probability $\beta$ \\ \hline
+    $H_a: \mu>\mu_0$ & $\Phi(z_\alpha+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})$ \\
+    $H_a: \mu<\mu_0$ & $1-\Phi(-z_\alpha+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})$ \\
+    $H_a: \mu\neq\mu_0$ & $\Phi(z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})-\Phi(-z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})$\\
+    \end{tabular}
+    \end{center}
+    The following formula is the for the sample size so that $\beta$ is no more than a certain value. Note: $\beta$ in this equation is $\beta$ the bound placed on the probability of a type two error.
+    $$
+    n =
+    \begin{cases}
+        \bigg[\frac{\sigma(z_{\alpha} + z_\beta)}{\mu_0 - \mu}\bigg]^2 & \text{for one-tailed tests}\\
+        \bigg[\frac{\sigma(z_{\alpha/2} + z_\beta)}{\mu_0 - \mu}\bigg]^2& \text{for two-tailed tests}\\
+    \end{cases}
+    $$
+    \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    A machine is specified to drill holes with diameter 4 mm. We wish to test the hypothesis $H_0: \mu=4$ against the alternative $H_a: \mu\neq 4$ using a $z$ test with significance level $\alpha=.05$ on a random sample of size 15. If the diameters are normally distributed with $\sigma=.2$ and the true mean is $\mu=3.95$, what is the Type II error probability?
+    \end{block}
+    \pause Here $\mu_0=4$, so
+    \begin{align*}
+    \beta&=
+    \Phi(z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})-\Phi(-z_{\alpha/2}+\frac{\mu_0-\mu}{\sigma/\sqrt{n}})\\
+    \uncover<3->{&= \Phi(z_{.025}+\frac{4-3.95}{.2/\sqrt{15}})-\Phi(-z_{.025}+\frac{4-3.95}{.2/\sqrt{15}})\\}
+    \uncover<4->{&= \Phi(1.96+ 0.97)-\Phi(-1.96+0.97) \\}
+    \uncover<5->{&= \Phi(2.93)-\Phi(-0.99) }
+    \uncover<6->{= .837}
+    \end{align*}
+    \end{frame}
+    \begin{frame}{Example}
+        \begin{block}{}
+            Consider the previous problem. How large should the sample size be so that the probability of a type II error is no more than 0.05?
+        \end{block}
+        $$z_\beta = -\Phi^{-1}(0.05) \approx 1.645$$
+        $$n = \bigg[\frac{\sigma(z_{\alpha/2} + z_\beta)}{\mu_0 - \mu}\bigg]^2 \approx  \bigg[\frac{0.2(1.96 + 1.645)}{4 - 3.95}\bigg]^2 \approx 209$$
+        \end{frame}
+    \begin{frame}{P-Values for $z$ Test}
+        With all of the $z$ test procedures, the P-value may be calculated as follows, where $z$ is the observed value of the test statistic $Z$ (assumed to have a standard normal distribution):
+        \begin{center}
+        \begin{tabular}{ll|l}
+        \multicolumn{2}{c}{Alternative hypothesis} & P-value \\ \hline
+        (Upper-tailed test) & $H_a: \mu>\mu_0$ & $P(Z\geq z)$ \\
+        (Lower-tailed test) & $H_a: \mu<\mu_0$ & $P(Z\leq z)$ \\
+        (Two-tailed test) & $H_a: \mu\neq\mu_0$ & $P(|Z|\geq |z|)$\\
+        \end{tabular}
+        \end{center}
+        
+        \end{frame}
+        
+        \begin{frame}{Example}
+        %We return to our previous example to calculate the P-value:
+        \begin{block}{}
+        A type of candy bar is labeled 60 grams. Someone suggests that the candy bars weigh less than specified. To test this, we gather a random sample of size 25 and observe $\overline X=59.7$ and $\sigma=0.9$ is known. What is the P-value for the test?
+        \end{block}
+        
+        \pause We use the $z$ test with the one-tailed alternative $H_a: \mu<60$. As before, the test statistic  is
+        $$T=\frac{\overline X-\mu_0}{\sigma/\sqrt{n}}=\frac{59.7-60}{0.9/\sqrt{25}}\approx -1.667$$
+        \pause We use a table to find the probability of observing a value for $T$ at least this extreme:
+        $$P=P(T\leq -1.667)
+        \uncover<4->{ \approx 0.0478 }$$
+        \uncover<5->{ So $P=0.0478$ is the P-value for the test.}
+        \end{frame}
+
+\end{document}

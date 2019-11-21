@@ -1,0 +1,159 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        November 20, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 11/20}
+    Section 9.3
+    \begin{itemize}
+        \item T-Test for paired data
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Paired t Test}
+    To test a difference in means between the two normal populations, given a random sample of pairs $(X_1,Y_1), \dots, (X_n,Y_n)$, the correct procedure is to use the \emph{paired t test}:
+    
+    \pause \vspace{.2cm}
+    To perform the paired t test, take the differences $D_i=X_i-Y_i$ between corresponding observations in each pair and then perform a one-sample t test on the resulting differences $D_i$.
+    
+    \pause \begin{block}{}
+    \begin{tabular}{c|c|c}
+    Test Statistic & Alternative hypothesis & Rejection region \\ \hline
+    \multirow{3}{*}{$\displaystyle T=\frac{\overline D-\Delta_0}{S_D/\sqrt{n}}$} & $H_a: \mu_1-\mu_2>\Delta_0$ & $T>t_{\alpha,\nu}$ \\
+    & $H_a: \mu_1-\mu_2<\Delta_0$ & $T<-t_{\alpha,\nu}$ \\
+    & $H_a: \mu_1-\mu_2\neq\Delta_0$ & $|T|>t_{\alpha/2,\nu}$\\
+    \end{tabular}
+    \end{block}
+    \pause Here $S_D$ is the sample standard deviation of the differences $D_1,\dots,D_n$, and $\nu=n-1$. If $n$ is large, say $n>40$, then the assumption that the populations are normal may be dropped.
+    
+    \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    Does the data provide significant evidence the mean zinc concentration in bottom water exceeds that of surface water?
+    \end{block}
+    
+    \begin{center}
+    \begin{tabular}{l|cccccc}
+    Location & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+    Bottom water ($X_i$) &
+    .430 & .266 & .567 & .531 & .707 & .716 \\ \hline
+    Surface water ($Y_i$) &
+    .415 & .238 & .390 & .410 & .605 & .609 \\ \hline
+    Difference ($D_i$) &.015 & .028 & .177 & .121 & .102 & .107
+    \end{tabular}
+    \end{center}
+    
+    \pause We are testing $H_0: \mu_1-\mu_2=0$ against the alternative $H_a: \mu_1-\mu_2>0$. \pause We calculate $\overline D = .0917$, $\overline S=.0607$, so
+    \begin{align*}
+    T&=\frac{\overline D-\Delta_0}{S/\sqrt{n}}
+    \uncover<4->{= \frac{.0917-0}{.0607/\sqrt{6}} }
+    \uncover<5->{=3.7}
+    \end{align*}
+    \uncover<6->{This gives a P-value of $P=P(T>3.7)=.007$. }
+    \uncover<7->{Thus the data provides highly significant evidence that the mean zinc concentration in bottom water exceeds that of surface water.}
+    \end{frame}
+    
+    \begin{frame}{Paired t Confidence Interval}
+    Again suppose we have two normal populations with means $\mu_1$ and $\mu_2$ respectively, and we wish to construct a confidence interval for $\mu_1-\mu_2$ based on a random sample of pairs $(X_1,Y_1), \dots, (X_n,Y_n)$. 
+    
+    \pause
+    \vspace{.2cm}
+    We form the differences $D_i=X_i-Y_i$ and then simply construct the one-sample t confidence interval based on the $D_i$'s:
+    
+    \pause
+    \begin{block}{}
+    Given paired data from two samples, a $100(1-\alpha)\%$ confidence interval for $\mu_1-\mu_2$ is given by
+    $$\overline D \pm \frac{t_{\alpha/2,n-1}S_D}{\sqrt{n}}$$
+    \end{block}
+    
+    \pause
+    If $n$ is large, say $n>40$, then the assumption that the populations are normal may be dropped. \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    Based on the given data, find a 95\% confidence interval for the difference in mean zinc concentration in bottom water vs. surface water.
+    \end{block}
+    
+    \begin{center}
+    \begin{tabular}{l|cccccc}
+    Location & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+    Bottom water ($X_i$) &
+    .430 & .266 & .567 & .531 & .707 & .716 \\ \hline
+    Surface water ($Y_i$) &
+    .415 & .238 & .390 & .410 & .605 & .609 \\ \hline
+    Difference ($D_i$) &.015 & .028 & .177 & .121 & .102 & .107
+    \end{tabular}
+    \end{center}
+    
+    \pause Here we have $\overline D = .0917$, $\overline S=.0607$, and $t_{\alpha/2,\nu}=t_{.025,5}=2.571$, \pause so the 95\% confidence interval is given by
+    \begin{align*}
+    \overline D \pm \frac{t_{\alpha/2,\nu}S_D}{\sqrt{n}} 
+    \uncover<4->{&= .0917 \pm  \frac{(2.571)(.0607)}{\sqrt{5}}\\}
+    \uncover<5->{&= .0917 \pm .0698}
+    \end{align*}
+    
+    \end{frame}
+
+    \begin{frame}{Summary}
+
+        \vspace{-.6cm}
+        \renewcommand*{\arraystretch}{1.4}
+        \begin{center}
+        \begin{tabular}{|p{5cm}|l|}
+        \hline
+        Two-sample z C.I.\@ for $\mu_1-\mu_2$  & $\overline{X} - \overline{Y} \pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}m+\frac{\sigma_2^2}n}$ \\ \hline
+        Two-sample t C.I.\@ for $\mu_1-\mu_2$ & $\overline{X} - \overline{Y} \pm t_{\alpha/2,\nu}\sqrt{\frac{S_1^2}m+\frac{S_2^2}n}$ \\ \hline
+        Paired t C.I.\@ for $\mu_1-\mu_2$ & 
+        $\displaystyle\overline D \pm \frac{t_{\alpha/2,n-1}S_D}{\sqrt{n}}$ \\ \hline
+        \end{tabular}
+        \end{center}
+        
+        \vspace{-.3cm}
+        \begin{center}
+        \begin{tabular}{|p{1.2in}|l|l|} \hline
+        Test & Null Hypothesis & Test Statistic  \\ \hline
+        Two-sample z test & $H_0: \mu_1-\mu_2=\Delta_0$ &$Z=\frac{\overline X-\overline Y-\Delta_0}{\sqrt{\frac{\sigma_1^2}m+\frac{\sigma_2^2}n}}$  \\ \hline
+        Two-sample t test & $H_0: \mu_1-\mu_2=\Delta_0$ & $T=\frac{\overline X-\overline Y-\Delta_0}{\sqrt{\frac{S_1^2}m+\frac{S_2^2}n}}$  \\ \hline
+        Paired t test & $H_0: \mu_1-\mu_2=\Delta_0$ & $T=\frac{\overline D-\Delta_0}{S_D/\sqrt n}$  \\ \hline
+        \end{tabular}
+        \end{center}
+        
+        \end{frame}
+
+\end{document}

@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 %\documentclass{article}
 \usepackage{animate}
 \usepackage{amsmath}
@@ -251,11 +251,11 @@ Suppose that a random sample of 600 light bulbs of a certain type had a mean lif
 %\end{align*}
 %\end{frame}
 
-%\begin{frame}{Small-Sample Confidence Interval for Mean of Normal}
-%Suppose we have a random sample $X_1,\dots,X_n$ from a normal distribution, where the mean $\mu$ and variance $\sigma^2$ are both unknown. 
-%
-%We have seen that if $n$ is large, then the pivotal statistic $T=\frac{\overline{X}-\mu}{S/\sqrt{n}}$ is approximately a standard normal random variable. However, if $n$ is small then $T$ instead has a so-called \emph{t distribution with $\nu=n-1$ degrees of freedom}.
-%\end{frame}
+\begin{frame}{Small-Sample Confidence Interval for Mean of Normal}
+Suppose we have a random sample $X_1,\dots,X_n$ from a normal distribution, where the mean $\mu$ and variance $\sigma^2$ are both unknown. 
+
+We have seen that if $n$ is large, then the pivotal statistic $T=\frac{\overline{X}-\mu}{S/\sqrt{n}}$ is approximately a standard normal random variable. However, if $n$ is small then $T$ instead has a so-called \emph{t distribution with $\nu=n-1$ degrees of freedom}.
+\end{frame}
 
 \begin{frame}{Confidence Interval for Mean of Normal}
 Suppose we have a random sample $X_1,\dots,X_n$ from a normal distribution, where the mean $\mu$ and variance $\sigma^2$ are both unknown. 
@@ -272,9 +272,9 @@ where $t_{\alpha/2,\nu}$ is a critical value from a \emph{t distribution} with $
 
 \begin{frame}{PDF of t Distribution vs. Standard Normal}
 \vspace{-1cm}
-\begin{center}
-\includegraphics[scale=.5]{norm_t.pdf}
-\end{center}
+% \begin{center}
+% \includegraphics[scale=.5]{norm_t.pdf}
+% \end{center}
 
 \vspace{-1cm}
 As $\nu\to\infty$, the t distribution approaches a standard normal.

@@ -1,0 +1,125 @@
+\documentclass[t,handout]{beamer}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{positioning,fit}
+%\usepackage{enumitem}
+\usetheme{Warsaw}
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\grn}[1]{{\color{green} #1}}
+\newcommand{\bluRed}[2]{{\color{blue} #1}{\color{red} #2}}
+\newcommand{\qtns}[0]{\begin{center} Questions? \end{center}}
+\newcommand{\nl}[1]{\vspace{#1 em}}
+\newcommand{\cntrImg}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
+\newcommand{\defn}[1]{{\bf #1}}
+\let\emptyset\varnothing
+\newcommand{\SampS}[0]{$\mathcal{S}$}
+
+\title{Math 3070, Applied Statistics}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{beamercolorbox}[rounded=true,wd=\textwidth,center]{title}
+        \usebeamerfont{title}\inserttitle
+    \end{beamercolorbox}
+    \begin{center}
+        Section 1\\
+        \nl{0.5}
+        November 1, 2019
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Lecture Outline, 11/4}
+    Section 7.3
+    \begin{itemize}
+        \item Confidence Intervals with unknown $\mu$ and $\sigma$
+    \end{itemize}
+\end{frame}
+\begin{frame}{Small-Sample Confidence Interval for Mean of Normal}
+    Suppose we have a random sample $X_1,\dots,X_n$ from a normal distribution, where the mean $\mu$ and variance $\sigma^2$ are both unknown. 
+    \\
+    \nl{0.5}
+    We have seen that if $n$ is large, then the \emph{pivotal} statistic $T=\frac{\overline{X}-\mu}{S/\sqrt{n}}$ is approximately a standard normal random variable. However, if $n$ is small then $T$ instead has a so-called {\bf t distribution with $\nu=n-1$ degrees of freedom} or $T\sim t(\nu)$.
+    \\
+    \nl{0.5}
+    In this class, if $n<40$, we'll use the $T\sim t(\nu)$. Otherwise, $T\sim N(0,1)$ can be used. In practice, a method should be carefully selected for the data.
+\end{frame}
+\begin{frame}{T-Distribution}
+    We have not studied the t distribution. It has tables and used similiarly to the normal distribution for the purpose computing of finding confidence intervals. 
+    
+    {\bf Useful Properties:}
+    \begin{enumerate}
+        \item symmetric about $0$
+        \item identified by $\nu$
+        \item as $\nu \to \infty$, the distribution becomes $N(0,1)$
+        \item bell shaped, but flatten
+    \end{enumerate}
+    Important to these calculations are critical $t$ values, $t_{\alpha/2,\nu}$:
+    $$1-\alpha = P(-t_{\alpha/2,\nu}< T < t_{\alpha/2,\nu})$$
+    where $\nu = n-1$ and $T\sim t(\nu)$.\\
+    Note:
+    $$ \alpha/2 = P(-t_{\alpha/2,\nu}< T) $$
+    \end{frame}
+
+    \begin{frame}{Confidence Interval for Mean of Normal}
+        Suppose we have a random sample $X_1,\dots,X_n$ from a normal distribution, where the mean $\mu$ and variance $\sigma^2$ are both unknown. 
+        
+        \pause \vspace{.2cm}Previously, we have used the fact that $n$ is large, then the statistic $\frac{\overline{X}-\mu}{S/\sqrt{n}}$ is approximately equal to $\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}$, which is a standard normal random variable. However, if $n$ is small then this is not a good approximation. Instead, $T$ has a so-called \emph{t distribution}.
+        
+        \pause \begin{block}{}
+        Given a random sample $X_1,\dots,X_n$ from a normal distribution with unknown mean and variance,
+        A $100(1-\alpha)\%$ confidence interval for the mean $\mu$ is
+        $$\overline{X} \pm \frac{t_{\alpha/2,\nu}\cdot S}{\sqrt{n}}$$
+        where $t_{\alpha/2,\nu}$ is a critical value from a \emph{t distribution} with $\nu=n-1$ degrees of freedom.
+        \end{block}
+        \end{frame}
+\begin{frame}{Example}
+\begin{block}{}
+A process produces alginate beads
+with diameters (in mm) normally distributed with unknown mean $\mu$ and unknown standard deviation $\sigma$. A random sample of 9 beads have the following diameters:
+$$3.9, 5.1, 5.2, 5.7, 5.8, 6.1, 6.2, 6.3, 6.5$$
+Find a 99\% confidence interval for the mean diameter $\mu$.
+\end{block}
+\pause Here $\alpha=1-.99=.01$, so the relevant critical value is 
+$$t_{\alpha/2,\nu}=t_{.005,8} = 3.355$$
+\pause The sample mean is $\overline X=5.64$ and the sample standard deviation is $S=.809$, so the confidence interval is given by
+$$\overline X \pm \frac{t_{\alpha/2} \cdot S}{\sqrt n} = 5.64 \pm \frac{3.355 \cdot 0.809}{\sqrt{9}} = 5.64 \pm  0.90$$
+\end{frame}
+
+\begin{frame}{Prediction Interval for a Normal Population}
+    Given a random sample $X_1,\dots,X_n$ from a normal distribution, suppose we want to construct an interval $[A,B]$ which we can be 95\% confident will contain a future observation $X_{n+1}$. Such an interval is called a \emph{prediction interval}.
+    
+    \vspace{.2cm}\pause The statistic $T=\frac{\overline X-X_{n+1}}{S\sqrt{1+\frac1n}}$ has a t distribution with $\nu=n-1$ degrees of freedom.
+    \begin{block}{}
+    Given a random sample $X_1,\dots,X_n$ from a normal distribution, a $100(1-\alpha)\%$ prediction interval for an independent observation $X_{n+1}$ is
+    $$\overline X \pm t_{\alpha/2,n-1}\cdot S\sqrt{1+\frac1n}$$
+    \end{block}
+    \end{frame}
+    
+    \begin{frame}{Example}
+    \begin{block}{}
+    An article reports the following data on the breakdown voltage of electrically stressed circuits, assumed to be normally distributed:
+    \begin{align*}
+    &1470, 1510, 1690, 1740, 1900, 2000, 2030, 2100, 2200, \\
+    & 2290, 2380, 2390, 2480, 2500, 2580, 2190, 2700
+    \end{align*}
+    Find a 95\% confidence interval for the mean $\mu$. Then find a 95\% prediction interval for a future observation.
+    \end{block}
+    
+    We found $\overline X=2126.5$ and $S^2=137324.3$.
+    The critical value is $t_{\alpha/2,\nu}=t_{.025,16}=2.120$, giving the confidence interval for $\mu$:
+    $$\overline{X} \pm \frac{t_{\alpha/2,\nu}\cdot S}{\sqrt{n}} = 2126.5 \pm 190.5$$
+    Likewise we get the prediction interval:
+    $$\overline X \pm t_{\alpha/2,\nu}\cdot S\sqrt{1+\frac1n} = 2126.5 \pm 808.4$$
+    \end{frame}
+
+\end{document}
